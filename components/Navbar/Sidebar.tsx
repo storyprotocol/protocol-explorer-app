@@ -215,7 +215,7 @@ const Sidebar = ({ collapsed, navItems = defaultNavItems, shown, onHide }: Props
           </div>
         </div>
 
-        <Link href="/terms" className="flex flex-row my-auto pb-2">
+        <Link href="/tos.pdf" target="_blank" className="flex flex-row my-auto pb-2">
           <div
             className={classNames({
               'transition-colors duration-300': true, //animation
@@ -224,7 +224,7 @@ const Sidebar = ({ collapsed, navItems = defaultNavItems, shown, onHide }: Props
             })}
           >
             <ClientOnly>
-              <Link href="/terms" className="flex gap-2 ">
+              <Link href="/tos.pdf" target="_blank" className="flex gap-2 ">
                 {collapsed ? (
                   <DocumentCheckIcon className="w-5 h-5" />
                 ) : (
