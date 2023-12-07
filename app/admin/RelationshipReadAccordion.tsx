@@ -24,12 +24,12 @@ export default function RelationshipReadAccordion() {
     <div className="flex flex-col gap-2">
       <h1 className="font-semibold text-2xl">Relationship</h1>
       <AccordionInputForm
-        fcnName={'Relationship.get'}
+        fcnName={'relationship.get'}
         formSchema={getRelationshipSchema}
         onSubmitFcn={getRelationship}
       />
       <AccordionInputForm
-        fcnName={'Relationship.list'}
+        fcnName={'relationship.list'}
         formSchema={listRelationshipSchema}
         onSubmitFcn={listRelationship}
         defaultValues={{ contract: process.env.NEXT_PUBLIC_IP_ASSET_REGISTRY_CONTRACT }}

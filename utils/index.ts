@@ -104,3 +104,13 @@ export function getTxnDataInsights(data: Array<any>) {
 
   return { totalTypes: countTypes(data), walletData: countCreatorAddresses(data) };
 }
+
+export function getZodTypeName(type: z.ZodType<any, any>): string {
+  if (type instanceof z.ZodString) return 'string';
+  if (type instanceof z.ZodNumber) return 'number';
+  if (type instanceof z.ZodBoolean) return 'boolean';
+  if (type instanceof z.ZodOptional) return getZodTypeName(type._def.innerType);
+
+  // Add other Zod types as needed
+  return '';
+}

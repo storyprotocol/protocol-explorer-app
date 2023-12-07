@@ -28,6 +28,7 @@ type InputFormProps = {
   onSuccessDisplay?: any;
   defaultValues?: Record<string, any>;
   descriptions?: Record<string, any>;
+  placeholders?: Record<string, any>;
 };
 
 function getDefaultValuesFromSchema(
@@ -150,17 +151,17 @@ type NestedFieldProps = {
   schema: z.ZodType<any, any>;
   defaultValue?: Record<string, any>;
   description?: string;
+  placeholder?: string;
 };
+
 function isZodOptional(type: z.ZodType<any, any>): boolean {
   return type.isOptional();
 }
 
-function NestedField({ control, name, schema, defaultValue, description }: NestedFieldProps) {
+function NestedField({ control, name, schema, defaultValue, description, placeholder }: NestedFieldProps) {
   const typeName = getZodTypeName(schema);
   const optionalText = isZodOptional(schema) ? ' (optional)' : '';
-  {
-    !(schema instanceof z.ZodOptional) && <span className="text-red-500">*</span>;
-  }
+
   const isReadOnly = defaultValue && defaultValue[name] !== undefined; // Check if a default value exists for the current field
 
   if (schema instanceof z.ZodObject) {
@@ -174,6 +175,7 @@ function NestedField({ control, name, schema, defaultValue, description }: Neste
             name={`${name}.${key}`}
             schema={schema.shape[key]}
             defaultValue={defaultValue && defaultValue[key]} // Pass the default value for nested fields
+            placeholder={placeholder}
           />
         ))}
       </div>
@@ -187,8 +189,8 @@ function NestedField({ control, name, schema, defaultValue, description }: Neste
       render={({ field }) => (
         <FormItem className="pb-4">
           <FormLabel className="pb-4">
-            {name.split('.').pop()} ({typeName}
-            {optionalText}){!(schema instanceof z.ZodOptional) && <span className="text-red-500">*</span>}
+            {name.split('.').pop()} {Boolean(optionalText.length) && optionalText}
+            {!(schema instanceof z.ZodOptional) && <span className="text-red-500">*</span>}
           </FormLabel>
           <FormControl className="">
             {typeName === 'enum' ? (
@@ -196,7 +198,7 @@ function NestedField({ control, name, schema, defaultValue, description }: Neste
             ) : typeName === 'boolean' ? ( // Check if the type is boolean
               <BooleanDropdown field={field} />
             ) : (
-              <Input placeholder={`Enter ${name}`} {...field} readOnly={isReadOnly} />
+              <Input placeholder={placeholder || `Enter ${name}`} {...field} readOnly={isReadOnly} />
             )}
           </FormControl>
           <FormMessage />
@@ -215,6 +217,7 @@ export default function WriteAccordionInputForm({
   defaultValues = {},
   onSuccessDisplay = <></>,
   descriptions = {},
+  placeholders = {},
 }: InputFormProps) {
   const { chain } = useNetwork();
   const { isConnected } = useAccount();
@@ -310,6 +313,7 @@ export default function WriteAccordionInputForm({
                         name={key}
                         schema={formSchema.shape[key]}
                         description={descriptions[key]}
+                        placeholder={placeholders[key]}
                       />
                     ))}
                     <DialogTrigger
