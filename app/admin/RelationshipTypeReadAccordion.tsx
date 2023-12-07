@@ -22,12 +22,12 @@ export default function RelationshipTypeReadAccordion() {
     <div className="flex flex-col gap-2">
       <h1 className="font-semibold text-2xl">Relationship Type</h1>
       <AccordionInputForm
-        fcnName={'RelationshipType.get'}
+        fcnName={'relationshipType.get'}
         formSchema={getRelationshipTypeSchema}
         onSubmitFcn={getRelationshipType}
       />
       <AccordionInputForm
-        fcnName={'RelationshipType.list'}
+        fcnName={'relationshipType.list'}
         formSchema={listRelationshipTypeSchema}
         onSubmitFcn={listRelationshipType}
       />

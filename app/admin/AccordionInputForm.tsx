@@ -1,5 +1,5 @@
 'use client';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -14,6 +14,8 @@ type InputFormProps = {
   onSubmitFcn: any;
   fcnName: string;
   defaultValues?: Record<string, any>;
+  descriptions?: Record<string, any>;
+  placeholders?: Record<string, any>;
 };
 
 function getDefaultValuesFromSchema(
@@ -28,16 +30,6 @@ function getDefaultValuesFromSchema(
   }
 
   return values;
-}
-
-function getZodTypeName(type: z.ZodType<any, any>): string {
-  if (type instanceof z.ZodString) return 'string';
-  if (type instanceof z.ZodNumber) return 'number';
-  if (type instanceof z.ZodBoolean) return 'boolean';
-  if (type instanceof z.ZodOptional) return getZodTypeName(type._def.innerType);
-
-  // Add other Zod types as needed
-  return '';
 }
 
 function DisplayData({ data }: { data: any }) {
@@ -75,14 +67,16 @@ type NestedFieldProps = {
   control: any;
   name: string;
   schema: z.ZodType<any, any>;
+  defaultValue?: Record<string, any>;
+  description?: string;
+  placeholder?: string;
 };
 
 function isZodOptional(type: z.ZodType<any, any>): boolean {
   return type.isOptional();
 }
 
-function NestedField({ control, name, schema }: NestedFieldProps) {
-  const typeName = getZodTypeName(schema);
+function NestedField({ control, name, schema, defaultValue, description, placeholder }: NestedFieldProps) {
   const optionalText = isZodOptional(schema) ? ' (optional)' : '';
 
   if (schema instanceof z.ZodObject) {
@@ -90,7 +84,14 @@ function NestedField({ control, name, schema }: NestedFieldProps) {
       <div style={{ border: '1px solid #e2e8f0', margin: '10px 0', padding: '10px' }} className="rounded-xl">
         <h3 className="pb-4">{name.split('.').pop()}</h3> {/* Displaying the name of the nested object */}
         {Object.keys(schema.shape).map((key) => (
-          <NestedField key={key} control={control} name={`${name}.${key}`} schema={schema.shape[key]} />
+          <NestedField
+            key={key}
+            control={control}
+            name={`${name}.${key}`}
+            schema={schema.shape[key]}
+            defaultValue={defaultValue && defaultValue[key]} // Pass the default value for nested fields
+            placeholder={placeholder}
+          />
         ))}
       </div>
     );
@@ -103,20 +104,28 @@ function NestedField({ control, name, schema }: NestedFieldProps) {
       render={({ field }) => (
         <FormItem className="pb-4">
           <FormLabel className="pb-4">
-            {name.split('.').pop()} ({typeName} {optionalText})
+            {name.split('.').pop()} {Boolean(optionalText.length) && optionalText}
             {!(schema instanceof z.ZodOptional) && <span className="text-red-500">*</span>}
           </FormLabel>
           <FormControl>
-            <Input placeholder={`Enter ${name}`} {...field} />
+            <Input placeholder={placeholder || `Enter ${name}`} {...field} />
           </FormControl>
           <FormMessage />
+          {description && <FormDescription>{description}</FormDescription>}
         </FormItem>
       )}
     />
   );
 }
 
-export default function AccordionInputForm({ formSchema, onSubmitFcn, fcnName, defaultValues = {} }: InputFormProps) {
+export default function AccordionInputForm({
+  formSchema,
+  onSubmitFcn,
+  fcnName,
+  defaultValues = {},
+  descriptions = {},
+  placeholders = {},
+}: InputFormProps) {
   const [result, setResult] = useState({ data: '' });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -148,7 +157,14 @@ export default function AccordionInputForm({ formSchema, onSubmitFcn, fcnName, d
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               {Object.keys(formSchema.shape).map((key) => (
-                <NestedField key={key} control={form.control} name={key} schema={formSchema.shape[key]} />
+                <NestedField
+                  key={key}
+                  control={form.control}
+                  name={key}
+                  schema={formSchema.shape[key]}
+                  description={descriptions[key]}
+                  placeholder={placeholders[key]}
+                />
               ))}
               <Button type="submit">Submit</Button>
               <DisplayData data={result.data} />

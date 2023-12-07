@@ -23,7 +23,8 @@ export default function IPAssetWriteAccordion({ defaultValues }: { defaultValues
 
   const descriptions = {
     ipOrgId: 'The address of the IP Org',
-    typeIndex: 'The enum number that corresponds to the type of IP Asset within that IP Org',
+    typeIndex:
+      'The enum number that corresponds to the type of IP Asset within that IP Org, use relationshipType.list() to find the enum number.',
     name: 'The name of the IP Asset',
     mediaUrl: 'The URL of the metadata that contains the IP Asset information',
   };
