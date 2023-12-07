@@ -261,7 +261,7 @@ export default function WriteAccordionInputForm({
       <XCircleIcon className=" w-full mx-auto text-red-500 mb-4" width={40} height={40} />
       <div className="flex flex-col">
         <p>Transaction failed.</p>
-        {errorMsg && <span>{errorMsg}</span>}
+        {errorMsg && <span className="max-w-2xl break-all">{errorMsg}</span>}
         <EtherscanLink txHash={data?.txHash} chainId={chain?.id} />
       </div>
     </>
