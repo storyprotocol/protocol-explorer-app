@@ -11,7 +11,7 @@ import BaseDataViewer from '../BaseDataViewer';
 const columns: ColumnDef<Hook>[] = [
   {
     accessorKey: 'txHash',
-    header: 'Txn',
+    header: 'Txn Hash',
     cell: ({ row }) => (
       <Link href={`/transactions/${row.original.txHash}`} className="capitalize font-mono underline">
         {shortenString(row.original.txHash, 20)}
@@ -20,7 +20,7 @@ const columns: ColumnDef<Hook>[] = [
   },
   {
     accessorKey: 'id',
-    header: 'ID',
+    header: 'Hook Address',
     cell: ({ row }) => (
       <Link href={`/transactions/${row.original.id}`} className="capitalize font-mono underline">
         {shortenString(row.original.id, 20)}
