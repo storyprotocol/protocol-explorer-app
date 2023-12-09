@@ -17,7 +17,8 @@ import {
 import { ArrowPathIcon, CheckIcon, ExclamationCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import EtherscanLink from '@/utils/EtherscanLink';
 import { useAccount, useNetwork } from 'wagmi';
-import ConnectWalletButton from '@/components/Navbar/ConnectWalletButton';
+// import ConnectWalletButton from '@/components/Navbar/ConnectWalletButton2';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { cn } from '@/utils';
 
 type InputFormProps = {
@@ -226,9 +227,6 @@ export default function WriteAccordionInputForm({
     defaultValues: getDefaultValuesFromSchema(formSchema, defaultValues),
   });
 
-  console.log('form:', form);
-  console.log('isValid:', form.formState.isValid);
-
   async function onSubmit(values: z.infer<typeof formSchema>, event: any) {
     event.preventDefault();
     await execute();
@@ -331,7 +329,8 @@ export default function WriteAccordionInputForm({
               ) : (
                 <section className="flex flex-col gap-4">
                   <p>Connect your wallet first to perform a transaction</p>
-                  <ConnectWalletButton />
+                  {/* <ConnectWalletButton /> */}
+                  <ConnectButton />
                 </section>
               )}
             </AccordionContent>

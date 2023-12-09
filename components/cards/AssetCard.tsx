@@ -8,7 +8,6 @@ import AddressComponent from '../snippets/AddressComponent';
 import { getRoundedTime } from '@/utils';
 
 export default function AssetCard({ data }: { data: IPAsset }) {
-  console.log({ data });
   const [imageUrl, setImageUrl] = React.useState<string | null>(null);
 
   if (data.mediaUrl) {

@@ -31,7 +31,6 @@ export default function TransactionCard({ classname, data }: { classname?: strin
           responseData = await client.ipOrg.get({ ipOrgId: resourceId });
         }
 
-        console.log({ responseData });
         setAdditionalData(responseData);
       }
     },

@@ -21,7 +21,7 @@ export default function useRegisterRelationshipType(registerReq: ModifiedRegiste
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMsg, setErrorMsg] = useState<String | undefined>(undefined);
-  const [data, setData] = useState<String | undefined>(undefined);
+  const [data, setData] = useState<boolean | undefined>(undefined);
   const [txHash, setTxHash] = useState<String | undefined>(undefined);
   const [events, setEvents] = useState<any[]>([]);
   const [isEventEmitted, setIsEventEmitted] = useState(false);
@@ -52,12 +52,12 @@ export default function useRegisterRelationshipType(registerReq: ModifiedRegiste
         allowedDstIpAssetTypes: JSON.parse(registerReq.allowedDstIpAssetTypes),
       };
 
-      const { txHash, relationshipId }: RegisterRelationshipTypeResponse = await (
-        client as Client
-      ).relationshipType.register(formattedReq);
+      const { txHash, success }: RegisterRelationshipTypeResponse = await (client as Client).relationshipType.register(
+        formattedReq,
+      );
 
       setIsIdle(false);
-      setData(relationshipId);
+      setData(success);
       setTxHash(txHash);
     } catch (e: unknown) {
       setIsIdle(false);

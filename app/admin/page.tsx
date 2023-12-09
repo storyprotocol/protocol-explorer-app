@@ -13,6 +13,8 @@ import RelationshipTypeReadAccordion from './RelationshipTypeReadAccordion';
 import RelationshipTypeWriteAccordion from './RelationshipTypeWriteAccordion';
 import HookReadAccordion from './HookReadAccordion';
 import ModuleReadAccordion from './ModuleReadAccordion';
+export const revalidate = 60;
+export const fetchCache = 'force-no-store';
 
 export default function Page() {
   return (
@@ -28,7 +30,7 @@ export default function Page() {
         <ModuleReadAccordion />
         <HookReadAccordion />
       </section>
-      <h1 className="text-2xl pt-10 pb-4">Write from SDK</h1>
+      <h1 className="text-2xl pt-10 pb-4">Write to SDK</h1>
       <section className="flex flex-col gap-4">
         <IpOrgWriteAccordion />
         <IPAssetWriteAccordion />

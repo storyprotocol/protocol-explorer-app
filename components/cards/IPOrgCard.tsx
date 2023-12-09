@@ -5,7 +5,6 @@ import React from 'react';
 import AddressComponent from '../snippets/AddressComponent';
 
 export default function IPOrgCard({ data }: { data: IPOrg }) {
-  console.log({ data });
   return (
     <div className="w-full bg-white rounded-2xl overflow-hidden border-2 border-slate-100 hover:border-indigo-500 hover:shadow-md">
       <span data-state="closed">

@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useWaitForTransaction } from 'wagmi';
-import { Client, CreateLicenseRequest, CreateLicenseResponse } from '@story-protocol/core-sdk';
+import { Client, ConfigureLicenseRequest } from '@story-protocol/core-sdk';
 import { useStoryClient } from './useStoryClient';
 
-export default function useCreateLicense(createReq: CreateLicenseRequest | CreateLicenseRequest) {
+export default function useConfigureLicense(configureReq: ConfigureLicenseRequest) {
   const { client } = useStoryClient();
   const [isIdle, setIsIdle] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -29,9 +29,8 @@ export default function useCreateLicense(createReq: CreateLicenseRequest | Creat
 
   const execute = useCallback(async () => {
     try {
-      const { txHash, licenseId }: CreateLicenseResponse = await (client as Client).license.create(createReq);
+      const { txHash } = await (client as Client).license.configure(configureReq);
       setIsIdle(false);
-      setData(licenseId);
       setTxHash(txHash);
     } catch (e) {
       console.log('Error creating license', e);
@@ -40,7 +39,7 @@ export default function useCreateLicense(createReq: CreateLicenseRequest | Creat
       setIsSuccess(false);
       setData(undefined);
     }
-  }, [client, createReq]);
+  }, [client, configureReq]);
 
   const reset = () => {
     setIsIdle(true);

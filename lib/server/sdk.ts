@@ -86,23 +86,21 @@ async function listRelationshipType({ ipOrgId, options }: ListRelationshipTypesR
   return data;
 }
 
-async function createLicense({
-  ipOrgId,
-  isCommercial = false,
-  licensee,
-}: {
-  ipOrgId: string;
-  isCommercial: boolean;
-  licensee: string;
-}) {
-  const data = await storyClient.license.create({
-    ipOrgId,
-    isCommercial,
-    licensee,
-  });
+// async function createLicense({
+//   ipOrgId,
+//   isCommercial = false,
+//   licensee,
+// }: {
+//   ipOrgId: string;
+//   isCommercial: boolean;
+//   licensee: string;
+// }) {
+//   const data = await storyClient.license.create({
+//     ipOrgId,
+//   });
 
-  return data;
-}
+//   return data;
+// }
 
 async function getLicense({ licenseId }: { licenseId: string }) {
   const data = await storyClient.license.get({
@@ -162,7 +160,7 @@ export {
   createIpOrg,
   getIpAsset,
   listIpAsset,
-  createLicense,
+  // createLicense,
   getLicense,
   listLicense,
   getTransaction,

@@ -3,50 +3,98 @@ import IPOrgCard from '@/components/cards/IPOrgCard';
 import BaseDataViewer from '../BaseDataViewer';
 import { ColumnDef } from '@tanstack/react-table';
 import { IPOrg } from '@story-protocol/core-sdk';
-import Link from 'next/link';
 import { shortenAddress } from '@/utils';
-import AddressComponent from '@/components/snippets/AddressComponent';
+// Create
+// id: number;
+//     isCommercial: boolean;
+//     status: number;
+//     licensor: string;
+//     revoker: string;
+//     ipOrgId: string;
+//     licenseeType: number;
+//     ipAssetId: string;
+//     parentLicenseId: string;
+//     termIds: string[];
+//     termsData: string[];
+//     createdAt: string;
+//     txHash: string;
 
 const columns: ColumnDef<IPOrg>[] = [
   {
     accessorKey: 'id',
     header: 'ID',
-    cell: ({ row }) => <span className="min-w-[200px] font-mono">{shortenAddress(row.getValue('id'), 4)}</span>,
+    cell: ({ row }) => <span className="min-w-[120px] font-mono">{shortenAddress(row.getValue('id'), 4)}</span>,
+  },
+
+  {
+    accessorKey: 'status',
+    header: 'Status',
+    cell: ({ row }) => <span className="min-w-[150px]">{row.getValue('status')}</span>,
   },
   {
-    accessorKey: 'name',
-    header: 'IP Org Name',
-    cell: ({ row }) => <span className="min-w-[200px]">{row.getValue('name')}</span>,
+    accessorKey: 'licensor',
+    header: 'Licensor',
+    cell: ({ row }) => <span className="min-w-[150px]">{shortenAddress(row.getValue('licensor'), 4)}</span>,
   },
   {
-    accessorKey: 'owner',
-    header: 'Owner',
+    accessorKey: 'revoker',
+    header: 'Revoker',
+    cell: ({ row }) => <span className="min-w-[150px]">{shortenAddress(row.getValue('revoker'), 4)}</span>,
+  },
+  {
+    accessorKey: 'ipOrgId',
+    header: 'IP Org ID',
+    cell: ({ row }) => <span className="min-w-[150px]">{shortenAddress(row.getValue('ipOrgId'), 4)}</span>,
+  },
+  {
+    accessorKey: 'licenseeType',
+    header: 'Licensee Type',
+    cell: ({ row }) => <span className="min-w-[150px]">{row.getValue('licenseeType') ?? 'N/A'}</span>,
+  },
+  {
+    accessorKey: 'ipAssetId',
+    header: 'IPAsset ID',
+    cell: ({ row }) => <span className="min-w-[200px]">{row.getValue('ipAssetId')}</span>,
+  },
+  {
+    accessorKey: 'parentLicenseId',
+    header: 'Parent License ID',
+    cell: ({ row }) => <span className="min-w-[200px]">{row.getValue('parentLicenseId')}</span>,
+  },
+  {
+    accessorKey: 'ipOrgId',
+    header: 'IP Org ID',
+    cell: ({ row }) => <span className="min-w-[150px]">{row.getValue('ipOrgId')}</span>,
+  },
+  // {
+  //   accessorKey: 'termsData',
+  //   header: 'termsData',
+  //   cell: ({ row }) => <span className="min-w-[150px]">{row.getValue('termsData')}</span>,
+  // },
+  {
+    accessorKey: 'createdAt',
+    header: 'createdAt',
     cell: ({ row }) => {
-      const address = row.getValue('owner');
-      return <AddressComponent address={address as string} />;
+      const date = new Date(row.getValue('createdAt'));
+      const formattedDate = date.toLocaleDateString('en-US', {
+        year: '2-digit',
+        month: 'short',
+        day: 'numeric',
+      });
+      const formattedTime = date.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZoneName: 'short',
+      });
+      return <span className="min-w-[150px]">{`${formattedDate}, ${formattedTime}`}</span>;
     },
   },
   {
     accessorKey: 'txHash',
-    header: 'Transaction Hash',
-    cell: ({ row }) => (
-      <Link href={`/ipo/${row.getValue('id')}`} className="capitalize font-mono underline">
-        {shortenAddress(row.getValue('txHash'), 5)}
-      </Link>
-    ),
+    header: 'Tx Hash',
+    cell: ({ row }) => <span className="min-w-[150px]">{shortenAddress(row.getValue('txHash'), 3)}</span>,
   },
-  // {
-  //   accessorKey: 'tokenUri',
-  //   header: 'TokenURI',
-  //   cell: ({ row }) => {
-  //     const uri: string = row.getValue('tokenUri');
-  //     return (
-  //       <Link href={uri}>
-  //         <ExternalLinkIcon className="w-5 h-5" />
-  //       </Link>
-  //     );
-  //   },
-  // },
 ];
 
 export default function IPOrgLicenseDataViewerComponent({

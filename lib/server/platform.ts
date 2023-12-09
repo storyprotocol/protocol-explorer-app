@@ -4,7 +4,7 @@ export async function getSignMessageRequest(walletAddress: `0x${string}`): Promi
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/platform/web3-sign/request?walletAddress=${walletAddress}`,
     );
     const data = await res.json();
-    console.log({ data });
+
     return data;
   } catch (e) {
     throw new Error('Failed to get sign message request');
