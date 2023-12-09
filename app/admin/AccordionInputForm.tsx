@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { removeEmptyStringFields } from '@/utils';
+import JsonView from '@uiw/react-json-view';
 
 type InputFormProps = {
   formSchema: z.ZodObject<any, any>;
@@ -165,7 +166,7 @@ export default function AccordionInputForm({
                 />
               ))}
               <Button type="submit">Submit</Button>
-              <DisplayData data={result.data} />
+              <JsonView value={result} />
             </form>
           </Form>
         </AccordionContent>
