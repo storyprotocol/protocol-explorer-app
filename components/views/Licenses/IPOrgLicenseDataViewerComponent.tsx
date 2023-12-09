@@ -3,10 +3,7 @@ import IPOrgCard from '@/components/cards/IPOrgCard';
 import BaseDataViewer from '../BaseDataViewer';
 import { ColumnDef } from '@tanstack/react-table';
 import { IPOrg } from '@story-protocol/core-sdk';
-import Link from 'next/link';
 import { shortenAddress } from '@/utils';
-import AddressComponent from '@/components/snippets/AddressComponent';
-import { License } from '@story-protocol/core-sdk';
 // Create
 // id: number;
 //     isCommercial: boolean;

@@ -1,14 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useWaitForTransaction } from 'wagmi';
-import {
-  Client,
-  CreateIpaBoundLicenseRequest,
-  CreateLicenseNftRequest,
-  CreateLicenseResponse,
-} from '@story-protocol/core-sdk';
+import { Client, CreateLicenseRequest, CreateLicenseResponse } from '@story-protocol/core-sdk';
 import { useStoryClient } from './useStoryClient';
 
-export default function useCreateLicense(createReq: CreateIpaBoundLicenseRequest | CreateLicenseNftRequest) {
+export default function useCreateLicense(createReq: CreateLicenseRequest | CreateLicenseRequest) {
   const { client } = useStoryClient();
   const [isIdle, setIsIdle] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);

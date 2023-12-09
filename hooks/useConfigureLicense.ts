@@ -29,9 +29,8 @@ export default function useConfigureLicense(configureReq: ConfigureLicenseReques
 
   const execute = useCallback(async () => {
     try {
-      const { txHash, licenseId }: ConfigureLicenseResponse = await (client as Client).license.configure(configureReq);
+      const { txHash } = await (client as Client).license.configure(configureReq);
       setIsIdle(false);
-      setData(licenseId);
       setTxHash(txHash);
     } catch (e) {
       console.log('Error creating license', e);

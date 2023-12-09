@@ -10,7 +10,7 @@ import LicenseReadAccordion from '@/app/admin/LicenseReadAccordion';
 import AssetRelationshipTableWrapper from '@/components/views/Asset/AssetRelationshipTableWrapper';
 import IpOrgLicenseDataViewer from '@/components/views/Licenses';
 import CreateIpaBoundLicenseWriteAccordion from '@/app/admin/CreateIpaBoundLicenseWriteAccordion';
-import { CreateIpaBoundLicenseRequest } from '@story-protocol/core-sdk';
+import { CreateLicenseRequest } from '@story-protocol/core-sdk';
 import RelationshipWriteAccordion from '@/app/admin/RelationshipWriteAccordion';
 
 export default function AssetDetailPage({
@@ -30,12 +30,13 @@ export default function AssetDetailPage({
     srcTokenId: ipAssetId,
   };
 
-  const defaultCreateIpaBoundLicenseValues: CreateIpaBoundLicenseRequest = {
+  const defaultCreateIpaBoundLicenseValues: CreateLicenseRequest = {
     ...defaultIpAssetValues,
-    isCommercial: false, // Only support non-commercial terms for Alpha
-    ipaId: parseInt(ipAssetId),
-    preHooksCalldata: [],
-    postHooksCalldata: [],
+    ipaId: ipAssetId,
+    parentLicenseId: '',
+    params: [],
+    preHookData: [],
+    postHookData: [],
     txOptions: {
       waitForTransaction: true,
     },

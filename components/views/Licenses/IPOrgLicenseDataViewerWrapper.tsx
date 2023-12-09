@@ -6,8 +6,8 @@ import IPOrgLicenseDataViewerComponent from './IPOrgLicenseDataViewerComponent';
 export default async function IPOrgLicenseDataViewerWrapper({
   ipOrgId,
   ipAssetId,
-  tableOnly,
-  gridOnly,
+  // tableOnly,
+  // gridOnly,
   pageSize,
 }: {
   ipOrgId?: string;

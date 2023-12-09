@@ -16,7 +16,7 @@ import IpAssetWriteAccordion from '@/app/admin/IPAssetWriteAccordion';
 import Link from 'next/link';
 import HookTableWrapper from '@/components/views/Hook/HookTableWrapper';
 import ModuleTableWrapper from '@/components/views/Module/ModuleTableWrapper';
-import { CreateLicenseNftRequest, GetIPOrgRequest } from '@story-protocol/core-sdk';
+import { CreateLicenseRequest, GetIPOrgRequest } from '@story-protocol/core-sdk';
 import IpOrgLicenseDataViewer from '@/components/views/Licenses';
 import CreateLicenseNftWriteAccordion from '@/app/admin/CreateLicenseNftWriteAccordion';
 import RelationshipTypeWriteAccordion from '@/app/admin/RelationshipTypeWriteAccordion';
@@ -52,12 +52,13 @@ export default function IpOrgDetailPage({ params: { ipOrgId } }: { params: { ipO
     ipOrgId,
   };
 
-  const defaultCreateLicenseNftValues: CreateLicenseNftRequest = {
+  const defaultCreateLicenseNftValues: CreateLicenseRequest = {
     ...defaultIPOrgId,
-    isCommercial: false, // Only support non-commercial terms for Alpha
-    licensee: '',
-    preHooksCalldata: [],
-    postHooksCalldata: [],
+    ipaId: '',
+    params: [],
+    preHookData: [],
+    parentLicenseId: '',
+    postHookData: [],
     txOptions: {
       waitForTransaction: true,
     },
