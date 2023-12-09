@@ -16,13 +16,22 @@ export default function AssetCard({ data }: { data: IPAsset }) {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
+        const contentType = response.headers.get('content-type');
+        if (contentType?.startsWith('image/')) {
+          return true;
+        }
+
         return response.json(); // Parse the JSON response
       })
-      .then((data) => {
-        // Step 2: Access property values from the JavaScript object
-        const imageURI = data.image; // Replace 'propertyName' with the actual property name in your JSON data
-        console.log('imageURI', imageURI);
-        setImageUrl(imageURI);
+      .then((d) => {
+        if (d === true) {
+          setImageUrl(data.mediaUrl);
+        } else {
+          // Step 2: Access property values from the JavaScript object
+          const imageURI = d.image; // Replace 'propertyName' with the actual property name in your JSON data
+          console.log('imageURI', imageURI);
+          setImageUrl(imageURI);
+        }
       })
       .catch((error) => {
         console.error('Error:', error);
