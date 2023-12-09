@@ -2,7 +2,7 @@
 import { Client, ReadOnlyClient, StoryClient, StoryConfig, StoryReadOnlyConfig } from '@story-protocol/core-sdk';
 import { useWalletClient } from 'wagmi';
 import { custom, http } from 'viem';
-import { sepolia } from 'viem/chains';
+import { Chain, sepolia } from 'viem/chains';
 
 type EthereumProvider = { request(): Promise<any> };
 
@@ -11,7 +11,7 @@ export function useStoryClient(): { client: ReadOnlyClient | Client } {
 
   if (typeof window !== 'undefined' && window?.ethereum && walletClient) {
     const config: StoryConfig = {
-      chain: sepolia,
+      chain: sepolia as Chain,
       transport: walletClient
         ? custom(window.ethereum as EthereumProvider)
         : http(process.env.NEXT_PUBLIC_RPC_PROVIDER_URL),
