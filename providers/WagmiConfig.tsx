@@ -1,55 +1,33 @@
 'use client';
-import { createWeb3Modal } from '@web3modal/wagmi/react';
-import { walletConnectProvider, EIP6963Connector } from '@web3modal/wagmi';
+import '@rainbow-me/rainbowkit/styles.css';
 
-import { WagmiConfig, configureChains, createConfig } from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public';
+import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { sepolia } from 'wagmi/chains';
-import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
-import { InjectedConnector } from 'wagmi/connectors/injected';
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { publicProvider } from 'wagmi/providers/public';
 
-// 1. Get projectId
-const projectId = process.env.NEXT_PUBLIC_WC_PROJECT_ID as string;
-
-// 2. Create wagmiConfig
 const { chains, publicClient } = configureChains(
   [sepolia],
-  [
-    walletConnectProvider({ projectId }),
-    publicProvider(),
-    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string }),
-  ],
+  [alchemyProvider({ apiKey: process.env.ALCHEMY_ID! }), publicProvider()],
 );
 
-const metadata = {
-  name: 'Dashboard Alpha',
-  description: 'SP Dashboard Alpha',
-  url: '',
-  icons: [''],
-};
+const { connectors } = getDefaultWallets({
+  appName: 'Story Testnet Explorer',
+  projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID!,
+  chains,
+});
 
 const wagmiConfig = createConfig({
   autoConnect: true,
-  connectors: [
-    new WalletConnectConnector({
-      chains,
-      options: { projectId, showQrModal: false, metadata },
-    }),
-    new EIP6963Connector({ chains }),
-    new InjectedConnector({ chains, options: { shimDisconnect: true } }),
-    new CoinbaseWalletConnector({
-      chains,
-      options: { appName: metadata.name },
-    }),
-  ],
+  connectors,
   publicClient,
 });
 
-// 3. Create modal
-createWeb3Modal({ wagmiConfig, projectId, chains });
-
 export default function WagmiConfigWrapper({ children }: { children: React.ReactNode }) {
-  return <WagmiConfig config={wagmiConfig}>{children}</WagmiConfig>;
+  return (
+    <WagmiConfig config={wagmiConfig}>
+      <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
+    </WagmiConfig>
+  );
 }
