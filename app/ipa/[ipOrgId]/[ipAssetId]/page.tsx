@@ -12,6 +12,8 @@ import IpOrgLicenseDataViewer from '@/components/views/Licenses';
 import CreateIpaBoundLicenseWriteAccordion from '@/app/admin/CreateIpaBoundLicenseWriteAccordion';
 import { CreateLicenseRequest } from '@story-protocol/core-sdk';
 import RelationshipWriteAccordion from '@/app/admin/RelationshipWriteAccordion';
+export const revalidate = 60;
+export const fetchCache = 'force-no-store';
 
 export default function AssetDetailPage({
   params: { ipAssetId, ipOrgId },

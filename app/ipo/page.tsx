@@ -4,6 +4,8 @@ import SkeletonGrid from '@/components/Skeletons/SkeletonGrid';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import IpOrgWriteAccordion from '@/app/admin/IPOrgWriteAccordion';
+export const revalidate = 60;
+export const fetchCache = 'force-no-store';
 
 export default async function IPOrgsPage() {
   return (

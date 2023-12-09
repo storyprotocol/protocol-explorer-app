@@ -13,6 +13,8 @@ import RelationshipTypeReadAccordion from './RelationshipTypeReadAccordion';
 import RelationshipTypeWriteAccordion from './RelationshipTypeWriteAccordion';
 import HookReadAccordion from './HookReadAccordion';
 import ModuleReadAccordion from './ModuleReadAccordion';
+export const revalidate = 60;
+export const fetchCache = 'force-no-store';
 
 export default function Page() {
   return (
