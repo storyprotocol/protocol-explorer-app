@@ -99,7 +99,7 @@ export default function IpOrgDetailPage({ params: { ipOrgId } }: { params: { ipO
                 <TabsTrigger value="tx">Transactions</TabsTrigger>
                 <TabsTrigger value="ipa">IPA</TabsTrigger>
                 <TabsTrigger value="licenses">Licenses</TabsTrigger>
-                <TabsTrigger value="modules">Modules</TabsTrigger>
+                {/* <TabsTrigger value="modules">Modules</TabsTrigger> */}
                 <TabsTrigger value="hooks">Hooks</TabsTrigger>
                 <TabsTrigger value="actions">Actions</TabsTrigger>
               </TabsList>

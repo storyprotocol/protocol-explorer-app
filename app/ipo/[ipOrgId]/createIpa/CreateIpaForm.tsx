@@ -56,6 +56,7 @@ export function CreateIpaForm({ ipOrgId }: CreateIpaFormProps) {
           name: form.watch('name'),
           typeIndex: 0,
           ipOrgId: ipOrgId,
+          licenseId: '0',
           mediaUrl: uri,
           txOptions: {
             waitForTransaction: true,

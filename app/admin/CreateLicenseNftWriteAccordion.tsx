@@ -24,7 +24,7 @@ export default function CreateLicenseNftWriteAccordion({
     <div className="flex flex-col gap-2">
       <h1 className="font-semibold text-2xl">License</h1>
       <WriteAccordionInputForm
-        fcnName={'license.create (IPA-bound license)'}
+        fcnName={'license.create'}
         description={'To create an IP Asset within this IP Organization (IPO), the IPO must be configured to allow it.'}
         formSchema={createIpaBoundLicenseSchema}
         hook={useCreateLicense}

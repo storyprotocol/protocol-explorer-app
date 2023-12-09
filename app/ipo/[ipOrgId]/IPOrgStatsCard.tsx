@@ -1,7 +1,12 @@
 import storyClient from '@/lib/SP';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ListIpAssetRequest, ListIpAssetResponse } from '@story-protocol/core-sdk';
+import {
+  ListIpAssetRequest,
+  ListIpAssetResponse,
+  ListLicenseRequest,
+  ListLicenseResponse,
+} from '@story-protocol/core-sdk';
 
 const CardWrapper = ({ children }: { children: React.ReactNode }) => (
   <div className="flex flex-col col-span-12 md:col-span-6 bg-white rounded-2xl shadow-lg">
@@ -20,16 +25,30 @@ const IPAStat = async ({ ipOrgId }: { ipOrgId: string }) => {
   const ipAssets = listRes.ipAssets;
   return <span className="text-5xl md:text-6xl font-light">{ipAssets.length}</span>;
 };
+const LicenseStat = async ({ ipOrgId }: { ipOrgId: string }) => {
+  const listReq: ListLicenseRequest = {
+    ipOrgId,
+  };
+  const listRes: ListLicenseResponse = await storyClient.license.list(listReq);
+  const licenses = listRes.licenses;
+  return <span className="text-5xl md:text-6xl font-light">{licenses.length}</span>;
+};
 
 export default function IPOrgStatsCard({ ipOrgId }: { ipOrgId: string }) {
   return (
     <CardWrapper>
-      <div className="flex h-full items-center justify-around w-full p-4">
+      <div className="flex flex-row h-full items-center justify-around w-full p-4">
         <div className="flex flex-col items-center gap-2 min-w-[6rem]">
           <Suspense fallback={<Skeleton className="h-12 mt-2 mb-1 w-16" />}>
             <IPAStat ipOrgId={ipOrgId} />
           </Suspense>
           <span className="md:text-lg font-light">IPAs</span>
+        </div>
+        <div className="flex flex-col items-center gap-2 min-w-[6rem]">
+          <Suspense fallback={<Skeleton className="h-12 mt-2 mb-1 w-16" />}>
+            <LicenseStat ipOrgId={ipOrgId} />
+          </Suspense>
+          <span className="md:text-lg font-light">Licenses</span>
         </div>
       </div>
     </CardWrapper>
