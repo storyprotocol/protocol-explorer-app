@@ -11,7 +11,7 @@ export function useStoryClient(): { client: ReadOnlyClient | Client } {
 
   if (typeof window !== 'undefined' && window?.ethereum && walletClient) {
     const config: StoryConfig = {
-      chain: sepolia as Chain,
+      chain: sepolia as Chain | undefined,
       transport: walletClient
         ? custom(window.ethereum as EthereumProvider)
         : http(process.env.NEXT_PUBLIC_RPC_PROVIDER_URL),

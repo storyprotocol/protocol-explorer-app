@@ -28,7 +28,7 @@ export default function Page() {
         <ModuleReadAccordion />
         <HookReadAccordion />
       </section>
-      <h1 className="text-2xl pt-10 pb-4">Write from SDK</h1>
+      <h1 className="text-2xl pt-10 pb-4">Write to SDK</h1>
       <section className="flex flex-col gap-4">
         <IpOrgWriteAccordion />
         <IPAssetWriteAccordion />
