@@ -227,9 +227,6 @@ export default function WriteAccordionInputForm({
     defaultValues: getDefaultValuesFromSchema(formSchema, defaultValues),
   });
 
-  console.log('form:', form);
-  console.log('isValid:', form.formState.isValid);
-
   async function onSubmit(values: z.infer<typeof formSchema>, event: any) {
     event.preventDefault();
     await execute();

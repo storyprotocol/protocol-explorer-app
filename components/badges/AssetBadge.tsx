@@ -8,7 +8,6 @@ import OtherBadge from './OtherBadge';
 import ItemBadge from './ItemBadge';
 
 export default function AssetBadge({ type }: { type: number | string }) {
-  console.log({ type });
   switch (type) {
     case 1:
     case 'Story':

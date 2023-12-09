@@ -36,7 +36,6 @@ function DisplayData({ data }: { data: any }) {
   if (typeof data === 'string' || typeof data === 'number' || typeof data === 'boolean') {
     return <p>{data.toString()}</p>;
   }
-  console.log('data:', data);
   if (Array.isArray(data)) {
     return (
       <div>
@@ -140,7 +139,6 @@ export default function AccordionInputForm({
 
     const fcnResult = await onSubmitFcn(removeEmptyStringFields(form.getValues()));
 
-    console.log('fcnResult', fcnResult);
     setResult(fcnResult);
   }
 
