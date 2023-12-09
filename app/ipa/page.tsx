@@ -3,6 +3,8 @@ import AssetDataViewer from '@/components/views/Asset';
 import SkeletonGrid from '@/components/Skeletons/SkeletonGrid';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
+export const revalidate = 60;
+export const fetchCache = 'force-no-store';
 
 export default function Assets() {
   return (
