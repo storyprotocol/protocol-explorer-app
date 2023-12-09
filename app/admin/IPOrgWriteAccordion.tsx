@@ -16,6 +16,10 @@ export default function IpOrgWriteAccordion({ defaultValues }: { defaultValues?:
     ipAssetTypes: z.string(),
   });
 
+  const descriptions = {
+    ipAssetTypes: 'An array of IP Asset types that this IP Org will be able to create.',
+  };
+
   return (
     <div className="flex flex-col gap-2">
       <h1 className="font-semibold text-2xl">IP Org</h1>
@@ -25,6 +29,8 @@ export default function IpOrgWriteAccordion({ defaultValues }: { defaultValues?:
         formSchema={createSchema}
         hook={useCreateIpOrg}
         defaultValues={defaultValues}
+        descriptions={descriptions}
+        placeholders={{ ipAssetTypes: '["STORY", "CHARACTER"]' }}
       />
     </div>
   );
