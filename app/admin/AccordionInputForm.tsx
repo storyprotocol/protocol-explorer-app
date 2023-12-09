@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { removeEmptyStringFields } from '@/utils';
+import JsonView from '@uiw/react-json-view';
 
 type InputFormProps = {
   formSchema: z.ZodObject<any, any>;
@@ -30,36 +31,6 @@ function getDefaultValuesFromSchema(
   }
 
   return values;
-}
-
-function DisplayData({ data }: { data: any }) {
-  if (typeof data === 'string' || typeof data === 'number' || typeof data === 'boolean') {
-    return <p>{data.toString()}</p>;
-  }
-  if (Array.isArray(data)) {
-    return (
-      <div>
-        {data.map((item, index) => (
-          <DisplayData key={index} data={item} />
-        ))}
-      </div>
-    );
-  }
-
-  if (typeof data === 'object' && data !== null) {
-    return (
-      <div>
-        {Object.keys(data).map((key) => (
-          <div key={key}>
-            <strong>{key}:</strong>
-            <DisplayData data={data[key]} />
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  return null; // fallback for unsupported data types
 }
 
 type NestedFieldProps = {
@@ -165,7 +136,7 @@ export default function AccordionInputForm({
                 />
               ))}
               <Button type="submit">Submit</Button>
-              <DisplayData data={result.data} />
+              <JsonView value={result} />
             </form>
           </Form>
         </AccordionContent>

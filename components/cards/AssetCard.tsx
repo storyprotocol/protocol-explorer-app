@@ -20,7 +20,7 @@ export default function AssetCard({ data }: { data: IPAsset }) {
       })
       .then((data) => {
         // Step 2: Access property values from the JavaScript object
-        const imageURI = data.imageURI; // Replace 'propertyName' with the actual property name in your JSON data
+        const imageURI = data.image; // Replace 'propertyName' with the actual property name in your JSON data
         console.log('imageURI', imageURI);
         setImageUrl(imageURI);
       })
