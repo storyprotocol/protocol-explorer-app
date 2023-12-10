@@ -3,7 +3,7 @@ import { useWaitForTransaction } from 'wagmi';
 import { Client, CreateLicenseRequest, CreateLicenseResponse } from '@story-protocol/core-sdk';
 import { useStoryClient } from './useStoryClient';
 
-export default function useCreateLicense(createReq: CreateLicenseRequest | CreateLicenseRequest) {
+export default function useCreateLicense(createReq: CreateLicenseRequest) {
   const { client } = useStoryClient();
   const [isIdle, setIsIdle] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -21,7 +21,6 @@ export default function useCreateLicense(createReq: CreateLicenseRequest | Creat
   } = useWaitForTransaction({
     hash: txHash as `0x${string}`,
   });
-
   useEffect(() => {
     setIsSuccess(isTxSuccess);
     setIsError(isTxError);
