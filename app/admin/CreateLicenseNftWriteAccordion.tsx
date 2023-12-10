@@ -5,6 +5,7 @@ import { ConfigureLicenseRequest, CreateLicenseRequest } from '@story-protocol/c
 import useCreateLicense from '@/hooks/useCreateLicense';
 import ConfigureLicenseWriteAccordionInputForm from './ConfigureLicenseWriteAccordionInputForm';
 import CreateLicenseWriteAccordionInputForm from './LicenseWriteAccordionInputForm';
+import useConfigureLicense from '@/hooks/useConfigureLicense';
 
 export default function CreateLicenseNftWriteAccordion({
   createDefaultValues,
@@ -13,13 +14,13 @@ export default function CreateLicenseNftWriteAccordion({
   createDefaultValues: Partial<CreateLicenseRequest>;
   configureDefaultValues: Partial<ConfigureLicenseRequest>;
 }) {
-  const createIpaBoundLicenseSchema = z.object({
+  const createLicenseSchema = z.object({
     ipOrgId: z.string().min(1, {
       message: 'Required.',
     }),
-    attribution: z.boolean(),
     ipaId: z.string().optional(),
   });
+
   const createDescriptions = {
     ipaId:
       'Specify the IPA ID if you want to create a license specifically for an IP Asset. Else, leave empty or enter 0',
@@ -58,14 +59,14 @@ export default function CreateLicenseNftWriteAccordion({
         fcnName={'license.configure'}
         description={"Configure your IP Org's licensing framework before being able to create a license."}
         formSchema={configureLicenseSchema}
-        hook={useCreateLicense}
+        hook={useConfigureLicense}
         defaultValues={configureDefaultValues}
         descriptions={configureDescriptions}
       />
       <CreateLicenseWriteAccordionInputForm
         fcnName={'license.create'}
         description={'To create a license, you must first configure your IPO.'}
-        formSchema={createIpaBoundLicenseSchema}
+        formSchema={createLicenseSchema}
         hook={useCreateLicense}
         defaultValues={createDefaultValues}
         descriptions={createDescriptions}

@@ -232,7 +232,7 @@ export default function ConfigureLicenseWriteAccordionInputForm({
     event.preventDefault();
     await execute();
   }
-  console.log('form state:', form.formState);
+
   const configureLicenseReq: ConfigureLicenseRequest = {
     ipOrg: form.getValues().ipOrg,
     frameworkId: form.getValues().frameworkId,
@@ -242,7 +242,7 @@ export default function ConfigureLicenseWriteAccordionInputForm({
         tag: 'Attribution',
         value: {
           interface: 'bool',
-          data: form.getValues().attribution,
+          data: [form.getValues().attribution],
         },
       },
     ],

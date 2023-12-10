@@ -37,11 +37,11 @@ export default function IpOrgDetailPage({ params: { ipOrgId } }: { params: { ipO
   };
 
   const defaultCreateLicenseNftValues: CreateLicenseRequest = {
-    ...defaultIPOrgId,
+    ipOrgId: defaultIPOrgId.ipOrgId,
     ipaId: '',
     params: [],
-    preHookData: [],
     parentLicenseId: '',
+    preHookData: [],
     postHookData: [],
     txOptions: {
       waitForTransaction: true,
