@@ -43,18 +43,6 @@ const columns: ColumnDef<IPOrg>[] = [
       </Link>
     ),
   },
-  // {
-  //   accessorKey: 'tokenUri',
-  //   header: 'TokenURI',
-  //   cell: ({ row }) => {
-  //     const uri: string = row.getValue('tokenUri');
-  //     return (
-  //       <Link href={uri}>
-  //         <ExternalLinkIcon className="w-5 h-5" />
-  //       </Link>
-  //     );
-  //   },
-  // },
 ];
 
 export default function IPOrgDataViewerComponent({

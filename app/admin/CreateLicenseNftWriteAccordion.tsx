@@ -19,6 +19,7 @@ export default function CreateLicenseNftWriteAccordion({
       message: 'Required.',
     }),
     ipaId: z.string().optional(),
+    // parentLicenseId: z.string().optional(),
   });
 
   const createDescriptions = {

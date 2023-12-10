@@ -36,11 +36,11 @@ export default function IpOrgDetailPage({ params: { ipOrgId } }: { params: { ipO
     ipOrgId,
   };
 
-  const defaultCreateLicenseNftValues: CreateLicenseRequest = {
+  const defaultCreateLicenseValues: CreateLicenseRequest = {
     ipOrgId: defaultIPOrgId.ipOrgId,
-    ipaId: '',
+    ipaId: '0',
     params: [],
-    parentLicenseId: '',
+    parentLicenseId: '0',
     preHookData: [],
     postHookData: [],
     txOptions: {
@@ -128,7 +128,7 @@ export default function IpOrgDetailPage({ params: { ipOrgId } }: { params: { ipO
                   <div className="flex flex-col gap-4">
                     <IpAssetWriteAccordion defaultValues={defaultIPOrgId} />
                     <CreateLicenseNftWriteAccordion
-                      createDefaultValues={defaultCreateLicenseNftValues}
+                      createDefaultValues={defaultCreateLicenseValues}
                       configureDefaultValues={defaultConfigureLicenseNftValues}
                     />
                     <RelationshipTypeWriteAccordion defaultValues={defaultIPOrgId} />

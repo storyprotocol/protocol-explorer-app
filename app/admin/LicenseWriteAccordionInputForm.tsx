@@ -237,15 +237,7 @@ export default function CreateLicenseWriteAccordionInputForm({
     ipOrgId: form.getValues().ipOrgId,
     ipaId: form.getValues().ipaId || '0',
     parentLicenseId: '0',
-    params: [
-      {
-        tag: 'Attribution',
-        value: {
-          interface: 'bool',
-          data: form.getValues().requireAttribution,
-        },
-      },
-    ],
+    params: [],
     txOptions: {
       waitForTransaction: true,
     },
