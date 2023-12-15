@@ -1,10 +1,15 @@
 'use client';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Input } from '@/components/ui/input';
+
 import { useEffect, useState } from 'react';
+import { ConfigureLicenseRequest } from '@story-protocol/core-sdk';
+import { useAccount, useNetwork } from 'wagmi';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import * as z from 'zod';
+import { useForm } from 'react-hook-form';
+
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Input } from '@/components/ui/input';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import {
   Dialog,
@@ -16,11 +21,7 @@ import {
 } from '@/components/ui/dialog';
 import { ArrowPathIcon, CheckIcon, ExclamationCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import EtherscanLink from '@/utils/EtherscanLink';
-import { useAccount, useNetwork } from 'wagmi';
-// import ConnectWalletButton from '@/components/Navbar/ConnectWalletButton2';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { cn } from '@/utils';
-import { ConfigureLicenseRequest } from '@story-protocol/core-sdk';
 
 type InputFormProps = {
   formSchema: z.ZodObject<any, any>;
@@ -41,10 +42,9 @@ function getDefaultValuesFromSchema(
   const values: Record<string, any> = {};
 
   for (const key in shape) {
-    values[key] = defaultValues[key] || ''; // Use the default value if available, or set an empty string as a fallback
+    values[key] = defaultValues[key] || '';
   }
 
-  // Set default values for keys that are in defaultValues but not in the form schema
   for (const key in defaultValues) {
     if (!values[key]) {
       values[key] = defaultValues[key];
