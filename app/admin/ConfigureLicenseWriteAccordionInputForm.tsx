@@ -20,7 +20,7 @@ import { useAccount, useNetwork } from 'wagmi';
 // import ConnectWalletButton from '@/components/Navbar/ConnectWalletButton2';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { cn } from '@/utils';
-import { ConfigureLicenseRequest, CreateLicenseRequest } from '@story-protocol/core-sdk';
+import { ConfigureLicenseRequest } from '@story-protocol/core-sdk';
 
 type InputFormProps = {
   formSchema: z.ZodObject<any, any>;
@@ -250,7 +250,6 @@ export default function ConfigureLicenseWriteAccordionInputForm({
       waitForTransaction: true,
     },
   };
-  console.log('Configuring license:', configureLicenseReq);
   const { execute, isIdle, isLoading, isSuccess, data, reset, errorMsg } = hook(configureLicenseReq);
 
   const IdleComponent = () => (

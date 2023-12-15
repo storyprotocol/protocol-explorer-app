@@ -232,17 +232,17 @@ export default function CreateLicenseWriteAccordionInputForm({
     event.preventDefault();
     await execute();
   }
-  console.log('form state:', form.formState);
   const createLicenseReq: CreateLicenseRequest = {
     ipOrgId: form.getValues().ipOrgId,
     ipaId: form.getValues().ipaId || '0',
     parentLicenseId: '0',
     params: [],
+    preHookData: [],
+    postHookData: [],
     txOptions: {
       waitForTransaction: true,
     },
   };
-  console.log('Creating license:', createLicenseReq);
   const { execute, isIdle, isLoading, isSuccess, data, reset, errorMsg } = hook(createLicenseReq);
 
   const IdleComponent = () => (
