@@ -16,7 +16,7 @@ import IpAssetWriteAccordion from '@/app/admin/IPAssetWriteAccordion';
 import Link from 'next/link';
 import HookTableWrapper from '@/components/views/Hook/HookTableWrapper';
 import ModuleTableWrapper from '@/components/views/Module/ModuleTableWrapper';
-import { CreateLicenseRequest, GetIPOrgRequest } from '@story-protocol/core-sdk';
+import { ConfigureLicenseRequest, CreateLicenseRequest, GetIPOrgRequest } from '@story-protocol/core-sdk';
 import IpOrgLicenseDataViewer from '@/components/views/Licenses';
 import CreateLicenseNftWriteAccordion from '@/app/admin/CreateLicenseNftWriteAccordion';
 import RelationshipTypeWriteAccordion from '@/app/admin/RelationshipTypeWriteAccordion';
@@ -31,34 +31,28 @@ const PageTitle = async ({ ipOrgId }: { ipOrgId: string }) => {
   return <h1 className="font-medium text-xl md:text-3xl text-white md:mb-2">{ipOrg!.name}</h1>;
 };
 
-// const BannerImage = async ({ ipOrgId }: { ipOrgId: string }) => {
-//   const getReq: GetIPOrgRequest = {
-//     ipOrgId: ipOrgId,
-//   };
-//   const data: GetIPOrgResponse = await storyClient.ipOrg.get(getReq);
-//   // const metadata = await fetch(franchiseData.tokenUri).then((res) => res.json());
-//   const metadata = { bannerUrl: '', imageUrl: '' };
-//   return (
-//     <img
-//       src={metadata.bannerUrl || metadata.imageUrl || bannerFallbackImg.src}
-//       alt="IP Org image"
-//       className="absolute w-full h-full object-cover"
-//     />
-//   );
-// };
-
 export default function IpOrgDetailPage({ params: { ipOrgId } }: { params: { ipOrgId: string } }) {
   const defaultIPOrgId = {
     ipOrgId,
   };
 
-  const defaultCreateLicenseNftValues: CreateLicenseRequest = {
-    ...defaultIPOrgId,
-    ipaId: '',
+  const defaultCreateLicenseValues: CreateLicenseRequest = {
+    ipOrgId: defaultIPOrgId.ipOrgId,
+    ipaId: '0',
     params: [],
+    parentLicenseId: '0',
     preHookData: [],
-    parentLicenseId: '',
     postHookData: [],
+    txOptions: {
+      waitForTransaction: true,
+    },
+  };
+
+  const defaultConfigureLicenseNftValues: ConfigureLicenseRequest = {
+    ipOrg: defaultIPOrgId.ipOrgId,
+    licensor: 2,
+    frameworkId: 'SPUML-1.0',
+    params: [],
     txOptions: {
       waitForTransaction: true,
     },
@@ -133,7 +127,10 @@ export default function IpOrgDetailPage({ params: { ipOrgId } }: { params: { ipO
                 <Suspense fallback={<SkeletonTable />}>
                   <div className="flex flex-col gap-4">
                     <IpAssetWriteAccordion defaultValues={defaultIPOrgId} />
-                    <CreateLicenseNftWriteAccordion defaultValues={defaultCreateLicenseNftValues} />
+                    <CreateLicenseNftWriteAccordion
+                      createDefaultValues={defaultCreateLicenseValues}
+                      configureDefaultValues={defaultConfigureLicenseNftValues}
+                    />
                     <RelationshipTypeWriteAccordion defaultValues={defaultIPOrgId} />
                   </div>
                 </Suspense>

@@ -27,6 +27,7 @@ export default function useConfigureLicense(configureReq: ConfigureLicenseReques
     setIsError(isTxError);
   }, [isTxSuccess, isTxError]);
 
+  console.log('Hook Configure Request: ', configureReq);
   const execute = useCallback(async () => {
     try {
       const { txHash } = await (client as Client).license.configure(configureReq);
