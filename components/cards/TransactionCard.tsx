@@ -8,7 +8,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@r
 import { useCallback, useEffect, useState } from 'react';
 
 import JsonView from '@uiw/react-json-view';
-import { useStoryClientContext } from '@/app/context/StoryClientContext';
+import { useStoryClientContext } from '@/app/(main)/context/StoryClientContext';
 
 export default function TransactionCard({ classname, data }: { classname?: string; data: any }) {
   const [additionalData, setAdditionalData] = useState<Record<any, any>>();

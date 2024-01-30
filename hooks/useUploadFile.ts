@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Client } from '@story-protocol/core-sdk';
-import { useStoryClientContext } from '@/app/context/StoryClientContext';
+import { useStoryClientContext } from '@/app/(main)/context/StoryClientContext';
 
 export default function useUploadFile() {
   const { client } = useStoryClientContext();
