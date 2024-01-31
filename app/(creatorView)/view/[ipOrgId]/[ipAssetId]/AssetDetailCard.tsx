@@ -1,6 +1,4 @@
 import React, { Suspense } from 'react';
-
-import storyClient from '@/lib/SP';
 import { cn } from '@/utils';
 import Icons from '@/components/ui/icons';
 import SuccessBadge from '@/components/badges/SuccessBadge';
@@ -8,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import TimeSince, { Fallback as TimeSinceFallback } from './TimeSince';
 import Link from 'next/link';
-import { GetIpAssetRequest, GetIpAssetResponse, IPAsset } from '@story-protocol/core-sdk';
+import { IPAsset } from '@story-protocol/core-sdk';
 import AddressComponent from '@/components/snippets/AddressComponent';
 import AssetDisplayComponent from './AssetDisplayComponent';
 
@@ -49,31 +47,19 @@ export const Fallback = () => (
   </div>
 );
 
-export default async function AssetDetailCard({ ipAssetId }: { ipAssetId: string; ipOrgId: string }) {
-  const getReq: GetIpAssetRequest = {
-    ipAssetId,
-  };
-  const getRes: GetIpAssetResponse = await storyClient.ipAsset.get(getReq);
-  const ipAsset: IPAsset = getRes.ipAsset;
-
+type AssetDetailCardProps = {
+  ipAsset: IPAsset
+}
+export default function AssetDetailCard({ ipAsset }: AssetDetailCardProps) {
   return (
-    <div className="grid grid-cols-12 gap-2">
+    <div className="grid grid-cols-12 gap-6">
       <AssetDisplayComponent data={ipAsset} />
-      <div className="flex h-full  col-span-12 xl:col-span-7">
-        <div className={cn('relative rounded-xl px-6 py-2 bg-[#FFFFFF] dark:bg-[#2C2B35] w-full')}>
-          <div className="flex items-center justify-between py-4">
-            <h1 className="font-medium md:text-2xl">{ipAsset.name}</h1>
-            {/* <AssetBadge type={ipAsset.type} /> */}
-            {/* <Link
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://sepolia.etherscan.io/tx/${ipAsset.txHash}`}
-          className="rounded-full bg-[#aeb4e8] px-4 py-2 text-white hover:bg-[#8888f5] focus:outline-none disabled:opacity-50 dark:bg-[#aeb4e8] dark:text-[#2C2B35] dark:hover:bg-[#8888f5] text-[13px] font-bold uppercase leading-[13px]"
-        >
-          Etherscan
-        </Link> */}
+      <div className="flex h-full border rounded-xl col-span-12 xl:col-span-7">
+        <div className={cn('relative rounded-xl  py-2 bg-[#FFFFFF] dark:bg-[#2C2B35] w-full')}>
+          <div className="flex items-center justify-between px-6 py-4">
+            <h1 className="font-medium md:text-2xl">Details</h1>
           </div>
-          <div className="border-t py-4 border-gray-200 dark:border-gray-900">
+          <div className="border-t px-6 py-4 border-gray-200 dark:border-gray-900">
             <Row label="TxHash">
               <span className="truncate">
                 <a
@@ -124,20 +110,8 @@ export default async function AssetDetailCard({ ipAssetId }: { ipAssetId: string
               </Row>
             )}
 
-            {/* <Row label="Submitted"><></></Row> */}
 
             <Row label="Posted By">
-              {/* <div className="flex items-center space-x-2 break-all">          
-            <img
-              src="https://cdn.stamp.fyi/avatar/eth:0x7941983a3e1001dc3bdde75a0c29b281760f0413?s=300"
-              alt={ipAsset.owner}
-              className="h-8 w-8 rounded-full"
-            />
-            <b className="shrink truncate">{truncateEthAddress(ipAsset.owner)}</b>
-            <button className="shrink-0">
-              <Icons.copy className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-            </button>
-          </div> */}
               <AddressComponent address={ipAsset.owner} />
             </Row>
 
