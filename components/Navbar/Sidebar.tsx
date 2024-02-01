@@ -11,6 +11,9 @@ import {
 import ClientOnly from '@/utils/ClientOnly';
 import { cn } from '@/utils';
 import { usePathname } from 'next/navigation';
+import { Badge } from '@/components/ui/badge';
+
+import ChainSwitcher from './ChainSwitcher';
 
 // add NavItem prop to component prop
 type Props = {
@@ -111,12 +114,7 @@ const Sidebar = ({ collapsed, navItems = defaultNavItems, shown, onHide }: Props
           </button> */}
 
         {/* logo and collapse button */}
-        <div
-          className={cn(
-            'flex w-full items-center text-white p-2 pt-10 mx-3',
-            // collapsed ? 'py-4 justify-center' : 'p-4',
-          )}
-        >
+        <div className={cn('flex relative w-full items-center text-white pt-10 mx-3', collapsed ? 'px-2' : '')}>
           {/* {!collapsed && (
             <Link href="/" className="whitespace-nowrap">
               <img className="h-6 w-auto" src="/story_logo.svg" alt="Story Protocol" />
@@ -129,7 +127,9 @@ const Sidebar = ({ collapsed, navItems = defaultNavItems, shown, onHide }: Props
               onHide();
             }}
           />
+          <Badge className={cn('text-xs capitalize', collapsed ? 'hidden' : '')}>{process.env.NEXT_PUBLIC_CHAIN}</Badge>
         </div>
+        <Badge className={cn('text-xs capitalize', !collapsed ? 'hidden' : '')}>{process.env.NEXT_PUBLIC_CHAIN}</Badge>
 
         {/* <button onClick={() => onHide()}>
           <span
@@ -148,12 +148,15 @@ const Sidebar = ({ collapsed, navItems = defaultNavItems, shown, onHide }: Props
         {/* <nav className="flex-grow border-t border-sp-purple-dark mt-4 border-opacity-50"> */}
 
         <div className="flex-grow">
-          <nav className=" mt-6 ">
+          <nav className="mt-3">
             <ul
               className={classNames({
                 'flex flex-col gap-2 items-stretch': true,
               })}
             >
+              <div className={cn('p-3', collapsed ? 'hidden' : '')}>
+                <ChainSwitcher />
+              </div>
               {navItems.map((item, index) => {
                 return (
                   <Link key={index} href={item.href}>
@@ -215,25 +218,27 @@ const Sidebar = ({ collapsed, navItems = defaultNavItems, shown, onHide }: Props
           </div>
         </div>
 
-        <Link href="/tos.pdf" target="_blank" className="flex flex-row my-auto pb-2">
-          <div
-            className={classNames({
-              'transition-colors duration-300': true, //animation
-              'rounded-md p-2 mx-3 gap-4 ': !collapsed,
-              'rounded-3xl p-2 mx-3 w-10 h-10': collapsed,
-            })}
-          >
-            <ClientOnly>
-              <Link href="/tos.pdf" target="_blank" className="flex gap-2 ">
-                {collapsed ? (
-                  <DocumentCheckIcon className="w-5 h-5" />
-                ) : (
-                  <p className="hover:underline whitespace-nowrap">Terms of Service</p>
-                )}
-              </Link>
-            </ClientOnly>
-          </div>
-        </Link>
+        <>
+          <Link href="/tos.pdf" target="_blank" className="flex flex-row my-auto pb-2">
+            <div
+              className={classNames({
+                'transition-colors duration-300': true, //animation
+                'rounded-md p-2 mx-3 gap-4 ': !collapsed,
+                'rounded-3xl p-2 mx-3 w-10 h-10': collapsed,
+              })}
+            >
+              <ClientOnly>
+                <Link href="/tos.pdf" target="_blank" className="flex gap-2 ">
+                  {collapsed ? (
+                    <DocumentCheckIcon className="w-5 h-5" />
+                  ) : (
+                    <p className="hover:underline whitespace-nowrap">Terms of Service</p>
+                  )}
+                </Link>
+              </ClientOnly>
+            </div>
+          </Link>
+        </>
       </div>
     </div>
   );
