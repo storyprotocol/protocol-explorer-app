@@ -12,14 +12,14 @@ import IPOrgDetailCard, { Fallback as IPOrgDetailCardFallback } from './IPOrgDet
 import IPOrgStatsCard from './IPOrgStatsCard';
 
 import bannerFallbackImg from '@/assets/franchise-banner-fallback.jpg';
-import IpAssetWriteAccordion from '@/app/admin/IPAssetWriteAccordion';
+import IpAssetWriteAccordion from '@/app/(main)/admin/IPAssetWriteAccordion';
 import Link from 'next/link';
 import HookTableWrapper from '@/components/views/Hook/HookTableWrapper';
 import ModuleTableWrapper from '@/components/views/Module/ModuleTableWrapper';
 import { ConfigureLicenseRequest, CreateLicenseRequest, GetIPOrgRequest } from '@story-protocol/core-sdk';
 import IpOrgLicenseDataViewer from '@/components/views/Licenses';
-import CreateLicenseNftWriteAccordion from '@/app/admin/CreateLicenseNftWriteAccordion';
-import RelationshipTypeWriteAccordion from '@/app/admin/RelationshipTypeWriteAccordion';
+import CreateLicenseNftWriteAccordion from '@/app/(main)/admin/CreateLicenseNftWriteAccordion';
+import RelationshipTypeWriteAccordion from '@/app/(main)/admin/RelationshipTypeWriteAccordion';
 
 const PageTitle = async ({ ipOrgId }: { ipOrgId: string }) => {
   if (!ipOrgId) return null;

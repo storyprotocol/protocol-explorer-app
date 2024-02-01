@@ -1,7 +1,6 @@
 'use client';
 import { IPAsset } from '@story-protocol/core-sdk';
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { PuzzlePieceIcon } from '@heroicons/react/24/outline';
 import AddressComponent from '../snippets/AddressComponent';
@@ -44,12 +43,12 @@ export default function AssetCard({ data }: { data: IPAsset }) {
         <div className="overflow-hidden aspect-video">
           <Link href={`/ipa/${data.ipOrgId}/${data.id}`} className=" hover:cursor-pointer">
             {imageUrl ? (
-              <Image
+              <img
                 width={400}
                 height={300}
                 alt={data.name}
-                loading="lazy"
-                decoding="async"
+                // loading="lazy"
+                // decoding="async"
                 className="h-full w-full object-cover transition-all hover:scale-125"
                 src={`${imageUrl}?date=${getRoundedTime(15)}`}
               />

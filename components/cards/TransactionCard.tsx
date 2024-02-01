@@ -8,7 +8,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@r
 import { useCallback, useEffect, useState } from 'react';
 
 import JsonView from '@uiw/react-json-view';
-import { useStoryClientContext } from '@/app/context/StoryClientContext';
+import { useStoryClientContext } from '@/app/(main)/context/StoryClientContext';
 
 export default function TransactionCard({ classname, data }: { classname?: string; data: any }) {
   const [additionalData, setAdditionalData] = useState<Record<any, any>>();
@@ -64,7 +64,7 @@ export default function TransactionCard({ classname, data }: { classname?: strin
                 <a
                   className="flex font-mono items-center space-x-2 break-all text-indigo-400 underline dark:text-[#D0DBFF]"
                   target="_blank"
-                  href={`https://sepolia.etherscan.io/tx/${data.txHash}`}
+                  href={`${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/tx/${data.txHash}`}
                 >
                   <span>{data.txHash}</span>
                   <svg

@@ -1,8 +1,8 @@
 import Layout from '@/components/Navbar/Layout';
-import './globals.css';
+import '../globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import WagmiConfigWrapper from '../providers/WagmiConfig';
+import WagmiConfigWrapper from '../../providers/WagmiConfig';
 import { StoryClientProvider } from './context/StoryClientContext';
 import { Toaster } from '@/components/ui/toaster';
 

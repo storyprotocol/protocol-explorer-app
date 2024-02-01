@@ -13,7 +13,7 @@ const CardWrapper = ({ children, txHash }: { children: React.ReactNode; txHash?:
       <h4 className="font-semibold text-gray-800 text-base leading-none">Details</h4>
       {txHash && (
         <a
-          href={`https://sepolia.etherscan.io/tx/${txHash}`}
+          href={`${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/tx/${txHash}`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center font-light text-sm text-sp-purple hover:underline"
