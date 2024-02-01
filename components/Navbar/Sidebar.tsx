@@ -127,9 +127,18 @@ const Sidebar = ({ collapsed, navItems = defaultNavItems, shown, onHide }: Props
               onHide();
             }}
           />
-          <Badge className={cn('text-xs capitalize', collapsed ? 'hidden' : '')}>{process.env.NEXT_PUBLIC_CHAIN}</Badge>
+          <Badge
+            className={cn(
+              'text-xs capitalize  bg-indigo-400 hover:bg-indigo-400',
+              collapsed ? 'transition-opacity opacity-0 delay-[150ms]' : '',
+            )}
+          >
+            {process.env.NEXT_PUBLIC_CHAIN}
+          </Badge>
         </div>
-        <Badge className={cn('text-xs capitalize', !collapsed ? 'hidden' : '')}>{process.env.NEXT_PUBLIC_CHAIN}</Badge>
+        <Badge className={cn('text-xs capitalize bg-indigo-400 my-1', !collapsed ? 'hidden' : '')}>
+          {process.env.NEXT_PUBLIC_CHAIN}
+        </Badge>
 
         {/* <button onClick={() => onHide()}>
           <span
@@ -218,8 +227,8 @@ const Sidebar = ({ collapsed, navItems = defaultNavItems, shown, onHide }: Props
           </div>
         </div>
 
-        <>
-          <Link href="/tos.pdf" target="_blank" className="flex flex-row my-auto pb-2">
+        <div className="py-2">
+          <Link href="/tos.pdf" target="_blank" className="flex flex-row my-auto">
             <div
               className={classNames({
                 'transition-colors duration-300': true, //animation
@@ -238,7 +247,7 @@ const Sidebar = ({ collapsed, navItems = defaultNavItems, shown, onHide }: Props
               </ClientOnly>
             </div>
           </Link>
-        </>
+        </div>
       </div>
     </div>
   );

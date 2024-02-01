@@ -19,7 +19,7 @@ export default function ChainSwitcher() {
           }
         }}
       >
-        <SelectTrigger className="text-sm text-white bg-transparent border-none outline-none focus:outline-none focus:ring-0 ring-0 ring-offset-0 bg-sp-purple-dark">
+        <SelectTrigger className="text-sm text-white bg-transparent border-none outline-none focus:outline-none focus:ring-0 ring-0 ring-offset-0 bg-indigo-400">
           <LinkIcon className="w-5 h-5 ml-0.5 shrink-0" />
           <SelectValue placeholder="Version" className="bg-transparent" />
         </SelectTrigger>
