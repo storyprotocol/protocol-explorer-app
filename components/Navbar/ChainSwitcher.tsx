@@ -11,11 +11,11 @@ export default function ChainSwitcher() {
         defaultValue={`${process.env.NEXT_PUBLIC_PROTOCOL_VERSION}-${process.env.NEXT_PUBLIC_CHAIN}`}
         onValueChange={(value) => {
           if (value === 'alpha-mumbai') {
-            router.push('https://alpha.mumbai.explorer.storyprotocol.xyz');
+            router.push('https://am-explorer.storyprotocol.xyz');
           } else if (value === 'alpha-sepolia') {
-            router.push('https://explorer.storyprotocol.xyz');
+            router.push('https://as-explorer.storyprotocol.xyz');
           } else if (value === 'beta-sepolia') {
-            router.push('https://beta.explorer.storyprotocol.xyz');
+            router.push('https://bs-explorer.storyprotocol.xyz');
           }
         }}
       >
