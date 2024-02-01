@@ -10,7 +10,7 @@ export default function EtherscanLink({ txHash, chainId }: { txHash: string; cha
       linkUrl = `https://etherscan.io/tx/${txHash}`;
       break;
     case 5:
-      linkUrl = `https://sepolia.etherscan.io/tx/${txHash}`;
+      linkUrl = `${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/tx/${txHash}`;
       break;
     default:
       linkUrl = '';

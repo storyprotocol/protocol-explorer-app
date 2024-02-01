@@ -63,21 +63,12 @@ export default async function AssetDetailCard({ ipAssetId }: { ipAssetId: string
         <div className={cn('relative rounded-xl px-6 py-2 bg-[#FFFFFF] dark:bg-[#2C2B35] w-full')}>
           <div className="flex items-center justify-between py-4">
             <h1 className="font-medium md:text-2xl">{ipAsset.name}</h1>
-            {/* <AssetBadge type={ipAsset.type} /> */}
-            {/* <Link
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://sepolia.etherscan.io/tx/${ipAsset.txHash}`}
-          className="rounded-full bg-[#aeb4e8] px-4 py-2 text-white hover:bg-[#8888f5] focus:outline-none disabled:opacity-50 dark:bg-[#aeb4e8] dark:text-[#2C2B35] dark:hover:bg-[#8888f5] text-[13px] font-bold uppercase leading-[13px]"
-        >
-          Etherscan
-        </Link> */}
           </div>
           <div className="border-t py-4 border-gray-200 dark:border-gray-900">
             <Row label="TxHash">
               <span className="truncate">
                 <a
-                  href={`https://sepolia.etherscan.io/tx/${ipAsset.txHash}`}
+                  href={`${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/tx/${ipAsset.txHash}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex font-mono items-center space-x-2 break-all text-indigo-400 underline dark:text-[#D0DBFF]"
