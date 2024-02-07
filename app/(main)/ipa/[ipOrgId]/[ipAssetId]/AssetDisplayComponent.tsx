@@ -35,7 +35,7 @@ export default function AssetDisplayComponent({ data }: { data: IPAsset }) {
   }
 
   return (
-    <div className="flex h-52 md:h-72 xl:h-full col-span-12 xl:col-span-5 rounded-xl bg-indigo-100 overflow-hidden justify-center items-center">
+    <div className="flex h-52 md:h-72 xl:h-full col-span-12 xl:col-span-6 rounded-xl bg-indigo-100 overflow-hidden justify-center items-center">
       {imageUrl ? (
         <Image
           width={700}

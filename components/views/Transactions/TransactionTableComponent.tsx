@@ -77,7 +77,7 @@ const columns: ColumnDef<Transaction>[] = [
     accessorKey: 'ipOrgId',
     header: 'IP Org ID',
     cell: ({ row }) => (
-      <Link href={`/ipo/${row.original.ipOrgId}`}>
+      <Link href={`/collections/${row.original.ipOrgId}`}>
         <div className="text-xs text-left font-mono text-indigo-400 hover:underline">{row.getValue('ipOrgId')}</div>
       </Link>
     ),

@@ -187,7 +187,7 @@ export default function TransactionCard({ classname, data }: { classname?: strin
             <dd className="mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-4 sm:mt-0">
               {data.ipOrgId ? (
                 <Link
-                  href={`/ipo/${data.ipOrgId}`}
+                  href={`/collections/${data.ipOrgId}`}
                   className="flex font-mono items-center space-x-2 break-all text-indigo-400 underline dark:text-[#D0DBFF]"
                 >
                   <span>{data.ipOrgId}</span>

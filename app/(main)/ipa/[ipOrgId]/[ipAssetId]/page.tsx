@@ -7,11 +7,11 @@ import TransactionTableWrapper from '@/components/views/Transactions/Transaction
 import AssetDetailCard, { Fallback as FallbackDetailsCard } from './AssetDetailCard';
 import AssetBreadcrumbs, { Fallback as FallbackBreadcrumbs } from './AssetBreadcrumbs';
 import LicenseReadAccordion from '@/app/(main)/admin/LicenseReadAccordion';
-import AssetRelationshipTableWrapper from '@/components/views/Asset/AssetRelationshipTableWrapper';
 import IpOrgLicenseDataViewer from '@/components/views/Licenses';
 import CreateIpaBoundLicenseWriteAccordion from '@/app/(main)/admin/CreateIpaBoundLicenseWriteAccordion';
 import { CreateLicenseRequest } from '@story-protocol/core-sdk';
 import RelationshipWriteAccordion from '@/app/(main)/admin/RelationshipWriteAccordion';
+import { Badge } from '@/components/ui/badge';
 
 export const revalidate = 60;
 export const fetchCache = 'force-no-store';
@@ -51,6 +51,7 @@ export default function AssetDetailPage({
         <div className="">
           <div className="flex flex-row gap-4 items-center mb-4">
             <h1 className="text-xl md:text-4xl font-semibold leading-none">IP Asset Detail</h1>
+            <Badge className="bg-indigo-500 hover:bg-indigo-500">Root</Badge>
           </div>
           <Suspense fallback={<FallbackBreadcrumbs />}>
             <AssetBreadcrumbs ipAssetId={ipAssetId} ipOrgId={ipOrgId} />
@@ -73,8 +74,13 @@ export default function AssetDetailPage({
             <Tabs defaultValue="tx" className="w-full">
               <TabsList>
                 <TabsTrigger value="tx">TX</TabsTrigger>
+                <TabsTrigger value="derivatives">Derivative IPAs</TabsTrigger>
                 <TabsTrigger value="licenses">Licenses</TabsTrigger>
-                <TabsTrigger value="relationships">Relationships</TabsTrigger>
+                <TabsTrigger value="disputes">Disputes</TabsTrigger>
+                <TabsTrigger value="policies">Policies</TabsTrigger>
+                <TabsTrigger value="royalties">Royalties</TabsTrigger>
+                <TabsTrigger value="permissions">Permissions</TabsTrigger>
+                {/* <TabsTrigger value="relationships">Relationships</TabsTrigger> */}
                 <TabsTrigger value="actions">Actions</TabsTrigger>
               </TabsList>
               <TabsContent value="tx">
@@ -82,15 +88,30 @@ export default function AssetDetailPage({
                   <TransactionTableWrapper ipOrgId={ipOrgId} ipAssetId={ipAssetId} />
                 </Suspense>
               </TabsContent>
-              <TabsContent value="relationships">
+              <TabsContent value="derivatives">
+                <h2>Derivatives IPA</h2>
+              </TabsContent>
+              {/* <TabsContent value="relationships">
                 <Suspense fallback={<SkeletonTable />}>
                   <AssetRelationshipTableWrapper ipOrgId={ipOrgId} ipAssetId={ipAssetId} />
                 </Suspense>
-              </TabsContent>
+              </TabsContent> */}
               <TabsContent value="licenses">
                 <Suspense fallback={<SkeletonTable />}>
                   <IpOrgLicenseDataViewer ipAssetId={ipAssetId} />
                 </Suspense>
+              </TabsContent>
+              <TabsContent value="disputes">
+                <h2>disputes</h2>
+              </TabsContent>
+              <TabsContent value="policies">
+                <h2>policies</h2>
+              </TabsContent>
+              <TabsContent value="royalties">
+                <h2>royalties</h2>
+              </TabsContent>
+              <TabsContent value="permissions">
+                <h2>permissions</h2>
               </TabsContent>
               <TabsContent value="actions">
                 <Suspense fallback={<SkeletonTable />}>

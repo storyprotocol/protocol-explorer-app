@@ -95,7 +95,7 @@ export default async function AssetDetailCard({ ipAssetId }: { ipAssetId: string
             </Row>
 
             <Row label="IP Org ID">
-              <Link href={`/ipo/${ipAsset.ipOrgId}`}>
+              <Link href={`/collections/${ipAsset.ipOrgId}`}>
                 <span className="font-mono truncate text-indigo-400 hover:underline">{ipAsset.ipOrgId}</span>
               </Link>
             </Row>

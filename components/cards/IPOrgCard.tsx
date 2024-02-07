@@ -9,7 +9,7 @@ export default function IPOrgCard({ data }: { data: IPOrg }) {
     <div className="w-full bg-white rounded-2xl overflow-hidden border-2 border-slate-100 hover:border-indigo-500 hover:shadow-md">
       <span data-state="closed">
         <div className="overflow-hidden aspect-video">
-          <Link href={`/ipo/${data.id}`} className="hover:cursor-pointer">
+          <Link href={`/collections/${data.id}`} className="hover:cursor-pointer">
             <div className="flex h-full justify-center items-center bg-gradient-to-br from-indigo-50 to-indigo-200 text-indigo-500 px-5 group">
               {/* <RectangleGroupIcon className="w-10 h-10" /> */}
               <h1 className="text-2xl text-center font-semibold inline-flex truncate  group-hover:max-w-none group-hover:whitespace-normal group-hover:overflow-visible">

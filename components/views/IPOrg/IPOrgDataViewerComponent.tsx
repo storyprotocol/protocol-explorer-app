@@ -12,7 +12,7 @@ const columns: ColumnDef<IPOrg>[] = [
     accessorKey: 'id',
     header: 'ID',
     cell: ({ row }) => (
-      <Link href={`/ipo/${row.getValue('id')}`} className="capitalize font-mono underline">
+      <Link href={`/collections/${row.getValue('id')}`} className="capitalize font-mono underline">
         <span className="min-w-[200px] font-mono">{shortenAddress(row.getValue('id'), 4)}</span>
       </Link>
     ),
@@ -21,7 +21,7 @@ const columns: ColumnDef<IPOrg>[] = [
     accessorKey: 'name',
     header: 'IP Org Name',
     cell: ({ row }) => (
-      <Link href={`/ipo/${row.getValue('id')}`} className="capitalize underline">
+      <Link href={`/collections/${row.getValue('id')}`} className="capitalize underline">
         <span className="min-w-[200px]">{row.getValue('name')}</span>
       </Link>
     ),

@@ -28,7 +28,7 @@ const columns: ColumnDef<Module>[] = [
     accessorKey: 'ipOrgId',
     header: 'Module ID',
     cell: ({ row }) => (
-      <Link href={`/ipo/${row.original.ipOrgId}`} className="capitalize font-mono underline">
+      <Link href={`/collections/${row.original.ipOrgId}`} className="capitalize font-mono underline">
         {row.original.ipOrgId}
       </Link>
     ),

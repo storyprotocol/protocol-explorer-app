@@ -70,6 +70,7 @@ export function getTxnDataInsights(data: Array<any>) {
   function countTypes(data: any[]): Record<string, number> {
     const typeCounts: Record<string, number> = {};
 
+    // TODO: extract license, policy fields.
     for (const item of data) {
       const resourceType = item.resourceType;
       if (typeCounts[resourceType]) {

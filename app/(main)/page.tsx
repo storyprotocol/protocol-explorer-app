@@ -6,6 +6,7 @@ import IPOrgDataViewerWrapper from '@/components/views/IPOrg/IPOrgDataViewerWrap
 import TxnTypeCountCard from '@/components/dashboard/TxnTypeCountCard';
 import { getTxnDataInsights } from '@/utils';
 import WalletCountTable from '@/components/tables/WalletCountTable';
+import { PuzzlePieceIcon } from '@heroicons/react/24/outline';
 
 export const revalidate = 60;
 export const fetchCache = 'force-no-store';
@@ -22,11 +23,18 @@ export default async function Home() {
           <h1 className="text-xl md:text-4xl font-semibold leading-none">Overview</h1>
           <ul
             role="list"
-            className="grid grid-cols-4 gap-3 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3 2xl:grid-cols-4 w-full"
+            className="grid grid-cols-4 gap-3 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3 2xl:grid-cols-3 w-full"
           >
-            <TxnTypeCountCard name={'IP Orgs'} count={totalTypes?.IPOrg} />
-            <TxnTypeCountCard name={'IP Asset'} count={totalTypes?.IPAsset} />
-            <TxnTypeCountCard name={'Relationship'} count={totalTypes?.Relationship} />
+            {/* 
+              // TODO: add license, policy
+             */}
+            <TxnTypeCountCard
+              name={'IP Assets'}
+              icon={<PuzzlePieceIcon className="w-6 h-6 ml-0.5 shrink-0" />}
+              count={totalTypes?.IPAsset}
+            />
+            <TxnTypeCountCard name={'Licenses'} count={totalTypes?.Relationship} />
+            <TxnTypeCountCard name={'Relationships'} count={totalTypes?.Relationship} />
             <TxnTypeCountCard name={'RelationshipTypes'} count={totalTypes?.RelationshipType} />
           </ul>
 

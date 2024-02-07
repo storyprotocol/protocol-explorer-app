@@ -73,7 +73,7 @@ export default function IpOrgDetailPage({ params: { ipOrgId } }: { params: { ipO
             </Suspense>
             <Suspense fallback={<FallbackBreadcrumbs />}>{ipOrgId && <IPOrgBreadcrumbs ipOrgId={ipOrgId} />}</Suspense>
           </div>
-          <Link href={`/ipo/${ipOrgId}/createIpa`}>
+          <Link href={`/collections/${ipOrgId}/createIpa`}>
             <button className="bg-sp-purple hover:bg-sp-purple-dark py-2 px-4 md:px-6 rounded-3xl text-white text-xs md:text-base shadow-sm">
               Create New IPA
             </button>

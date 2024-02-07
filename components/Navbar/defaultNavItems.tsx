@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   ArrowsRightLeftIcon,
-  PresentationChartBarIcon,
   PuzzlePieceIcon,
   RectangleGroupIcon,
   WrenchScrewdriverIcon,
@@ -14,18 +13,13 @@ export type NavItem = {
 };
 export const defaultNavItems: NavItem[] = [
   {
-    label: 'Overview',
-    href: '/',
-    icon: <PresentationChartBarIcon className="w-5 h-5 ml-0.5 shrink-0" />,
-  },
-  {
     label: 'Transactions',
     href: '/transactions',
     icon: <ArrowsRightLeftIcon className="w-5 h-5 ml-0.5 shrink-0" />,
   },
   {
-    label: 'IP Orgs',
-    href: '/ipo',
+    label: 'Collections',
+    href: '/collections',
     icon: <RectangleGroupIcon className="w-5 h-5 ml-0.5 shrink-0" />,
   },
   {

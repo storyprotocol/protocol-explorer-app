@@ -50,7 +50,7 @@ const columns: ColumnDef<IPAsset>[] = [
     header: 'IP Org ID',
     cell: ({ row }) => (
       <Link
-        href={`/ipo/${row.getValue('ipOrgId')}`}
+        href={`/collections/${row.getValue('ipOrgId')}`}
         className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400"
       >
         {row.getValue('ipOrgId')}

@@ -49,6 +49,28 @@ export const Fallback = () => (
   </div>
 );
 
+export function AssetStatsComponent() {
+  return (
+    <div className="w-full mx-auto p-6 bg-white rounded-xl">
+      <h2 className="text-lg">Statistics</h2>
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+        <div>
+          <p className="text-3xl">654</p>
+          <p className="text-sm text-gray-600">IPAs</p>
+        </div>
+        <div>
+          <p className="text-3xl">38</p>
+          <p className="text-sm text-gray-600">Licenses</p>
+        </div>
+        <div>
+          <p className="text-3xl">5%</p>
+          <p className="text-sm text-gray-600">Royalties</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default async function AssetDetailCard({ ipAssetId }: { ipAssetId: string; ipOrgId: string }) {
   const getReq: GetIpAssetRequest = {
     ipAssetId,
@@ -59,7 +81,7 @@ export default async function AssetDetailCard({ ipAssetId }: { ipAssetId: string
   return (
     <div className="grid grid-cols-12 gap-2">
       <AssetDisplayComponent data={ipAsset} />
-      <div className="flex h-full  col-span-12 xl:col-span-7">
+      <div className="flex flex-col gap-2 h-full col-span-12 xl:col-span-6">
         <div className={cn('relative rounded-xl px-6 py-2 bg-[#FFFFFF] dark:bg-[#2C2B35] w-full')}>
           <div className="flex items-center justify-between py-4">
             <h1 className="font-medium md:text-2xl">{ipAsset.name}</h1>
@@ -86,7 +108,7 @@ export default async function AssetDetailCard({ ipAssetId }: { ipAssetId: string
             </Row>
 
             <Row label="IP Org ID">
-              <Link href={`/ipo/${ipAsset.ipOrgId}`}>
+              <Link href={`/collections/${ipAsset.ipOrgId}`}>
                 <span className="font-mono truncate text-indigo-400 hover:underline">{ipAsset.ipOrgId}</span>
               </Link>
             </Row>
@@ -137,6 +159,7 @@ export default async function AssetDetailCard({ ipAssetId }: { ipAssetId: string
             </Row>
           </div>
         </div>
+        <AssetStatsComponent />
       </div>
     </div>
   );
