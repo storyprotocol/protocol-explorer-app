@@ -31,9 +31,9 @@ const PageTitle = async ({ ipOrgId }: { ipOrgId: string }) => {
   return <h1 className="font-medium text-xl md:text-3xl text-white md:mb-2">{ipOrg!.name}</h1>;
 };
 
-export default function IpOrgDetailPage({ params: { ipOrgId } }: { params: { ipOrgId: string } }) {
+export default function IpOrgDetailPage({ params: { contractAddress } }: { params: { contractAddress: string } }) {
   const defaultIPOrgId = {
-    ipOrgId,
+    ipOrgId: contractAddress,
   };
 
   const defaultCreateLicenseValues: CreateLicenseRequest = {
@@ -61,7 +61,7 @@ export default function IpOrgDetailPage({ params: { ipOrgId } }: { params: { ipO
   return (
     <div className="">
       <div className="relative w-full h-[32rem] bg-slate-500 mx-auto">
-        {/* <BannerImage ipOrgId={ipOrgId} /> */}
+        {/* <BannerImage ipOrgId={contractAddress} /> */}
         <img src={bannerFallbackImg.src} alt="IP Org image" className="absolute w-full h-full object-cover" />
         <div className="absolute w-full bottom-0 left-0 right-0 h-4/5 bg-gradient-to-t from-[rgba(0,0,0,0.7)] via-[rgba(0,0,0,0.5)] to-transparent"></div>
       </div>
@@ -69,11 +69,13 @@ export default function IpOrgDetailPage({ params: { ipOrgId } }: { params: { ipO
         <div className="flex w-full justify-between items-center mb-4">
           <div className="flex flex-col">
             <Suspense fallback={<Skeleton className="h-7 mt-1 w-56 mb-5" />}>
-              <PageTitle ipOrgId={ipOrgId} />
+              <PageTitle ipOrgId={contractAddress} />
             </Suspense>
-            <Suspense fallback={<FallbackBreadcrumbs />}>{ipOrgId && <IPOrgBreadcrumbs ipOrgId={ipOrgId} />}</Suspense>
+            <Suspense fallback={<FallbackBreadcrumbs />}>
+              {contractAddress && <IPOrgBreadcrumbs ipOrgId={contractAddress} />}
+            </Suspense>
           </div>
-          <Link href={`/collections/${ipOrgId}/createIpa`}>
+          <Link href={`/contractAddress/${contractAddress}/createIpa`}>
             <button className="bg-sp-purple hover:bg-sp-purple-dark py-2 px-4 md:px-6 rounded-3xl text-white text-xs md:text-base shadow-sm">
               Create New IPA
             </button>
@@ -82,9 +84,9 @@ export default function IpOrgDetailPage({ params: { ipOrgId } }: { params: { ipO
 
         <div className="grid grid-cols-12 gap-6 mb-8">
           <Suspense fallback={<IPOrgDetailCardFallback />}>
-            <IPOrgDetailCard ipOrgId={ipOrgId} />
+            <IPOrgDetailCard ipOrgId={contractAddress} />
           </Suspense>
-          <IPOrgStatsCard ipOrgId={ipOrgId} />
+          <IPOrgStatsCard ipOrgId={contractAddress} />
         </div>
 
         <div className="grid grid-cols-12 gap-2">
@@ -100,27 +102,27 @@ export default function IpOrgDetailPage({ params: { ipOrgId } }: { params: { ipO
               </TabsList>
               <TabsContent value="tx">
                 <Suspense fallback={<SkeletonTable />}>
-                  <TransactionTableWrapper ipOrgId={ipOrgId} />
+                  <TransactionTableWrapper ipOrgId={contractAddress} />
                 </Suspense>
               </TabsContent>
               <TabsContent value="ipa">
                 <Suspense fallback={<div className="w-full pt-8 text-center text-gray-500">No assets found</div>}>
-                  <AssetDataViewer ipOrgId={ipOrgId} />
+                  <AssetDataViewer ipOrgId={contractAddress} />
                 </Suspense>
               </TabsContent>
               <TabsContent value="licenses">
                 <Suspense fallback={<SkeletonTable />}>
-                  <IpOrgLicenseDataViewer ipOrgId={ipOrgId} />
+                  <IpOrgLicenseDataViewer ipOrgId={contractAddress} />
                 </Suspense>
               </TabsContent>
               <TabsContent value="modules">
                 <Suspense fallback={<SkeletonTable />}>
-                  <ModuleTableWrapper ipOrgId={ipOrgId} />
+                  <ModuleTableWrapper ipOrgId={contractAddress} />
                 </Suspense>
               </TabsContent>
               <TabsContent value="hooks">
                 <Suspense fallback={<SkeletonTable />}>
-                  <HookTableWrapper ipOrgId={ipOrgId} />
+                  <HookTableWrapper ipOrgId={contractAddress} />
                 </Suspense>
               </TabsContent>
               <TabsContent value="actions">

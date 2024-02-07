@@ -21,7 +21,7 @@ const PageTitle = async ({ ipOrgId }: { ipOrgId: string }) => {
   return <h1 className="font-medium text-xl md:text-3xl text-white md:mb-2">{ipOrg!.name}</h1>;
 };
 
-export default function CreateIpaPage({ params: { ipOrgId } }: { params: { ipOrgId: string } }) {
+export default function CreateIpaPage({ params: { contractAddress } }: { params: { contractAddress: string } }) {
   return (
     <div className="">
       <div className="relative w-full h-[32rem] bg-slate-500 mx-auto">
@@ -32,9 +32,11 @@ export default function CreateIpaPage({ params: { ipOrgId } }: { params: { ipOrg
         <div className="flex w-full justify-between items-center mb-4">
           <div className="flex flex-col">
             <Suspense fallback={<Skeleton className="h-7 mt-1 w-56 mb-5" />}>
-              <PageTitle ipOrgId={ipOrgId} />
+              <PageTitle ipOrgId={contractAddress} />
             </Suspense>
-            <Suspense fallback={<FallbackBreadcrumbs />}>{ipOrgId && <IPOrgBreadcrumbs ipOrgId={ipOrgId} />}</Suspense>
+            <Suspense fallback={<FallbackBreadcrumbs />}>
+              {contractAddress && <IPOrgBreadcrumbs ipOrgId={contractAddress} />}
+            </Suspense>
           </div>
           <button className="bg-sp-purple hover:bg-sp-purple-dark py-2 px-4 md:px-6 rounded-3xl text-white text-xs md:text-base shadow-sm">
             Create New IPA
@@ -43,9 +45,9 @@ export default function CreateIpaPage({ params: { ipOrgId } }: { params: { ipOrg
 
         <div className="grid grid-cols-12 gap-6 mb-8">
           <Suspense fallback={<IPOrgDetailCardFallback />}>
-            <IPOrgDetailCard ipOrgId={ipOrgId} />
+            <IPOrgDetailCard ipOrgId={contractAddress} />
           </Suspense>
-          <IPOrgStatsCard ipOrgId={ipOrgId} />
+          <IPOrgStatsCard ipOrgId={contractAddress} />
         </div>
 
         <div className="grid grid-cols-12 gap-2">
@@ -54,7 +56,7 @@ export default function CreateIpaPage({ params: { ipOrgId } }: { params: { ipOrg
               <div className="p-5 bg-white w-full rounded-lg border bg-card text-card-foreground shadow-sm mx-auto">
                 <h1 className=" text-2xl font-semibold">Create IPA</h1>
                 <div className="pb-12">
-                  <CreateIpaForm ipOrgId={ipOrgId} />
+                  <CreateIpaForm ipOrgId={contractAddress} />
                 </div>
               </div>
             </div>
