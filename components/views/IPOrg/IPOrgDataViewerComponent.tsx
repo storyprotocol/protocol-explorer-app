@@ -57,13 +57,15 @@ export default function IPOrgDataViewerComponent({
   pageSize?: number;
 }) {
   return (
-    <BaseDataViewer
-      data={data}
-      columns={columns}
-      tableOnly={tableOnly}
-      gridOnly={gridOnly}
-      pageSize={pageSize}
-      cardComponent={IPOrgCard}
-    />
+    <>
+      <BaseDataViewer
+        data={data}
+        columns={columns}
+        tableOnly={tableOnly}
+        gridOnly={gridOnly}
+        pageSize={pageSize}
+        cardComponent={IPOrgCard}
+      />
+    </>
   );
 }

@@ -23,7 +23,7 @@ export const defaultNavItems: NavItem[] = [
     icon: <RectangleGroupIcon className="w-5 h-5 ml-0.5 shrink-0" />,
   },
   {
-    label: 'IP Assets',
+    label: 'Assets',
     href: '/ipa',
     icon: <PuzzlePieceIcon className="w-5 h-5 ml-0.5 shrink-0" />,
   },
