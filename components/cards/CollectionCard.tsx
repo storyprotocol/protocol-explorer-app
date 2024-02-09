@@ -1,5 +1,4 @@
 import { shortenAddress } from '@/utils';
-import { Link } from 'lucide-react';
 import React from 'react';
 import AddressComponent from '../snippets/AddressComponent';
 import { Address } from 'viem';
