@@ -12,6 +12,8 @@ import CollectionStatsCard from './CollectionStatsCard';
 
 import { getOpenSeaCollectionMetadata } from '@/lib/opensea/api';
 import { Address } from 'viem';
+import { getResource } from '@/lib/server/sdk';
+import { RESOURCE_TYPE } from '@/lib/server/types';
 
 const PageTitle = async ({ collectionId }: { collectionId: string }) => {
   return <h1 className="font-medium text-xl md:text-3xl text-white md:mb-2">{collectionId}</h1>;
@@ -23,6 +25,10 @@ export default async function CollectionDetailPage({
   params: { contractAddress: Address };
 }) {
   const openseaMetadata = await getOpenSeaCollectionMetadata(contractAddress as Address);
+  const collectionRes = await getResource(RESOURCE_TYPE.COLLECTION, contractAddress);
+  const collectionData = collectionRes.data;
+
+  console.log({ collectionData });
   return (
     <div className="">
       <div className="relative w-full h-[24rem] bg-slate-500 mx-auto">
@@ -51,7 +57,7 @@ export default async function CollectionDetailPage({
           <Suspense fallback={<CollectionDetailCardFallback />}>
             <CollectionDetailCard openseaMetadata={openseaMetadata} collectionId={contractAddress} />
           </Suspense>
-          <CollectionStatsCard collectionId={contractAddress} />
+          <CollectionStatsCard data={collectionData} />
         </div>
 
         <div className="grid grid-cols-12 gap-2">
