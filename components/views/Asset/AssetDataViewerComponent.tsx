@@ -87,6 +87,6 @@ const columns: ColumnDef<Asset>[] = [
   },
 ];
 
-export default function AssetDataViewerComponent({ data }: any) {
-  return <BaseDataViewer data={data} columns={columns} cardComponent={AssetCard} />;
+export default function AssetDataViewerComponent({ data, ...params }: any) {
+  return <BaseDataViewer hasSearch={false} data={data} columns={columns} cardComponent={AssetCard} {...params} />;
 }

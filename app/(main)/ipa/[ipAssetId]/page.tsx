@@ -53,9 +53,9 @@ export default function AssetDetailPage({
             <h1 className="text-xl md:text-4xl font-semibold leading-none">IP Asset Detail</h1>
             <Badge className="bg-indigo-500 hover:bg-indigo-500">Root</Badge>
           </div>
-          <Suspense fallback={<FallbackBreadcrumbs />}>
+          {/* <Suspense fallback={<FallbackBreadcrumbs />}>
             <AssetBreadcrumbs ipAssetId={ipAssetId} ipOrgId={ipOrgId} />
-          </Suspense>
+          </Suspense> */}
         </div>
 
         {/* <div className="grid grid-cols-12 gap-2"> */}

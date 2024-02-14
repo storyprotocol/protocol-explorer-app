@@ -20,7 +20,7 @@ const PageTitle = async ({ collectionId }: { collectionId: string }) => {
 export default async function CollectionDetailPage({
   params: { contractAddress },
 }: {
-  params: { contractAddress: string };
+  params: { contractAddress: Address };
 }) {
   const openseaMetadata = await getOpenSeaCollectionMetadata(contractAddress as Address);
   return (
@@ -68,7 +68,7 @@ export default async function CollectionDetailPage({
               </TabsContent>
               <TabsContent value="assets">
                 <Suspense fallback={<div className="w-full pt-8 text-center text-gray-500">No assets found</div>}>
-                  {/* <AssetDataViewer collectionId={contractAddress} /> */}
+                  <AssetDataViewer tableOnly collectionId={contractAddress} />
                 </Suspense>
               </TabsContent>
             </Tabs>
