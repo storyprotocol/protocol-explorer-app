@@ -1,13 +1,20 @@
 'use client';
-import IPOrgCard from '@/components/cards/IPOrgCard';
 import BaseDataViewer from '../BaseDataViewer';
 import { ColumnDef } from '@tanstack/react-table';
-import { IPOrg } from '@story-protocol/core-sdk';
 import Link from 'next/link';
 import { shortenAddress } from '@/utils';
 import AddressComponent from '@/components/snippets/AddressComponent';
+import { Address } from 'viem';
+import CollectionCard from '@/components/cards/CollectionCard';
 
-const columns: ColumnDef<IPOrg>[] = [
+export type Collection = {
+  id: Address;
+  assetCount: string;
+  blockNumber: string;
+  blockTimestamp: string;
+};
+
+const columns: ColumnDef<Collection>[] = [
   {
     accessorKey: 'id',
     header: 'ID',
@@ -18,8 +25,8 @@ const columns: ColumnDef<IPOrg>[] = [
     ),
   },
   {
-    accessorKey: 'name',
-    header: 'IP Org Name',
+    accessorKey: 'assetCount',
+    header: 'Assets',
     cell: ({ row }) => (
       <Link href={`/collections/${row.getValue('id')}`} className="capitalize underline">
         <span className="min-w-[200px]">{row.getValue('name')}</span>
@@ -27,16 +34,16 @@ const columns: ColumnDef<IPOrg>[] = [
     ),
   },
   {
-    accessorKey: 'owner',
-    header: 'Owner',
+    accessorKey: 'blockNumber',
+    header: 'Block Number',
     cell: ({ row }) => {
       const address = row.getValue('owner');
       return <AddressComponent address={address as string} />;
     },
   },
   {
-    accessorKey: 'txHash',
-    header: 'Transaction Hash',
+    accessorKey: 'blockTimestamp',
+    header: 'Block Timestamp',
     cell: ({ row }) => (
       <Link href={`/transactions/${row.getValue('txHash')}`} className="capitalize font-mono underline">
         {shortenAddress(row.getValue('txHash'), 5)}
@@ -45,7 +52,7 @@ const columns: ColumnDef<IPOrg>[] = [
   },
 ];
 
-export default function IPOrgDataViewerComponent({
+export default function CollectionsDataViewerComponent({
   data,
   tableOnly,
   gridOnly,
@@ -64,7 +71,7 @@ export default function IPOrgDataViewerComponent({
         tableOnly={tableOnly}
         gridOnly={gridOnly}
         pageSize={pageSize}
-        cardComponent={IPOrgCard}
+        cardComponent={CollectionCard}
       />
     </>
   );

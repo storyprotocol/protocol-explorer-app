@@ -1,4 +1,3 @@
-'use server';
 import storyClient from '../SP';
 import {
   GetTransactionRequest,
@@ -17,6 +16,126 @@ import {
   GetModuleRequest,
   ListModuleRequest,
 } from '@story-protocol/core-sdk';
+
+import { Address } from 'viem';
+
+export enum RESOURCE_TYPE {
+  ASSET = 'assets',
+  COLLECTION = 'collections',
+  TRANSACTION = 'transactions',
+  POLICY = 'policies',
+  PERMISSION = 'permissions',
+  LICENSE = 'licenses',
+  POLICY_FRAMEWORK = 'policyframeworks',
+  MODULE = 'modules',
+  TAGS = 'tags',
+  IPA_POLICY = 'ipapolicies',
+  ROYALTY_PAY = 'royaltypays',
+  ROYALTY = 'royalties',
+  DISPUTE = 'disputes',
+}
+
+export type ResourceType =
+  | RESOURCE_TYPE.ASSET
+  | RESOURCE_TYPE.COLLECTION
+  | RESOURCE_TYPE.TRANSACTION
+  | RESOURCE_TYPE.LICENSE
+  | RESOURCE_TYPE.MODULE
+  | RESOURCE_TYPE.POLICY
+  | RESOURCE_TYPE.PERMISSION
+  | RESOURCE_TYPE.POLICY_FRAMEWORK
+  | RESOURCE_TYPE.TAGS
+  | RESOURCE_TYPE.IPA_POLICY
+  | RESOURCE_TYPE.ROYALTY_PAY
+  | RESOURCE_TYPE.ROYALTY
+  | RESOURCE_TYPE.DISPUTE;
+
+export type PaginationOptions = {
+  limit: number;
+  offset: number;
+};
+
+export type FilterOptions = {
+  creator?: Address;
+  receiver?: Address;
+  tokenContract?: Address;
+  ipId?: Address;
+};
+
+export type QueryOptions = {
+  pagination: PaginationOptions;
+  where?: FilterOptions;
+};
+
+export type Transaction = {
+  id: string;
+  createdAt: string;
+  actionType: string;
+  initiator: Address;
+  ipId: Address;
+  resourceId: Address;
+  resourceType: string;
+};
+
+export type Asset = {
+  id: string;
+  chainId: string;
+  childIpIds: string[];
+  parentIpIds: string[];
+  rootIpIds: string[];
+  tokenContract: string;
+  tokenId: string;
+  metadataResolverAddress: string;
+  metadata: {
+    name: string;
+    hash: string;
+    registrationDate: string;
+    registrant: string;
+    uri: string;
+  };
+  blockNumber: string;
+  blockTimestamp: string;
+};
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || process.env.API_BASE_URL || '';
+const API_KEY = process.env.NEXT_PUBLIC_STORY_PROTOCOL_X_API_KEY || process.env.STORY_PROTOCOL_X_API_KEY || '';
+
+export async function getResource(resourceName: ResourceType, resourceId: string) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/v1/${resourceName}/${resourceId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY as string,
+      },
+    });
+    if (res.ok) {
+      return res.json();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function listResource(resourceName: ResourceType, options: QueryOptions) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/v1/${resourceName}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY as string,
+      },
+      body: JSON.stringify({ options }),
+    });
+    if (res.ok) {
+      return res.json();
+    } else {
+      return res;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 async function createIpOrg({ name, symbol, ipAssetTypes }: CreateIPOrgRequest) {
   const data = await storyClient.ipOrg.create({
@@ -160,7 +279,6 @@ export {
   createIpOrg,
   getIpAsset,
   listIpAsset,
-  // createLicense,
   getLicense,
   listLicense,
   getTransaction,

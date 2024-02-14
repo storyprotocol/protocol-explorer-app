@@ -5,12 +5,12 @@ import { ListIpAssetRequest, ListIpAssetResponse } from '@story-protocol/core-sd
 
 type AssetDataViewerWrapperProps = {
   ipAssetType?: number;
-  ipOrgId?: string;
+  collectionId?: string;
 };
 
-export default async function AssetDataViewerWrapper({ ipOrgId }: AssetDataViewerWrapperProps) {
+export default async function AssetDataViewerWrapper({ collectionId }: AssetDataViewerWrapperProps) {
   const listReq: ListIpAssetRequest = {
-    ipOrgId,
+    ipOrgId: collectionId,
     options: {
       pagination: {
         limit: 1000,

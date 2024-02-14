@@ -1,8 +1,6 @@
-import storyClient from '@/lib/SP';
 import { Breadcrumbs } from '@/components/ui/breadcrumbs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ChevronRight } from 'lucide-react';
-import { GetIPOrgRequest, GetIPOrgResponse } from '@story-protocol/core-sdk';
 
 export const Fallback = () => (
   <div className="flex h-6 md:mb-2 items-center">
@@ -12,21 +10,15 @@ export const Fallback = () => (
   </div>
 );
 
-export default async function IPOrgBreadcrumbs({ ipOrgId }: { ipOrgId: string }) {
-  const ipOrgGetReq: GetIPOrgRequest = {
-    ipOrgId: ipOrgId,
-  };
-  const ipOrgGetRes: GetIPOrgResponse = await storyClient.ipOrg.get(ipOrgGetReq);
-  const ipOrg = ipOrgGetRes.ipOrg;
-
-  if (!ipOrg) {
-    console.log('NO IPOrg found for id: ' + ipOrgId);
+export default async function CollectionBreadcrumbs({ collectionId }: { collectionId: string }) {
+  if (!collectionId) {
+    console.log('No Collection found for id: ' + collectionId);
     return <Fallback />;
   }
 
   return (
     <Breadcrumbs
-      crumbs={[{ url: '/ipo', name: 'IPA Organization' }, { name: ipOrg.name }]}
+      crumbs={[{ url: '/collections', name: 'Collections' }, { name: collectionId }]}
       className="md:mb-2 text-white text-xs md:text-lg"
     />
   );

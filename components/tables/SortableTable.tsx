@@ -87,7 +87,7 @@ export default function DataTable({ data, columns, pageSize = 20 }: any) {
               <TableRow key={headerGroup.id} className="bg-gray-100">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead className="p-1 lg:p-2 min-w-[80px] text-xs" key={header.id}>
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
@@ -104,7 +104,9 @@ export default function DataTable({ data, columns, pageSize = 20 }: any) {
                   className="hover:bg-indigo-100 hover:rounded-lg"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                    <TableCell className="p-1 lg:p-2" key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
                   ))}
                 </TableRow>
               ))

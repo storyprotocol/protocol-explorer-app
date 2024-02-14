@@ -6,6 +6,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function debounce(func: any, timeout = 1000) {
+  let timer: any;
+  return (...args: any) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, timeout);
+  };
+}
+
 export function getRoundedTime(minutes: number) {
   const now = new Date();
   const ms = 1000 * 60 * minutes;

@@ -16,7 +16,6 @@ import RelationshipWriteAccordion from '@/app/(main)/admin/RelationshipWriteAcco
 export const revalidate = 60;
 export const fetchCache = 'force-no-store';
 
-
 export default function AssetDetailPage({
   params: { ipAssetId, ipOrgId },
 }: {
@@ -50,7 +49,7 @@ export default function AssetDetailPage({
     <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto">
       <div className="flex flex-col items-left gap-6 my-6">
         <div className="">
-          <div className='flex flex-row gap-4 items-center mb-4'>
+          <div className="flex flex-row gap-4 items-center mb-4">
             <h1 className="text-xl md:text-4xl font-semibold leading-none">IP Asset Detail</h1>
           </div>
           <Suspense fallback={<FallbackBreadcrumbs />}>

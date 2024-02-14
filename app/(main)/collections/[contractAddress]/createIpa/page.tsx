@@ -3,9 +3,9 @@ import { Suspense } from 'react';
 import storyClient from '@/lib/SP';
 import { Skeleton } from '@/components/ui/skeleton';
 
-import IPOrgBreadcrumbs, { Fallback as FallbackBreadcrumbs } from '../IPOrgBreadcrumbs';
-import IPOrgDetailCard, { Fallback as IPOrgDetailCardFallback } from '../IPOrgDetailCard';
-import IPOrgStatsCard from '../IPOrgStatsCard';
+import IPOrgBreadcrumbs, { Fallback as FallbackBreadcrumbs } from '../CollectionBreadcrumbs';
+import IPOrgDetailCard, { Fallback as IPOrgDetailCardFallback } from '../CollectionDetailCard';
+import IPOrgStatsCard from '../CollectionStatsCard';
 
 import bannerFallbackImg from '@/assets/franchise-banner-fallback.jpg';
 import { GetIPOrgRequest } from '@story-protocol/core-sdk';

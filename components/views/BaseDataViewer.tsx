@@ -19,6 +19,7 @@ export default function BaseViewSwitcher({
   tableOnly,
   gridOnly,
   pageSize,
+  hasSearch = true,
   cardComponent: CardComponent = () => <></>,
 }: {
   data: any;
@@ -26,6 +27,7 @@ export default function BaseViewSwitcher({
   tableOnly?: boolean;
   gridOnly?: boolean;
   pageSize?: number;
+  hasSearch?: boolean;
   cardComponent?: React.ComponentType<CardComponentProps>;
 }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -83,12 +85,14 @@ export default function BaseViewSwitcher({
     <div className="flex flex-col">
       <div className="flex flex-row justify-between">
         {/* <h1 className="text-xl md:text-xl font-medium">{name}</h1> */}
-        <Input
-          placeholder="Search by ID, Name, or Txn Hash"
-          value={searchTerm}
-          onChange={handleSearch}
-          className="max-w-sm focus-visible:ring-indigo-500"
-        />
+        {hasSearch && (
+          <Input
+            placeholder="Search by ID, Name, or Txn Hash"
+            value={searchTerm}
+            onChange={handleSearch}
+            className="max-w-sm focus-visible:ring-indigo-500"
+          />
+        )}
         {!(tableOnly || gridOnly) && (
           <span className="isolate inline-flex rounded-md shadow-sm">
             <button
