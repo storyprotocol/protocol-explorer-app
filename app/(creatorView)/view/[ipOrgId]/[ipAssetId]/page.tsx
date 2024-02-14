@@ -12,6 +12,7 @@ import IpOrgLicenseDataViewer from '@/components/views/Licenses';
 import CreateIpaBoundLicenseWriteAccordion from '@/app/(main)/admin/CreateIpaBoundLicenseWriteAccordion';
 import { CreateLicenseRequest } from '@story-protocol/core-sdk';
 import RelationshipWriteAccordion from '@/app/(main)/admin/RelationshipWriteAccordion';
+import { Address } from 'viem';
 
 export const revalidate = 60;
 export const fetchCache = 'force-no-store';
@@ -19,7 +20,7 @@ export const fetchCache = 'force-no-store';
 export default function AssetDetailPage({
   params: { ipAssetId, ipOrgId },
 }: {
-  params: { ipAssetId: string; ipOrgId: string };
+  params: { ipAssetId: Address; ipOrgId: Address };
 }) {
   const defaultIpAssetValues = {
     ipAssetId,
@@ -79,7 +80,7 @@ export default function AssetDetailPage({
               </TabsList>
               <TabsContent value="tx">
                 <Suspense fallback={<SkeletonTable />}>
-                  <TransactionTableWrapper collectionId={ipOrgId} ipAssetId={ipAssetId} />
+                  <TransactionTableWrapper collectionId={ipOrgId} ipId={ipAssetId} />
                 </Suspense>
               </TabsContent>
               <TabsContent value="relationships">

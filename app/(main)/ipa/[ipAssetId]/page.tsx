@@ -22,7 +22,6 @@ import RoyaltyDataViewerWrapper from '@/components/views/Royalties/RoyaltyDataVi
 import DisputeDataViewerWrapper from '@/components/views/Disputes/DisputeDataViewerWrapper';
 import PermissionDataViewerWrapper from '@/components/views/Permissions/PermissionDataViewerWrapper';
 
-export const revalidate = 60;
 export const fetchCache = 'force-no-store';
 
 export default async function AssetDetailPage({ params: { ipAssetId } }: { params: { ipAssetId: Address } }) {
@@ -84,7 +83,7 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
               </TabsList>
               <TabsContent value="tx">
                 <Suspense fallback={<SkeletonTable />}>
-                  <TransactionTableWrapper ipAssetId={ipAssetId} />
+                  <TransactionTableWrapper ipId={ipAssetId} />
                 </Suspense>
               </TabsContent>
               <TabsContent value="derivatives">

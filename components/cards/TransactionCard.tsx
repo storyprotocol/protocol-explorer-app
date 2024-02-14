@@ -9,39 +9,42 @@ import { useCallback, useEffect, useState } from 'react';
 
 import JsonView from '@uiw/react-json-view';
 import { useStoryClientContext } from '@/app/(main)/context/StoryClientContext';
+import { RESOURCE_TYPE, ResourceType, Transaction } from '@/lib/server/types';
+import { Address } from 'viem';
 
-export default function TransactionCard({ classname, data }: { classname?: string; data: any }) {
+export default function TransactionCard({ classname, data }: { classname?: string; data: Transaction }) {
   const [additionalData, setAdditionalData] = useState<Record<any, any>>();
   const { client } = useStoryClientContext();
 
   const isRelationship = data.resourceType === 'Relationship' && data.actionType === 'Register';
 
-  const fetchData = useCallback(
-    async (resourceType: string, resourceId: string, actionType: string, ipOrgId: string) => {
-      let responseData;
+  // const fetchData = useCallback(
+  //   async (resourceType: ResourceType, resourceId: string | Address) => {
+  //     let responseData;
 
-      if (actionType === 'Register') {
-        if (resourceType === 'IPAsset') {
-          responseData = await client.ipAsset.get({ ipAssetId: resourceId });
-        } else if (resourceType === 'Relationship') {
-          responseData = await client.relationship.get({ relationshipId: resourceId });
-        } else if (resourceType === 'RelationshipType') {
-          responseData = await client.relationshipType.get({ relType: resourceId, ipOrgId });
-        } else if (resourceType === 'IPOrg') {
-          responseData = await client.ipOrg.get({ ipOrgId: resourceId });
-        }
+  //     RESOURCE_TYPE[resourceType]
+  //     if (actionType === 'Register') {
+  //       if (resourceType === 'IPAsset') {
+  //         responseData = await client.ipAsset.get({ ipAssetId: resourceId });
+  //       } else if (resourceType === 'Relationship') {
+  //         responseData = await client.relationship.get({ relationshipId: resourceId });
+  //       } else if (resourceType === 'RelationshipType') {
+  //         responseData = await client.relationshipType.get({ relType: resourceId, ipOrgId });
+  //       } else if (resourceType === 'IPOrg') {
+  //         responseData = await client.ipOrg.get({ ipOrgId: resourceId });
+  //       }
 
-        setAdditionalData(responseData);
-      }
-    },
-    [client.ipAsset, client.ipOrg, client.relationship, client.relationshipType],
-  );
+  //       setAdditionalData(responseData);
+  //     }
+  //   },
+  //   [client.ipAsset, client.ipOrg, client.relationship, client.relationshipType],
+  // );
 
-  useEffect(() => {
-    if (!additionalData) {
-      fetchData(data.resourceType, data.resourceId, data.actionType, data.ipOrgId);
-    }
-  }, [additionalData, data.actionType, data.ipOrgId, data.resourceId, data.resourceType, fetchData]);
+  // useEffect(() => {
+  //   if (!additionalData) {
+  //     fetchData(data.resourceType, data.resourceId);
+  //   }
+  // }, [additionalData, data.actionType, data.ipOrgId, data.resourceId, data.resourceType, fetchData]);
 
   return (
     <>
@@ -64,9 +67,9 @@ export default function TransactionCard({ classname, data }: { classname?: strin
                 <a
                   className="flex font-mono items-center space-x-2 break-all text-indigo-400 underline dark:text-[#D0DBFF]"
                   target="_blank"
-                  href={`${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/tx/${data.txHash}`}
+                  href={`${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/tx/${data.id}`}
                 >
-                  <span>{data.txHash}</span>
+                  <span>{data.id}</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -106,7 +109,7 @@ export default function TransactionCard({ classname, data }: { classname?: strin
                       d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
                     ></path>
                   </svg>
-                  <span>{`${moment(data.createdAt).fromNow()} (${data.createdAt})`}</span>
+                  <span>{`${moment.unix(parseInt(data.createdAt)).fromNow()} (${data.createdAt})`}</span>
                 </div>
               </span>
             </dd>
@@ -136,7 +139,7 @@ export default function TransactionCard({ classname, data }: { classname?: strin
             </dd>
           </div>
 
-          {isRelationship && additionalData && (
+          {/* {isRelationship && additionalData && (
             <div className="px-4 py-6 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Relationship Details</dt>
               <dd className="mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-4 sm:mt-0">
@@ -165,7 +168,7 @@ export default function TransactionCard({ classname, data }: { classname?: strin
                 </div>
               </dd>
             </div>
-          )}
+          )} */}
 
           <div className="px-4 py-6 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Posted by</dt>
@@ -183,14 +186,14 @@ export default function TransactionCard({ classname, data }: { classname?: strin
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">IP Org ID</dt>
+            <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">IP ID</dt>
             <dd className="mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-4 sm:mt-0">
-              {data.ipOrgId ? (
+              {data.ipId ? (
                 <Link
-                  href={`/collections/${data.ipOrgId}`}
+                  href={`/collections/${data.ipId}`}
                   className="flex font-mono items-center space-x-2 break-all text-indigo-400 underline dark:text-[#D0DBFF]"
                 >
-                  <span>{data.ipOrgId}</span>
+                  <span>{data.ipId}</span>
                 </Link>
               ) : (
                 <span>-</span>
@@ -200,7 +203,7 @@ export default function TransactionCard({ classname, data }: { classname?: strin
         </div>
       </div>
 
-      {additionalData && (
+      {/* {additionalData && (
         <Accordion type="single" collapsible defaultValue="additional-data">
           <AccordionItem
             value="additional-data"
@@ -232,7 +235,7 @@ export default function TransactionCard({ classname, data }: { classname?: strin
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-      )}
+      )} */}
     </>
   );
 }

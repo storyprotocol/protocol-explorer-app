@@ -7,11 +7,11 @@ import { Address } from 'viem';
 export default async function TransactionTableWrapper({
   pageSize = 100,
   collectionId,
-  ipAssetId,
+  ipId,
 }: {
   pageSize?: number;
   collectionId?: Address;
-  ipAssetId?: Address;
+  ipId?: Address;
 }) {
   const req = {
     pagination: {
@@ -20,7 +20,7 @@ export default async function TransactionTableWrapper({
     },
     where: {
       // tokenContract: collectionId,
-      ipId: ipAssetId,
+      ipId: ipId,
     },
   };
 

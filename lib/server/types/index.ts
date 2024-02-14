@@ -55,7 +55,7 @@ export type Transaction = {
   initiator: Address;
   ipId: Address;
   resourceId: Address;
-  resourceType: string;
+  resourceType: ResourceType;
 };
 
 export type Asset = {

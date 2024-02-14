@@ -4,6 +4,8 @@ import { Asset, RESOURCE_TYPE } from '@/lib/server/types';
 import { listResource } from '@/lib/server/sdk';
 import { Address } from 'viem';
 
+export const fetchCache = 'force-no-store';
+
 export default async function AssetDataViewerWrapper({ collectionId, ipId, ...params }: any) {
   const listReq = {
     pagination: {
@@ -19,6 +21,8 @@ export default async function AssetDataViewerWrapper({ collectionId, ipId, ...pa
   const assetListRes = await listResource(RESOURCE_TYPE.ASSET, listReq);
 
   let ipAssets: Asset[] = assetListRes.data;
+
+  console.log({ ipAssets });
 
   if (!ipAssets.length) {
     return <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>;
