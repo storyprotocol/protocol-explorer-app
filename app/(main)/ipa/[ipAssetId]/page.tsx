@@ -15,6 +15,12 @@ import { Badge } from '@/components/ui/badge';
 import { Address } from 'viem';
 import { getResource } from '@/lib/server/sdk';
 import { Asset, RESOURCE_TYPE } from '@/lib/server/types';
+import AssetDataViewer from '@/components/views/Asset';
+import PolicyDataViewerWrapper from '@/components/views/Policies/PolicyDataViewerWrapper';
+import LicenseDataViewer from '@/components/views/Licenses';
+import RoyaltyDataViewerWrapper from '@/components/views/Royalties/RoyaltyDataViewerWrapper';
+import DisputeDataViewerWrapper from '@/components/views/Disputes/DisputeDataViewerWrapper';
+import PermissionDataViewerWrapper from '@/components/views/Permissions/PermissionDataViewerWrapper';
 
 export const revalidate = 60;
 export const fetchCache = 'force-no-store';
@@ -83,25 +89,35 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
               </TabsContent>
               <TabsContent value="derivatives">
                 <h2>Derivatives IPA</h2>
+                <AssetDataViewer ipId={ipAssetId} />
               </TabsContent>
               <TabsContent value="policies">
-                <h2>policies</h2>
+                <h2>Policies</h2>
+                <PolicyDataViewerWrapper ipId={ipAssetId} />
               </TabsContent>
               <TabsContent value="licenses">
                 <h2>licenses</h2>
                 <Suspense fallback={<SkeletonTable />}>
-                  {/* <IpOrgLicenseDataViewer ipAssetId={ipAssetId} /> */}
+                  <LicenseDataViewer ipId={ipAssetId} />
                 </Suspense>
               </TabsContent>
-
               <TabsContent value="royalties">
                 <h2>royalties</h2>
+                <Suspense fallback={<SkeletonTable />}>
+                  <RoyaltyDataViewerWrapper ipId={ipAssetId} />
+                </Suspense>
               </TabsContent>
               <TabsContent value="disputes">
                 <h2>disputes</h2>
+                <Suspense fallback={<SkeletonTable />}>
+                  <DisputeDataViewerWrapper ipId={ipAssetId} />
+                </Suspense>
               </TabsContent>
               <TabsContent value="permissions">
                 <h2>permissions</h2>
+                <Suspense fallback={<SkeletonTable />}>
+                  <PermissionDataViewerWrapper ipId={ipAssetId} />
+                </Suspense>
               </TabsContent>
               <TabsContent value="actions">
                 {/* <Suspense fallback={<SkeletonTable />}>

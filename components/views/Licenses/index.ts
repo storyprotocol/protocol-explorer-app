@@ -1,2 +1,2 @@
-import IPOrgLicenseDataViewer from './IPOrgLicenseDataViewerWrapper';
-export default IPOrgLicenseDataViewer;
+import LicenseDataViewer from './LicenseDataViewerWrapper';
+export default LicenseDataViewer;

@@ -4,7 +4,7 @@ import { Asset, RESOURCE_TYPE } from '@/lib/server/types';
 import { listResource } from '@/lib/server/sdk';
 import { Address } from 'viem';
 
-export default async function AssetDataViewerWrapper({ collectionId, ...params }: any) {
+export default async function AssetDataViewerWrapper({ collectionId, ipId, ...params }: any) {
   const listReq = {
     pagination: {
       limit: 1000,
@@ -12,6 +12,7 @@ export default async function AssetDataViewerWrapper({ collectionId, ...params }
     },
     where: {
       tokenContract: collectionId as Address,
+      ipId: ipId,
     },
   };
 
