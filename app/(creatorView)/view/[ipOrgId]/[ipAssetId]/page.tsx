@@ -79,7 +79,7 @@ export default function AssetDetailPage({
               </TabsList>
               <TabsContent value="tx">
                 <Suspense fallback={<SkeletonTable />}>
-                  <TransactionTableWrapper ipOrgId={ipOrgId} ipAssetId={ipAssetId} />
+                  <TransactionTableWrapper collectionId={ipOrgId} ipAssetId={ipAssetId} />
                 </Suspense>
               </TabsContent>
               <TabsContent value="relationships">

@@ -66,6 +66,7 @@ export default function CollectionsDataViewerComponent({
   return (
     <>
       <BaseDataViewer
+        hasSearch={false}
         data={data}
         columns={columns}
         tableOnly={tableOnly}

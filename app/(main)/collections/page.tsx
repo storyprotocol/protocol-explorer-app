@@ -33,7 +33,7 @@ export default async function CollectionsPage() {
                 <TabsTrigger value="write">Actions</TabsTrigger>
               </TabsList>
               <TabsContent value="view-all"> */}
-            <CollectionsDataViewer />
+            <CollectionsDataViewer gridOnly />
             {/* </TabsContent>
               <TabsContent value="write">
                 <IpOrgWriteAccordion />

@@ -2,24 +2,20 @@ import storyClient from '@/lib/SP';
 import React from 'react';
 import AssetDataViewerComponent from '@/components/views/Asset/AssetDataViewerComponent';
 import { ListIpAssetRequest, ListIpAssetResponse } from '@story-protocol/core-sdk';
+import { RESOURCE_TYPE } from '@/lib/server/types';
+import { listResource } from '@/lib/server/sdk';
 
-type AssetDataViewerWrapperProps = {
-  ipAssetType?: number;
-  collectionId?: string;
-};
-
-export default async function AssetDataViewerWrapper({ collectionId }: AssetDataViewerWrapperProps) {
-  const listReq: ListIpAssetRequest = {
-    ipOrgId: collectionId,
-    options: {
-      pagination: {
-        limit: 1000,
-        offset: 0,
-      },
+export default async function AssetDataViewerWrapper() {
+  const listReq = {
+    pagination: {
+      limit: 1000,
+      offset: 0,
     },
   };
-  const listRes: ListIpAssetResponse = await storyClient.ipAsset.list(listReq);
-  let ipAssets = listRes.ipAssets;
+
+  const assetListRes = await listResource(RESOURCE_TYPE.ASSET, listReq);
+
+  let ipAssets = assetListRes.data;
 
   if (!ipAssets.length) return <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>;
 

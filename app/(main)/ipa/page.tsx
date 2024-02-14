@@ -1,7 +1,6 @@
 import { Suspense } from 'react';
 import AssetDataViewer from '@/components/views/Asset';
 import SkeletonGrid from '@/components/Skeletons/SkeletonGrid';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 export const revalidate = 60;
 export const fetchCache = 'force-no-store';
@@ -16,35 +15,16 @@ export default function Assets() {
 
         <div className="grid grid-cols-12 gap-2">
           <div className="flex col-span-12">
-            <Tabs defaultValue="all" className="w-full">
-              <TabsList>
-                <TabsTrigger value="all">All</TabsTrigger>
-              </TabsList>
-              <TabsContent value="all">
-                <Suspense
-                  fallback={
-                    <div className="flex flex-col">
-                      <Skeleton className="h-9 w-24 bg-white" />
-                      <SkeletonGrid />
-                    </div>
-                  }
-                >
-                  <AssetDataViewer />
-                </Suspense>
-              </TabsContent>
-              <TabsContent value="story">
-                <Suspense
-                  fallback={
-                    <div className="flex flex-col">
-                      <Skeleton className="h-9 w-24 bg-white" />
-                      <SkeletonGrid />
-                    </div>
-                  }
-                >
-                  <AssetDataViewer />
-                </Suspense>
-              </TabsContent>
-            </Tabs>
+            <Suspense
+              fallback={
+                <div className="flex flex-col">
+                  <Skeleton className="h-9 w-24 bg-white" />
+                  <SkeletonGrid />
+                </div>
+              }
+            >
+              <AssetDataViewer />
+            </Suspense>
           </div>
         </div>
       </div>

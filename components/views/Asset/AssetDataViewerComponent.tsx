@@ -1,22 +1,24 @@
 'use client';
 import { ColumnDef } from '@tanstack/react-table';
 import BaseDataViewer from '../BaseDataViewer';
-import { IPAsset, IPAssetType } from '@story-protocol/core-sdk';
 import AssetCard from '@/components/cards/AssetCard';
 import Link from 'next/link';
 import AddressComponent from '@/components/snippets/AddressComponent';
-import { shortenString } from '@/utils';
-import { ExternalLinkIcon } from 'lucide-react';
+// import { shortenString } from '@/utils';
+// import { ExternalLinkIcon } from 'lucide-react';
+import { Asset } from '@/lib/server/types';
+import { Address } from 'viem';
+import moment from 'moment';
 
-const columns: ColumnDef<IPAsset>[] = [
+const columns: ColumnDef<Asset>[] = [
   {
     accessorKey: 'id',
-    header: 'ID',
+    header: 'IP ID',
     cell: ({ row }) => {
       const id: string = row.getValue('id');
       return (
         <Link
-          href={`/ipa/${row.getValue('ipOrgId')}/${id}`}
+          href={`/ipa/${id}`}
           className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400"
         >
           {id}
@@ -25,68 +27,61 @@ const columns: ColumnDef<IPAsset>[] = [
     },
   },
   {
-    accessorKey: 'name',
+    accessorKey: 'metadata',
     header: 'Name',
     cell: ({ row }) => {
-      const id: string = row.getValue('id');
-      const name: string = row.getValue('name');
+      const metadata: any = row.getValue('metadata');
+      return <>{metadata.name}</>;
+    },
+  },
+  {
+    accessorKey: 'rootIpIds',
+    header: 'rootIpIds',
+    cell: ({ row }) => {
+      const rootIpIds: Address[] = row.getValue('rootIpIds');
       return (
-        <Link href={`/ipa/${row.getValue('ipOrgId')}/${id}`} className="capitalize">
-          {name}
+        <Link
+          href={`/collections/${rootIpIds[0]}`}
+          className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400"
+        >
+          {rootIpIds[0]}
         </Link>
       );
     },
   },
   {
-    accessorKey: 'type',
-    header: 'Type',
+    accessorKey: 'tokenContract',
+    header: 'tokenContract',
     cell: ({ row }) => {
-      const type: IPAssetType = row.getValue('type');
-      return <>{type.value}</>;
-    },
-  },
-  {
-    accessorKey: 'ipOrgId',
-    header: 'IP Org ID',
-    cell: ({ row }) => (
-      <Link
-        href={`/collections/${row.getValue('ipOrgId')}`}
-        className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400"
-      >
-        {row.getValue('ipOrgId')}
-      </Link>
-    ),
-  },
-  {
-    accessorKey: 'txHash',
-    header: 'TxHash',
-    cell: ({ row }) => (
-      <Link href={`/transactions/${row.getValue('txHash')}`} className="capitalize font-mono text-xs underline">
-        {shortenString(row.getValue('txHash'), 20)}
-      </Link>
-    ),
-  },
-
-  {
-    accessorKey: 'owner',
-    header: 'Owner',
-    cell: ({ row }) => {
-      const address = row.getValue('owner');
+      const address = row.getValue('tokenContract');
       return <AddressComponent address={address as string} size="sm" />;
     },
   },
   {
-    accessorKey: 'contentHash',
-    header: 'Content Hash',
+    accessorKey: 'tokenId',
+    header: 'tokenId',
     cell: ({ row }) => {
-      const uri: string = row.getValue('contentHash');
-
-      if (!uri) return <></>;
-
+      const tokenId = row.getValue('tokenId');
+      return <>{tokenId}</>;
+    },
+  },
+  {
+    accessorKey: 'blockNumber',
+    header: 'blockNumber',
+    cell: ({ row }) => {
+      const blockNumber = row.getValue('blockNumber');
+      return <>{blockNumber}</>;
+    },
+  },
+  {
+    accessorKey: 'blockTimestamp',
+    header: 'blockTimestamp',
+    cell: ({ row }) => {
+      const blockTimestamp = row.getValue('blockTimestamp');
       return (
-        <Link href={uri}>
-          <ExternalLinkIcon className="w-5 h-5" />
-        </Link>
+        <div className="capitalize text-xs min-w-[100px] text-center">
+          {moment.unix(blockTimestamp as number).fromNow()}
+        </div>
       );
     },
   },
