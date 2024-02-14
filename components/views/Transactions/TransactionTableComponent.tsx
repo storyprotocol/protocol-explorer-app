@@ -8,7 +8,7 @@ import React from 'react';
 import moment from 'moment';
 import BaseDataViewer from '../BaseDataViewer';
 import AddressComponent from '@/components/snippets/AddressComponent';
-import { Transaction } from '@/lib/server/sdk';
+import { Transaction } from '@/lib/server/types';
 
 const columns: ColumnDef<Transaction>[] = [
   {
@@ -74,25 +74,6 @@ const columns: ColumnDef<Transaction>[] = [
       </div>
     ),
   },
-
-  // {
-  //   accessorKey: 'arweaveURI',
-  //   header: 'Arweave',
-  //   cell: ({ row }) => (
-  //     <a href={row.getValue('arweaveURI')} target="_blank" rel="noopener noreferrer">
-  //       {row.getValue('arweaveURI')}
-  //     </a>
-  //   ),
-  // },
-  // {
-  //   accessorKey: 'etherscanURI',
-  //   header: 'Etherscan',
-  //   cell: ({ row }) => (
-  //     <a href={row.getValue('etherscanURI')} target="_blank" rel="noopener noreferrer">
-  //       {row.getValue('etherscanURI')}
-  //     </a>
-  //   ),
-  // },
 ];
 
 export default function TransactionTableComponent({ data, pageSize }: { data: Transaction[]; pageSize?: number }) {

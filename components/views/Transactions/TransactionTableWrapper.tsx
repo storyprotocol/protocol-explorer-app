@@ -1,6 +1,7 @@
 import React from 'react';
 import TransactionTableComponent from './TransactionTableComponent';
-import { RESOURCE_TYPE, Transaction, listResource } from '@/lib/server/sdk';
+import { listResource } from '@/lib/server/sdk';
+import { RESOURCE_TYPE, Transaction } from '@/lib/server/types';
 
 export default async function TransactionTableWrapper({
   pageSize = 100,
