@@ -45,16 +45,18 @@ const columns: ColumnDef<Transaction>[] = [
     accessorKey: 'ipId',
     header: 'IP ID',
     cell: ({ row }) => (
-      <div className="text-xs font-mono min-w-[70px] text-center">{shortenAddress(row.getValue('resourceId'), 5)}</div>
+      <Link href={`/ipa/${row.original.ipId}`}>
+        <div className="text-xs text-left font-mono text-indigo-400 hover:underline ">{row.getValue('ipId')}</div>
+      </Link>
     ),
   },
   {
     accessorKey: 'resourceId',
-    header: 'Collection ID',
+    header: 'Resource ID',
     cell: ({ row }) => (
-      <Link href={`/collections/${row.original.resourceId}`}>
-        <div className="text-xs text-left font-mono text-indigo-400 hover:underline">{row.getValue('resourceId')}</div>
-      </Link>
+      // <Link href={`/collections/${row.original.resourceId}`}>
+      <div className="text-xs font-mono min-w-[70px] text-center">{shortenAddress(row.getValue('resourceId'))}</div>
+      // </Link>
     ),
   },
   {

@@ -11,7 +11,6 @@ export default function SearchBar() {
   const [transactions, setTransactions] = useState<any[]>([]);
 
   const hasResults = collections.length > 0;
-  console.log({ collections });
 
   useEffect(() => {
     setCollections([
