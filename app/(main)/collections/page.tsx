@@ -2,9 +2,6 @@ import { Suspense } from 'react';
 import CollectionsDataViewer from '@/components/views/Collections';
 import SkeletonGrid from '@/components/Skeletons/SkeletonGrid';
 import { Skeleton } from '@/components/ui/skeleton';
-// import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-// import IpOrgWriteAccordion from '@/app/(main)/admin/IPOrgWriteAccordion';
-// import CollectionCard from '@/components/cards/CollectionCard';
 export const revalidate = 60;
 export const fetchCache = 'force-no-store';
 
@@ -16,8 +13,6 @@ export default async function CollectionsPage() {
           <h1 className="text-xl md:text-4xl font-semibold leading-none">Collections</h1>
         </div>
 
-        <Suspense>{/* <CollectionCard address="0x3eee83358e9ff3fc7ac46e8e5921fb2ec0a77fcb" /> */}</Suspense>
-
         <div className="flex flex-col items-left gap-2 mt-6">
           <Suspense
             fallback={
@@ -27,18 +22,7 @@ export default async function CollectionsPage() {
               </div>
             }
           >
-            {/* <Tabs defaultValue="view-all">
-              <TabsList>
-                <TabsTrigger value="view-all">All</TabsTrigger>
-                <TabsTrigger value="write">Actions</TabsTrigger>
-              </TabsList>
-              <TabsContent value="view-all"> */}
             <CollectionsDataViewer gridOnly />
-            {/* </TabsContent>
-              <TabsContent value="write">
-                <IpOrgWriteAccordion />
-              </TabsContent>
-            </Tabs> */}
           </Suspense>
         </div>
       </div>
