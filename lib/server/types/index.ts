@@ -36,12 +36,89 @@ export type PaginationOptions = {
   offset: number;
 };
 
-export type FilterOptions = {
-  creator?: Address;
-  receiver?: Address;
-  tokenContract?: Address;
-  ipId?: Address;
+export type AssetFilterOptions = {
+  chainId: string;
+  metadataResolverAddress: string;
+  tokenContract: string;
+  tokenId: string;
 };
+
+export type DisputeFilterOptions = {
+  currentTag: string;
+  initiator: string;
+  targetIpId: string;
+  targetTag: string;
+};
+
+export type PermissionFilterOptions = {
+  signer: string;
+  to: string;
+};
+
+export type PolicyFilterOptions = {
+  policyFrameworkManager: string;
+};
+
+export type PolicyFrameworkFilterOptions = {
+  address: string;
+  name: string;
+};
+
+export type RoyaltyFilterOptions = {
+  ipId: string;
+  royaltyPolicy: string;
+};
+
+export type TagFilterOptions = {
+  ipId: string;
+  tag: string;
+};
+export type RoyaltyPayFilterOptions = {
+  ipId: string;
+  payerIpId: string;
+  receiverIpId: string;
+  sender: string;
+  token: string;
+};
+
+export type ModuleFilterOptions = {
+  name: string;
+};
+
+export type LicenseFilterOptions = {
+  licensorIpdId: string;
+  policyId: string;
+};
+
+export type LicenseFrameworkFilterOptions = {
+  creator: string;
+};
+
+export type IPAPolicyFilterOptions = {
+  active: string;
+  inherited: string;
+  policyId: string;
+};
+
+export type TransactionFilterOptions = {
+  actionType: string;
+  resourceId: string;
+};
+
+export type FilterOptions =
+  | AssetFilterOptions
+  | DisputeFilterOptions
+  | PermissionFilterOptions
+  | PolicyFilterOptions
+  | PolicyFrameworkFilterOptions
+  | RoyaltyFilterOptions
+  | TagFilterOptions
+  | RoyaltyPayFilterOptions
+  | ModuleFilterOptions
+  | LicenseFilterOptions
+  | LicenseFrameworkFilterOptions
+  | IPAPolicyFilterOptions
+  | TransactionFilterOptions;
 
 export type QueryOptions = {
   pagination: PaginationOptions;
@@ -55,7 +132,7 @@ export type Transaction = {
   initiator: Address;
   ipId: Address;
   resourceId: Address;
-  resourceType: ResourceType;
+  resourceType: string;
 };
 
 export type Asset = {

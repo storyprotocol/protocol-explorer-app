@@ -1,18 +1,15 @@
-import { Permission, RESOURCE_TYPE } from '@/lib/server/types';
+import { Permission, PermissionFilterOptions, RESOURCE_TYPE } from '@/lib/server/types';
 import { listResource } from '@/lib/server/sdk';
-import { Address } from 'viem';
 import PermissionDataViewerComponent from './PermissionDataViewerComponent';
 
 export default async function PermissionDataViewerWrapper({ collectionId, ipId, ...params }: any) {
+  const permissionFilterOptions: PermissionFilterOptions = { signer: '', to: '' };
   const listReq = {
     pagination: {
       limit: 1000,
       offset: 0,
     },
-    where: {
-      tokenContract: collectionId as Address,
-      ipId: ipId,
-    },
+    where: permissionFilterOptions,
   };
 
   const permissionListRes = await listResource(RESOURCE_TYPE.PERMISSION, listReq);

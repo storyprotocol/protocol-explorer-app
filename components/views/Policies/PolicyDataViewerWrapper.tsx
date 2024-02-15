@@ -1,18 +1,16 @@
-import { Asset, Policy, RESOURCE_TYPE } from '@/lib/server/types';
+import { Policy, RESOURCE_TYPE, PolicyFilterOptions } from '@/lib/server/types';
 import { listResource } from '@/lib/server/sdk';
-import { Address } from 'viem';
 import PolicyDataViewerComponent from './PolicyDataViewerComponent';
 
 export default async function PolicyDataViewerWrapper({ collectionId, ipId, ...params }: any) {
+  const policyFilterOptions: PolicyFilterOptions = { policyFrameworkManager: '' };
+
   const listReq = {
     pagination: {
       limit: 1000,
       offset: 0,
     },
-    where: {
-      tokenContract: collectionId as Address,
-      ipId: ipId,
-    },
+    where: policyFilterOptions,
   };
 
   const policyListRes = await listResource(RESOURCE_TYPE.POLICY, listReq);

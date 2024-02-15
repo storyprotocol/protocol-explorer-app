@@ -16,6 +16,16 @@ import ModuleReadAccordion from './ModuleReadAccordion';
 export const revalidate = 60;
 export const fetchCache = 'force-no-store';
 
+// import {
+//   useWriteRegisterRootIp,
+//   useWriteRegisterDerivativeIp,
+//   useWriteAccessControllerSetPermission,
+//   useWriteLicenseRegistryMintLicense,
+//   useWriteAddPolicyToIp,
+//   useWriteLinkIpToParents,
+//   useSetPermission,
+// } from '@story-protocol/react';
+
 export default function Page() {
   return (
     <main className="p-10 max-w-[1600px] mx-auto">
