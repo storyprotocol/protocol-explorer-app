@@ -9,16 +9,16 @@ import Link from 'next/link';
 export default async function CollectionCard({ data }: { data: Collection }) {
   const openseaMetadata = await getOpenSeaCollectionMetadata(data.id as Address);
 
-  console.log('openseaMetadata', openseaMetadata);
+  // console.log('openseaMetadata', openseaMetadata);
   return (
     <div className="w-full bg-white rounded-2xl overflow-hidden border-2 border-slate-100 hover:border-indigo-500 hover:shadow-md">
       {/* <span data-state="closed"> */}
-      <div className="overflow-hidden aspect-video">
+      <div className="overflow-hidden aspect-square">
         <Link href={`/collections/${data.id}`} className="hover:cursor-pointer">
           {openseaMetadata.image_url ? (
             <img
               width={400}
-              height={300}
+              height={400}
               // fill={true}
               // sizes="(max-width: 768px) 800px, (max-width: 1200px) 600px, 400px"
               alt={data.id}

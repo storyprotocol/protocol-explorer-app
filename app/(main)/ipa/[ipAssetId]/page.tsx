@@ -56,7 +56,7 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
       <div className="flex flex-col items-left gap-6">
         <div>
           <div className="flex flex-row gap-4 items-center mb-4">
-            <h1 className="text-xl md:text-4xl font-semibold leading-none">IP Asset Detail</h1>
+            <h1 className="text-xl md:text-2xl font-semibold leading-none">IP Asset Detail</h1>
             <Badge className="bg-indigo-500 hover:bg-indigo-500">Root</Badge>
           </div>
           {/* <Suspense fallback={<FallbackBreadcrumbs />}>

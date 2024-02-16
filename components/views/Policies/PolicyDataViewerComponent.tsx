@@ -16,16 +16,7 @@ const columns: ColumnDef<Policy>[] = [
       return <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{id}</div>;
     },
   },
-  {
-    accessorKey: 'policyId',
-    header: 'policyId',
-    cell: ({ row }) => {
-      const policyId: string = row.getValue('policyId');
-      return (
-        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{policyId}</div>
-      );
-    },
-  },
+
   {
     accessorKey: 'policyFrameworkManager',
     header: 'policyFrameworkManager',
@@ -38,16 +29,7 @@ const columns: ColumnDef<Policy>[] = [
       );
     },
   },
-  {
-    accessorKey: 'policy',
-    header: 'policy',
-    cell: ({ row }) => {
-      const policy: string = row.getValue('policy');
-      return (
-        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{policy}</div>
-      );
-    },
-  },
+
   {
     accessorKey: 'uml',
     header: 'uml',

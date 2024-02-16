@@ -35,7 +35,7 @@ const columns: ColumnDef<Transaction>[] = [
   },
   {
     accessorKey: 'resourceType',
-    header: 'Resource',
+    header: 'Entity Type',
     cell: ({ row }) => {
       const type: Transaction = row.getValue('resourceType');
       return <>{type}</>;
@@ -62,7 +62,7 @@ const columns: ColumnDef<Transaction>[] = [
   },
   {
     accessorKey: 'resourceId',
-    header: 'Resource ID',
+    header: 'Entity Address',
     cell: ({ row }) => (
       // <Link href={`/collections/${row.original.resourceId}`}>
       <div className="text-xs font-mono min-w-[70px] text-center">{row.getValue('resourceId')}</div>

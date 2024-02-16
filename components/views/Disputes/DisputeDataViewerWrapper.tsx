@@ -20,7 +20,7 @@ export default async function DisputeDataViewerWrapper({ collectionId, ipId, ...
   let disputeData: Dispute[] = disputeListRes.data;
 
   if (!disputeData.length) {
-    return <div className="w-full pt-8 text-center text-gray-500">No Policies found</div>;
+    return <div className="w-full pt-8 text-center text-gray-500">No Disputes found</div>;
   }
 
   return <DisputeDataViewerComponent data={disputeData} {...params} />;

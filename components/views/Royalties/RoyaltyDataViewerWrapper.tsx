@@ -20,7 +20,7 @@ export default async function RoyaltyDataViewerWrapper({ collectionId, ipId, ...
   let royaltyData: Royalty[] = royaltyListRes.data;
 
   if (!royaltyData.length) {
-    return <div className="w-full pt-8 text-center text-gray-500">No Policies found</div>;
+    return <div className="w-full pt-8 text-center text-gray-500">No Royalty data found</div>;
   }
 
   return <RoyaltyDataViewerComponent data={royaltyData} {...params} />;

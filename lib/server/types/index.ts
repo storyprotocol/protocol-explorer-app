@@ -259,9 +259,7 @@ export type Collection = {
 
 export type Policy = {
   id: string;
-  policyId: string;
   policyFrameworkManager: Address;
-  policy: string;
   blockNumber: string;
   blockTimestamp: string;
   uml: {

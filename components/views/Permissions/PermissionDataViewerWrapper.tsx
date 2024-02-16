@@ -17,7 +17,7 @@ export default async function PermissionDataViewerWrapper({ collectionId, ipId, 
   let permissionData: Permission[] = permissionListRes.data;
 
   if (!permissionData.length) {
-    return <div className="w-full pt-8 text-center text-gray-500">No Policies found</div>;
+    return <div className="w-full pt-8 text-center text-gray-500">No Permissions set</div>;
   }
 
   return <PermissionDataViewerComponent data={permissionData} {...params} />;

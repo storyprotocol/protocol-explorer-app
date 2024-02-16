@@ -5,7 +5,7 @@ export default function SkeletonCard() {
   return (
     <div className="w-full hover:cursor-pointer bg-white rounded-2xl overflow-hidden">
       <span data-state="closed">
-        <div className="overflow-hidden aspect-video">
+        <div className="overflow-hidden aspect-square">
           <Skeleton className="h-full w-full bg-white" />
         </div>
       </span>

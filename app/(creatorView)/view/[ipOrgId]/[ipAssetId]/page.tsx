@@ -51,7 +51,7 @@ export default function AssetDetailPage({
       <div className="flex flex-col items-left gap-6 my-6">
         <div className="">
           <div className="flex flex-row gap-4 items-center mb-4">
-            <h1 className="text-xl md:text-4xl font-semibold leading-none">IP Asset Detail</h1>
+            <h1 className="text-xl md:text-2xl font-semibold leading-none">IP Asset Detail</h1>
           </div>
           <Suspense fallback={<FallbackBreadcrumbs />}>
             <AssetBreadcrumbs ipAssetId={ipAssetId} ipOrgId={ipOrgId} />
