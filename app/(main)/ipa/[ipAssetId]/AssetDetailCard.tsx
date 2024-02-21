@@ -1,18 +1,17 @@
-import React, { Suspense } from 'react';
+'use client';
+import React from 'react';
 
-import storyClient from '@/lib/SP';
 import { cn } from '@/utils';
 import Icons from '@/components/ui/icons';
 import SuccessBadge from '@/components/badges/SuccessBadge';
 import { Skeleton } from '@/components/ui/skeleton';
 
-import TimeSince, { Fallback as TimeSinceFallback } from './TimeSince';
 import Link from 'next/link';
-import { GetIpAssetRequest, GetIpAssetResponse, IPAsset } from '@story-protocol/core-sdk';
 import AddressComponent from '@/components/snippets/AddressComponent';
 import AssetDisplayComponent from './AssetDisplayComponent';
 import { Asset } from '@/lib/server/types';
 import moment from 'moment';
+import JsonView from '@uiw/react-json-view';
 
 const Row = ({ label, children }: { label: string; children: React.ReactNode }) => {
   return (
@@ -73,7 +72,7 @@ export function AssetStatsComponent() {
   );
 }
 
-export default async function AssetDetailCard({ data }: { data: Asset }) {
+export default function AssetDetailCard({ data }: { data: Asset }) {
   // TODO: get Opensea data
 
   return (
@@ -171,7 +170,7 @@ export default async function AssetDetailCard({ data }: { data: Asset }) {
             </Row>
 
             <Row label="Metadata">
-              <p className="font-mono text-gray-500">{JSON.stringify(data.metadata)}</p>
+              <JsonView value={data.metadata} className="w-full" />
             </Row>
 
             <Row label="Status">

@@ -50,17 +50,21 @@ const LicenseCard = ({ data }: { data: License }) => {
           </Link>
         </div>
       </span>
-      <div className="text-sm px-6 py-4">
+      <div className="text-xs p-4">
         <div className="flex flex-col items-start justify-between">
           <div className="w-full flex flex-col">
-            <h3 className="font-medium leading-none mb-1 truncate">ID: {data.id}</h3>
-            <p className="text-xs font-mono text-indigo-400">Policy ID: {data.policyId}</p>
+            <div className="flex flex-row gap-1 items-center justify-between">
+              <h3 className="font-medium truncate">#{data.id}</h3>
+              <span className="px-1.5 text-xs font-sans rounded-xl bg-indigo-500 text-white">
+                Policy {data.policyId}
+              </span>
+            </div>
           </div>
           <div className="w-full flex flex-row justify-between">
-            <p className="text-xs font-mono text-muted-foreground">
+            {/* <p className="text-xs font-mono text-muted-foreground">
               <AddressComponent address={data.licensorIpId} size="sm" />
-            </p>
-            {/* <p className="font-mono text-xs">{data.licensorIpId}</p> */}
+            </p> */}
+            {/* <p className="font-mono text-xs truncate">{data.licensorIpId}</p> */}
           </div>
         </div>
       </div>

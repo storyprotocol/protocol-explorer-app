@@ -16,7 +16,7 @@ const Row = ({ label, children }: { label: string; children: React.ReactNode }) 
 
 export default function PolicyCard({ data }: { data: Policy }) {
   return (
-    <div className="bg-white rounded-xl w-full p-4">
+    <div className="bg-white rounded-xl w-full p-6">
       <Row label="Policy ID">{data.id}</Row>
       <Row label="Policy Framework Manager">{data.policyFrameworkManager}</Row>
       <Row label="Blocknumber">{data.blockNumber}</Row>

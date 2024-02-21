@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { PuzzlePieceIcon } from '@heroicons/react/24/outline';
-import AddressComponent from '../snippets/AddressComponent';
 import { Asset } from '@/lib/server/types';
 import { OpenSeaNFT, getOpenSeaNFTMetadata } from '@/lib/opensea/api';
 import { getRoundedTime } from '@/utils';
+import { IoGitBranchOutline, IoGitNetworkOutline } from 'react-icons/io5';
+import TooltipWrapper from '../tooltip/tooltip';
 
 const AssetCard = ({ data }: { data: Asset }) => {
   const [openseaNFTdata, setOpenseaNFTdata] = useState<OpenSeaNFT | null>(null);
@@ -41,18 +42,46 @@ const AssetCard = ({ data }: { data: Asset }) => {
           </Link>
         </div>
       </span>
-      <div className="text-sm px-6 py-4">
+      <div className="text-xs p-4">
         <div className="flex flex-col items-start justify-between">
-          <div className="w-full flex flex-col">
-            <h3 className="font-medium leading-none mb-1 truncate">{data.metadata.name}</h3>
-            <p className="text-xs font-mono text-indigo-400">{data.id}</p>
+          <div className="w-full flex flex-col gap-1">
+            <div className="flex flex-row text-xs justify-between items-center">
+              <div className="flex flex-row gap-1 items-center">
+                {/* {data.parentIpIds?.length === 0 && (
+                  <span className="px-1.5 text-xs font-sans rounded-xl bg-indigo-400 text-white">Root</span>
+                )} */}
+                <h3 className="truncate">{data.metadata.name || 'Untitled'}</h3>
+              </div>
+              <div className="flex flex-row gap-1 font-mono">
+                {data.parentIpIds?.length > 0 ? (
+                  <TooltipWrapper content={<p>{data.parentIpIds?.length} Parent IPs</p>}>
+                    <div className="flex flex-row items-center">
+                      <IoGitNetworkOutline className="h-3 w-3" />
+                      {data.parentIpIds?.length}
+                    </div>
+                  </TooltipWrapper>
+                ) : (
+                  <span className="px-1.5 text-xs font-sans rounded-xl bg-indigo-500 text-white">Root</span>
+                )}
+
+                <TooltipWrapper content={<p>{data.childIpIds?.length} Child IPs</p>}>
+                  <div className="flex flex-row items-center">
+                    <IoGitBranchOutline className="h-3 w-3" />
+                    {data.childIpIds?.length}
+                  </div>
+                </TooltipWrapper>
+              </div>
+            </div>
+            <TooltipWrapper content={data.id}>
+              <p className="text-xs text-left font-mono truncate text-indigo-400">{data.id}</p>
+            </TooltipWrapper>
           </div>
-          <div className="w-full flex flex-row justify-between">
+          {/* <div className="w-full flex flex-row justify-between">
             <p className="text-xs font-mono text-muted-foreground">
               <AddressComponent address={data.tokenContract} size="sm" />
             </p>
             <p className="font-mono text-xs">{data.tokenId}</p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

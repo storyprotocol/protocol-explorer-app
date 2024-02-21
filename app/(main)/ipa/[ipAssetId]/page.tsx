@@ -67,9 +67,9 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
             <AssetBreadcrumbs ipAssetId={ipAssetId} ipOrgId={ipOrgId} />
           </Suspense> */}
         </div>
-        <Suspense fallback={<FallbackDetailsCard />}>
-          <AssetDetailCard data={assetData} />
-        </Suspense>
+        {/* <Suspense fallback={<FallbackDetailsCard />}> */}
+        <AssetDetailCard data={assetData} />
+        {/* </Suspense> */}
 
         <div className="grid grid-cols-12 gap-2">
           <div className="flex col-span-12">
