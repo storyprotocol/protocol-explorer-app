@@ -1,4 +1,5 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+'use client';
+import { ChangeEvent, useEffect, useState, useRef } from 'react';
 import { Combobox } from '@headlessui/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { FolderIcon, RectangleStackIcon } from '@heroicons/react/24/outline';
@@ -9,6 +10,8 @@ export default function SearchBar() {
   const [query, setQuery] = useState('');
   const [collections, setCollections] = useState<any[]>([]);
   const [transactions, setTransactions] = useState<any[]>([]);
+  const [showAutocomplete, setShowAutocomplete] = useState(false);
+  const autocompleteRef = useRef(null);
 
   const hasResults = collections.length > 0;
 
@@ -18,7 +21,11 @@ export default function SearchBar() {
         id: '0xasdasdasdasda',
       },
     ]);
+  }, []);
 
+  console.log({ collections });
+
+  useEffect(() => {
     if (query.includes('0x')) {
       try {
         fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/collections/${query}`, {
@@ -38,17 +45,34 @@ export default function SearchBar() {
               return;
             }
           })
-          .then((collectionData) => setCollections([collectionData.data]));
+          .then((collectionData) => {
+            if (collectionData.data) {
+              setCollections([collectionData.data]);
+            }
+          });
       } catch (e) {
         console.log('collections');
       }
     }
   }, [query]);
 
+  useEffect(() => {
+    function handleClickOutside(event: Event) {
+      if (autocompleteRef.current && !(autocompleteRef.current as any).contains(event.target)) {
+        setShowAutocomplete(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="relative flex flex-col justify-center flex-1 bg-white transition-all">
       <Combobox onChange={() => {}}>
-        <div className="relative">
+        <div className="relative" ref={autocompleteRef}>
           <MagnifyingGlassIcon
             className="pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-gray-400"
             aria-hidden="true"
@@ -56,11 +80,16 @@ export default function SearchBar() {
           <Combobox.Input
             className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 sm:text-sm focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 "
             placeholder="Search..."
-            onChange={debounce((event: ChangeEvent<HTMLInputElement>) => setQuery(event.target.value))}
+            onChange={debounce((event: ChangeEvent<HTMLInputElement>) => {
+              setQuery(event.target.value);
+              setShowAutocomplete(true);
+            })}
           />
         </div>
 
-        {query !== '' && hasResults && (
+        {/* Autocomplete section start */}
+
+        {showAutocomplete && query !== '' && hasResults && (
           <Combobox.Options
             static
             className="absolute w-full top-16 max-h-80 scroll-py-2 divide-y divide-gray-100 overflow-y-auto z-30 bg-white shadow-md rounded-b-xl"
@@ -139,6 +168,8 @@ export default function SearchBar() {
             </p>
           </div>
         )}
+
+        {/* Autocomplete section end */}
       </Combobox>
     </div>
   );

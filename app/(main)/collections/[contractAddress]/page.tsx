@@ -74,7 +74,7 @@ export default async function CollectionDetailPage({
               </TabsContent>
               <TabsContent value="assets">
                 <Suspense fallback={<div className="w-full pt-8 text-center text-gray-500">No assets found</div>}>
-                  <AssetDataViewer tableOnly collectionId={contractAddress} />
+                  <AssetDataViewer collectionId={contractAddress} />
                 </Suspense>
               </TabsContent>
             </Tabs>

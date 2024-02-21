@@ -48,37 +48,6 @@ export function changeUrlParam(url: string, paramName: string, paramValue: strin
   return urlObj.toString();
 }
 
-// {
-//   openseaMetadata: {
-//     collection: 'coolcatssepolia',
-//     name: 'Cool Cats - SEPOLIA',
-//     description: 'This is a test NFT collection that helps decentralized Finance, NFT Finance, Social Finance, and other kinds of Dapps building on Sepolia Testnet.\n' +
-//       '\n' +
-//       'You can mint your own at https://www.testnetmint.com/ price is 0.1 sepolia ether per one, and max wallet mint is 2.',
-//     image_url: 'https://i.seadn.io/gcs/files/549aa2dcadc94cfe7bbcb8fc09d20848.png?w=500&auto=format',
-//     banner_image_url: 'https://i.seadn.io/gcs/files/1da70cdb0660b79fe7b4c2f9d982310e.png?w=500&auto=format',
-//     owner: '0x69f2301e037f1e35cc056a736758123460141d7a',
-//     safelist_status: 'not_requested',
-//     category: '',
-//     is_disabled: false,
-//     is_nsfw: false,
-//     trait_offers_enabled: false,
-//     collection_offers_enabled: true,
-//     opensea_url: 'https://testnets.opensea.io/collection/coolcatssepolia',
-//     project_url: 'https://testnetmint.com/',
-//     wiki_url: '',
-//     discord_url: '',
-//     telegram_url: '',
-//     twitter_username: '',
-//     instagram_username: '',
-//     contracts: [ [Object] ],
-//     editors: [ '0x69f2301e037f1e35cc056a736758123460141d7a' ],
-//     fees: [ [Object] ],
-//     total_supply: 120,
-//     created_date: '2023-09-05'
-//   }
-// }
-
 const OPENSEA_BASE_URL = process.env.NEXT_PUBLIC_OPENSEA_BASE_URL || process.env.OPENSEA_BASE_URL || '';
 
 const options = {
@@ -98,46 +67,6 @@ export async function getOpenSeaCollection(slug: string) {
     console.error(e);
     return [];
   }
-
-  // {
-  //   "collection": "murakamiflowerssepolia",
-  //   "name": "Murakami.Flowers - SEPOLIA",
-  //   "description": "This is a test NFT collection that helps decentralized Finance, NFT Finance, Social Finance, and other kinds of Dapps building on Sepolia Testnet.\n\nYou can mint your own at https://www.testnetmint.com/ price is 0.1 sepolia ether per one, and max wallet mint is 2.",
-  //   "image_url": "https://i.seadn.io/gcs/files/ebca1f6c5b3b75eef4eb048f1c76b816.png?w=500&auto=format",
-  //   "banner_image_url": "https://i.seadn.io/gcs/files/6f3a412e76ac5727348b79b0f70671dd.png?w=500&auto=format",
-  //   "owner": "0x69f2301e037f1e35cc056a736758123460141d7a",
-  //   "safelist_status": "not_requested",
-  //   "category": "",
-  //   "is_disabled": false,
-  //   "is_nsfw": false,
-  //   "trait_offers_enabled": false,
-  //   "collection_offers_enabled": true,
-  //   "opensea_url": "https://testnets.opensea.io/collection/murakamiflowerssepolia",
-  //   "project_url": "",
-  //   "wiki_url": "",
-  //   "discord_url": "",
-  //   "telegram_url": "",
-  //   "twitter_username": "",
-  //   "instagram_username": "",
-  //   "contracts": [
-  //     {
-  //       "address": "0x3eee83358e9ff3fc7ac46e8e5921fb2ec0a77fcb",
-  //       "chain": "sepolia"
-  //     }
-  //   ],
-  //   "editors": [
-  //     "0x69f2301e037f1e35cc056a736758123460141d7a"
-  //   ],
-  //   "fees": [
-  //     {
-  //       "fee": 2.5,
-  //       "recipient": "0x0000a26b00c1f0df003000390027140000faa719",
-  //       "required": true
-  //     }
-  //   ],
-  //   "total_supply": 74,
-  //   "created_date": "2023-09-04"
-  // }
 }
 
 export async function getOpenSeaContract(chain: string, address: Address) {
@@ -145,14 +74,6 @@ export async function getOpenSeaContract(chain: string, address: Address) {
     const data = await fetch(`${OPENSEA_BASE_URL}/api/v2/chain/${chain}/contract/${address}`);
     const res = await data.json();
 
-    // {
-    //   "address": "0x3eee83358e9ff3fc7ac46e8e5921fb2ec0a77fcb",
-    //   "chain": "sepolia",
-    //   "collection": "murakamiflowerssepolia",
-    //   "contract_standard": "erc721",
-    //   "name": "Murakami.Flowers",
-    //   "total_supply": 0
-    // }
     return res;
   } catch (e) {
     console.error(e);
@@ -178,6 +99,115 @@ export async function getOpenSeaCollectionMetadata(address: Address): Promise<Op
   } catch (e) {
     console.error(e);
     return {};
+  }
+}
+
+// https://api.opensea.io/api/v2/chain/{chain}/contract/{address}/nfts/{identifier}
+// {
+//   "nft": {
+//     "identifier": "12",
+//     "collection": "murakamiflowerssepolia",
+//     "contract": "0x3eee83358e9ff3fc7ac46e8e5921fb2ec0a77fcb",
+//     "token_standard": "erc721",
+//     "name": "Murakami.Flower #3270",
+//     "description": "Murakami.Flowers is a work in which artist Takashi Murakami’s representative artwork, flowers, are expressed as dot art evocative of Japanese TV games created in the 1970s. The work is being developed with the number 108 as the keyword; a combination of 108 backgrounds and flower colors make up a field, and there are 108 fields. Each field has 108 flower images, resulting in 11,664 flower images in total. The number 108 is a reference to bonnō, or earthly temptations.\n\nMurakami.Flowers NFTs are subject to the Collector Terms available here:https://murakamiflowers.kaikaikiki.com/collector.html. If you buy a Murakami.Flowers NFT, you do not receive commercial rights in the corresponding artwork.\n\n©Takashi Murakami/Kaikai Kiki Co., Ltd. All Rights Reserved.",
+//     "image_url": "https://ipfs.io/ipfs/bafkreidodkamxjzjhvxkgshqhiunjmocy423nwd5smo27zq2jxzxxyopjm",
+//     "metadata_url": "https://mflowers-prod.s3.us-west-1.amazonaws.com/12",
+//     "opensea_url": "https://testnets.opensea.io/assets/sepolia/0x3eee83358e9ff3fc7ac46e8e5921fb2ec0a77fcb/12",
+//     "updated_at": "2023-09-13T08:24:51.422534",
+//     "is_disabled": false,
+//     "is_nsfw": false,
+//     "animation_url": null,
+//     "is_suspicious": false,
+//     "creator": "0x69f2301e037f1e35cc056a736758123460141d7a",
+//     "traits": [
+//       {
+//         "trait_type": "Eye",
+//         "display_type": null,
+//         "max_value": null,
+//         "value": "Double Wink"
+//       },
+//       {
+//         "trait_type": "Mouth",
+//         "display_type": null,
+//         "max_value": null,
+//         "value": "Pursed Lips"
+//       },
+//       {
+//         "trait_type": "Tribe",
+//         "display_type": null,
+//         "max_value": null,
+//         "value": "PCBVP"
+//       },
+//       {
+//         "trait_type": "Eyeware",
+//         "display_type": null,
+//         "max_value": null,
+//         "value": "Dazzled by Money"
+//       },
+//       {
+//         "trait_type": "Background",
+//         "display_type": null,
+//         "max_value": null,
+//         "value": "Grid Rainbow"
+//       }
+//     ],
+//     "owners": [
+//       {
+//         "address": "0x1f7a99f88601c631bdbbdb648955355ddd7965c0",
+//         "quantity": 1
+//       }
+//     ],
+//     "rarity": null
+//   }
+// }
+
+export type OpenSeaNFT = {
+  identifier: string;
+  collection: string;
+  contract: string;
+  token_standard: string;
+  name: string;
+  description: string;
+  image_url: string;
+  metadata_url: string;
+  opensea_url: string;
+  updated_at: string;
+  is_disabled: boolean;
+  is_nsfw: boolean;
+  animation_url: string;
+  is_suspicious: boolean;
+  creator: Address;
+  traits: OpenSeaTrait[];
+  owners: OpenSeaOwner[];
+  rarity: string;
+};
+
+export type OpenSeaTrait = {
+  trait_type: string;
+  display_type: string;
+  max_value: string;
+  value: string;
+};
+
+export type OpenSeaOwner = {
+  address: Address;
+  quantity: number;
+};
+
+export async function getOpenSeaNFTMetadata(
+  chain: string = 'sepolia',
+  address: Address,
+  tokenId: string,
+): Promise<OpenSeaNFT | null> {
+  try {
+    const data = await fetch(`${OPENSEA_BASE_URL}/api/v2/chain/${chain}/contract/${address}/nfts/${tokenId}`);
+    const res = await data.json();
+
+    return res.nft;
+  } catch (e) {
+    console.error(e);
+    return null;
   }
 }
 

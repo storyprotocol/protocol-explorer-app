@@ -3,17 +3,19 @@ import { Address, Hash } from 'viem';
 export enum RESOURCE_TYPE {
   ASSET = 'assets',
   COLLECTION = 'collections',
-  TRANSACTION = 'transactions',
-  POLICY = 'policies',
-  PERMISSION = 'permissions',
-  LICENSE = 'licenses',
-  POLICY_FRAMEWORK = 'policyframeworks',
-  MODULE = 'modules',
-  TAGS = 'tags',
-  IPA_POLICY = 'ipapolicies',
-  ROYALTY_PAY = 'royaltypays',
-  ROYALTY = 'royalties',
   DISPUTE = 'disputes',
+  IPA_POLICY = 'ipapolicies',
+  LICENSE = 'licenses',
+  LICENSE_MINT_FEES = 'licenses/mintingfees',
+  MODULE = 'modules',
+  PERMISSION = 'permissions',
+  POLICY = 'policies',
+  POLICY_FRAMEWORK = 'policies/frameworks',
+  ROYALTY = 'royalties',
+  ROYALTY_PAY = 'royalties/payments',
+  ROYALTY_POLICY = 'royalties/policies',
+  TAGS = 'tags',
+  TRANSACTION = 'transactions',
 }
 
 export type ResourceType =
@@ -29,80 +31,81 @@ export type ResourceType =
   | RESOURCE_TYPE.IPA_POLICY
   | RESOURCE_TYPE.ROYALTY_PAY
   | RESOURCE_TYPE.ROYALTY
+  | RESOURCE_TYPE.ROYALTY_POLICY
   | RESOURCE_TYPE.DISPUTE;
 
 export type PaginationOptions = {
-  limit: number;
-  offset: number;
+  limit?: number;
+  offset?: number;
 };
 
 export type AssetFilterOptions = {
-  chainId: string;
-  metadataResolverAddress: string;
-  tokenContract: string;
-  tokenId: string;
+  chainId?: string;
+  metadataResolverAddress?: string;
+  tokenContract?: string;
+  tokenId?: string;
 };
 
 export type DisputeFilterOptions = {
-  currentTag: string;
-  initiator: string;
-  targetIpId: string;
-  targetTag: string;
+  currentTag?: string;
+  initiator?: string;
+  targetIpId?: string;
+  targetTag?: string;
 };
 
 export type PermissionFilterOptions = {
-  signer: string;
-  to: string;
+  signer?: string;
+  to?: string;
 };
 
 export type PolicyFilterOptions = {
-  policyFrameworkManager: string;
+  policyFrameworkManager?: string;
 };
 
 export type PolicyFrameworkFilterOptions = {
-  address: string;
-  name: string;
+  address?: string;
+  name?: string;
 };
 
 export type RoyaltyFilterOptions = {
-  ipId: string;
-  royaltyPolicy: string;
+  ipId?: string | null;
+  royaltyPolicy?: string | null;
 };
 
 export type TagFilterOptions = {
-  ipId: string;
-  tag: string;
+  ipId?: string;
+  tag?: string;
 };
 export type RoyaltyPayFilterOptions = {
-  ipId: string;
-  payerIpId: string;
-  receiverIpId: string;
-  sender: string;
-  token: string;
+  ipId?: string;
+  payerIpId?: string;
+  receiverIpId?: string;
+  sender?: string;
+  token?: string;
 };
 
 export type ModuleFilterOptions = {
-  name: string;
+  name?: string;
 };
 
 export type LicenseFilterOptions = {
-  licensorIpdId: string;
-  policyId: string;
+  licensorIpdId?: string;
+  policyId?: string;
 };
 
 export type LicenseFrameworkFilterOptions = {
-  creator: string;
+  creator?: string;
 };
 
 export type IPAPolicyFilterOptions = {
-  active: string;
-  inherited: string;
-  policyId: string;
+  active?: string;
+  inherited?: string;
+  policyId?: string;
 };
 
 export type TransactionFilterOptions = {
-  actionType: string;
-  resourceId: string;
+  actionType?: string;
+  resourceId?: string;
 };
 
 export type FilterOptions =
@@ -138,10 +141,10 @@ export type Transaction = {
 export type Asset = {
   id: string;
   chainId: string;
-  childIpIds: string[];
-  parentIpIds: string[];
-  rootIpIds: string[];
-  tokenContract: string;
+  childIpIds: Asset[];
+  parentIpIds: Asset[];
+  rootIpIds: Asset[];
+  tokenContract: Address;
   tokenId: string;
   metadataResolverAddress: string;
   metadata: {
@@ -232,6 +235,17 @@ export type Royalty = {
   blockTimestamp: string;
 };
 
+export type RoyaltyPolicy = {
+  id: Address;
+  ancestorsVault: Address;
+  splitClone: Address;
+  royaltyStack: string;
+  targetAncestors: Address[];
+  targetRoyaltyAmount: string[];
+  blockNumber: string;
+  blockTimestamp: string;
+};
+
 export type Dispute = {
   id: string;
   targetIpId: Address;
@@ -260,23 +274,29 @@ export type Collection = {
 export type Policy = {
   id: string;
   policyFrameworkManager: Address;
+  frameworkData: string;
+  royaltyPolicy: Address;
+  royaltyData: string;
+  mintingFee: string;
+  mintingFeeToken: Address;
   blockNumber: string;
   blockTimestamp: string;
-  uml: {
-    id: Hash;
-    frameworkManagerAddress: Address;
-    attribution: boolean;
-    transferable: boolean;
-    commercialUse: boolean;
-    commercialAttribution: boolean;
-    commercializers: Address[];
-    derivativesAllowed: boolean;
-    derivativesAttribution: boolean;
-    derivativesApproval: boolean;
-    derivativesReciprocal: boolean;
-    derivativesRevShare: string;
-    territories: string[];
-    distributionChannels: string[];
-    royaltyPolicy: Address;
-  };
+  pil: PILType;
+};
+
+export type PILType = {
+  id: Hash;
+  attribution: boolean;
+  commercialUse: boolean;
+  commercialAttribution: boolean;
+  commercializerChecker: Address;
+  commercializerCheckerData: string;
+  commercialRevShare: string;
+  derivativesAllowed: boolean;
+  derivativesAttribution: boolean;
+  derivativesApproval: boolean;
+  derivativesReciprocal: boolean;
+  territories: string[];
+  distributionChannels: string[];
+  contentRestrictions: string[];
 };

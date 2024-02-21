@@ -15,12 +15,15 @@ import { Badge } from '@/components/ui/badge';
 import { Address } from 'viem';
 import { getResource } from '@/lib/server/sdk';
 import { Asset, RESOURCE_TYPE } from '@/lib/server/types';
-import AssetDataViewer from '@/components/views/Asset';
+
 import PolicyDataViewerWrapper from '@/components/views/Policies/PolicyDataViewerWrapper';
 import LicenseDataViewer from '@/components/views/Licenses';
 import RoyaltyDataViewerWrapper from '@/components/views/Royalties/RoyaltyDataViewerWrapper';
 import DisputeDataViewerWrapper from '@/components/views/Disputes/DisputeDataViewerWrapper';
 import PermissionDataViewerWrapper from '@/components/views/Permissions/PermissionDataViewerWrapper';
+import AssetDataViewerComponent from '@/components/views/Asset/AssetDataViewerComponent';
+import RoyaltyPolicyDataViewerWrapper from '@/components/views/RoyaltyPolicies/RoyaltyPolicyDataViewerWrapper';
+import IPAPolicyDataViewerWrapper from '@/components/views/IPAPolicies/IPAPolicyDataViewerWrapper';
 
 export const fetchCache = 'force-no-store';
 
@@ -57,7 +60,7 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
         <div>
           <div className="flex flex-row gap-4 items-center mb-4">
             <h1 className="text-xl md:text-2xl font-semibold leading-none">IP Asset Detail</h1>
-            <Badge className="bg-indigo-500 hover:bg-indigo-500">Root</Badge>
+            {!assetData.rootIpIds && <Badge className="bg-indigo-500 hover:bg-indigo-500">Root</Badge>}
           </div>
           {/* <Suspense fallback={<FallbackBreadcrumbs />}>
             <AssetBreadcrumbs ipAssetId={ipAssetId} ipOrgId={ipOrgId} />
@@ -88,10 +91,16 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
               </TabsContent>
               <TabsContent value="derivatives">
                 <h2>Derivatives IPA</h2>
-                <AssetDataViewer ipId={ipAssetId} />
+                {!assetData.childIpIds ? (
+                  <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>
+                ) : (
+                  <AssetDataViewerComponent data={assetData.childIpIds} />
+                )}
+                {/* <AssetDataViewer ipId={ipAssetId} /> */}
               </TabsContent>
               <TabsContent value="policies">
                 <h2>Policies</h2>
+                <IPAPolicyDataViewerWrapper ipId={ipAssetId} />
                 <PolicyDataViewerWrapper ipId={ipAssetId} />
               </TabsContent>
               <TabsContent value="licenses">
@@ -103,7 +112,8 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
               <TabsContent value="royalties">
                 <h2>royalties</h2>
                 <Suspense fallback={<SkeletonTable />}>
-                  <RoyaltyDataViewerWrapper ipId={ipAssetId} />
+                  {/* <RoyaltyDataViewerWrapper ipId={ipAssetId} /> */}
+                  <RoyaltyPolicyDataViewerWrapper ipId={ipAssetId} />
                 </Suspense>
               </TabsContent>
               <TabsContent value="disputes">

@@ -25,7 +25,7 @@ export default function AddressComponent({
       />
       <a
         className="inline-flex items-center space-x-2 rounded-lg text-sm min-w-[100px]"
-        href={`${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/address/${address}`}
+        // href={`${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/address/${address}`}
       >
         <span
           className={classNames({

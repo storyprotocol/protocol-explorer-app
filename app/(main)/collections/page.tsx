@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import CollectionsDataViewer from '@/components/views/Collections';
 import SkeletonGrid from '@/components/Skeletons/SkeletonGrid';
-import { Skeleton } from '@/components/ui/skeleton';
+// import { Skeleton } from '@/components/ui/skeleton';
 export const revalidate = 60;
 export const fetchCache = 'force-no-store';
 
@@ -17,7 +17,6 @@ export default async function CollectionsPage() {
           <Suspense
             fallback={
               <div className="flex flex-col">
-                {/* <Skeleton className="h-9 w-24 bg-white" /> */}
                 <SkeletonGrid />
               </div>
             }

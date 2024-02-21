@@ -128,7 +128,11 @@ export default async function AssetDetailCard({ data }: { data: Asset }) {
             <Row label="Root IP IDs">
               {/* <Suspense fallback={<TimeSinceFallback />}> */}
               {data.rootIpIds
-                ? data.rootIpIds.map((rootIpId) => <AddressComponent key={rootIpId} address={rootIpId} />)
+                ? data.rootIpIds.map((rootIpId) => (
+                    <Link href={`/ipa/${rootIpId.id}`}>
+                      <AddressComponent key={rootIpId.id} address={rootIpId.id} />
+                    </Link>
+                  ))
                 : 'Root'}
               {/* </Suspense> */}
             </Row>
@@ -136,7 +140,7 @@ export default async function AssetDetailCard({ data }: { data: Asset }) {
             <Row label="Parent IP IDs">
               {/* <Suspense fallback={<TimeSinceFallback />}> */}
               {data.parentIpIds
-                ? data.parentIpIds.map((parentIpId) => <AddressComponent key={parentIpId} address={parentIpId} />)
+                ? data.parentIpIds.map((parentIpId) => <AddressComponent key={parentIpId.id} address={parentIpId.id} />)
                 : 'Root'}
               {/* </Suspense> */}
             </Row>
@@ -144,7 +148,7 @@ export default async function AssetDetailCard({ data }: { data: Asset }) {
             <Row label="Children IP IDs">
               {/* <Suspense fallback={<TimeSinceFallback />}> */}
               {data.childIpIds
-                ? data.childIpIds.map((childIpId) => <AddressComponent key={childIpId} address={childIpId} />)
+                ? data.childIpIds.map((childIpId) => <AddressComponent key={childIpId.id} address={childIpId.id} />)
                 : 'No children'}
               {/* </Suspense> */}
             </Row>

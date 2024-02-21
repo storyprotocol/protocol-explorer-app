@@ -1,17 +1,17 @@
 import { Royalty, RESOURCE_TYPE } from '@/lib/server/types';
 import { listResource } from '@/lib/server/sdk';
-import { Address } from 'viem';
 import RoyaltyDataViewerComponent from './RoyaltyDataViewerComponent';
 
-export default async function RoyaltyDataViewerWrapper({ collectionId, ipId, ...params }: any) {
+export default async function RoyaltyDataViewerWrapper({ royaltyPolicy, ipId, ...params }: any) {
   const listReq = {
     pagination: {
       limit: 1000,
       offset: 0,
     },
     where: {
-      tokenContract: collectionId as Address,
+      // tokenContract: collectionId as Address,
       ipId: ipId,
+      royaltyPolicy,
     },
   };
 

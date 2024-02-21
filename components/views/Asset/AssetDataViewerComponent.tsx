@@ -7,7 +7,6 @@ import AddressComponent from '@/components/snippets/AddressComponent';
 // import { shortenString } from '@/utils';
 // import { ExternalLinkIcon } from 'lucide-react';
 import { Asset } from '@/lib/server/types';
-import { Address } from 'viem';
 import moment from 'moment';
 
 const columns: ColumnDef<Asset>[] = [
@@ -38,13 +37,13 @@ const columns: ColumnDef<Asset>[] = [
     accessorKey: 'rootIpIds',
     header: 'rootIpIds',
     cell: ({ row }) => {
-      const rootIpIds: Address[] = row.getValue('rootIpIds');
+      const rootIpIds: Asset[] = row.getValue('rootIpIds');
       return (
         <Link
-          href={`/collections/${rootIpIds[0]}`}
+          href={`/ipa/${rootIpIds?.[0]?.id}`}
           className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400"
         >
-          {rootIpIds[0]}
+          {rootIpIds?.[0]?.id}
         </Link>
       );
     },

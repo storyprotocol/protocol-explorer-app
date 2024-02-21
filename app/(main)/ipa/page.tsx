@@ -13,19 +13,17 @@ export default function Assets() {
           <h1 className="text-xl md:text-2xl font-semibold leading-none">IP Assets</h1>
         </div>
 
-        <div className="grid grid-cols-12 gap-2">
-          <div className="flex col-span-12">
-            <Suspense
-              fallback={
-                <div className="flex flex-col">
-                  <Skeleton className="h-9 w-24 bg-white" />
-                  <SkeletonGrid />
-                </div>
-              }
-            >
-              <AssetDataViewer />
-            </Suspense>
-          </div>
+        <div className="flex flex-col items-left gap-2 mt-6">
+          <Suspense
+            fallback={
+              <div className="flex flex-col">
+                {/* <Skeleton className="h-9 w-24 bg-white" /> */}
+                <SkeletonGrid />
+              </div>
+            }
+          >
+            <AssetDataViewer />
+          </Suspense>
         </div>
       </div>
     </div>

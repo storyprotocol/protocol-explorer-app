@@ -1,10 +1,7 @@
 'use client';
 import { ColumnDef } from '@tanstack/react-table';
 import BaseDataViewer from '../BaseDataViewer';
-import Link from 'next/link';
-import AddressComponent from '@/components/snippets/AddressComponent';
 import { Policy } from '@/lib/server/types';
-import { Address } from 'viem';
 import moment from 'moment';
 
 const columns: ColumnDef<Policy>[] = [
@@ -31,13 +28,13 @@ const columns: ColumnDef<Policy>[] = [
   },
 
   {
-    accessorKey: 'uml',
-    header: 'uml',
+    accessorKey: 'pil',
+    header: 'pil',
     cell: ({ row }) => {
-      const uml: string = row.getValue('uml');
+      const pil: string = row.getValue('pil');
       return (
         <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
-          {JSON.stringify(uml)}
+          {JSON.stringify(pil)}
         </div>
       );
     },

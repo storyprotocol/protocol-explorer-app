@@ -20,10 +20,7 @@ export default async function TransactionTableWrapper({
       offset: 0,
     },
     where: {
-      chainId: 'string',
-      metadataResolverAddress: 'string',
-      tokenContract: 'string',
-      tokenId: 'string',
+      ipId,
     },
   };
 

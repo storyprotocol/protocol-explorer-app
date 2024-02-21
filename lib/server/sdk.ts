@@ -40,6 +40,7 @@ export async function getResource(resourceName: ResourceType, resourceId: string
 
 export async function listResource(resourceName: ResourceType, options: QueryOptions) {
   try {
+    console.log('url', `${API_BASE_URL}/api/v1/${resourceName}`);
     const res = await fetch(`${API_BASE_URL}/api/v1/${resourceName}`, {
       method: 'POST',
       headers: {

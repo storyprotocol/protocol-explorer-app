@@ -14,8 +14,8 @@ export default async function IPOrgLicenseDataViewerWrapper({ collectionId, ipId
         offset: 0,
       },
       where: {
-        tokenContract: collectionId as Address,
-        ipId: ipId,
+        // tokenContract: collectionId as Address,
+        licensorIpdId: ipId,
       },
     };
 
