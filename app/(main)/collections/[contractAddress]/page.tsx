@@ -62,16 +62,16 @@ export default async function CollectionDetailPage({
 
         <div className="grid grid-cols-12 gap-2">
           <div className="flex col-span-12">
-            <Tabs defaultValue="tx" className="w-full">
+            <Tabs defaultValue="assets" className="w-full">
               <TabsList>
-                <TabsTrigger value="tx">Transactions</TabsTrigger>
+                {/* <TabsTrigger value="tx">Transactions</TabsTrigger> */}
                 <TabsTrigger value="assets">Assets</TabsTrigger>
               </TabsList>
-              <TabsContent value="tx">
+              {/* <TabsContent value="tx">
                 <Suspense fallback={<SkeletonTable />}>
                   <TransactionTableWrapper collectionId={contractAddress} />
                 </Suspense>
-              </TabsContent>
+              </TabsContent> */}
               <TabsContent value="assets">
                 <Suspense fallback={<div className="w-full pt-8 text-center text-gray-500">No assets found</div>}>
                   <AssetDataViewer collectionId={contractAddress} />
