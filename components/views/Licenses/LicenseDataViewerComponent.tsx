@@ -5,6 +5,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { License } from '@story-protocol/core-sdk';
 import { shortenAddress } from '@/utils';
 import moment from 'moment';
+import LicenseCard from '@/components/cards/LicenseCard';
 
 const columns: ColumnDef<License>[] = [
   {
@@ -68,7 +69,7 @@ export default function LicenseDataViewerComponent({
       tableOnly={tableOnly}
       gridOnly={gridOnly}
       pageSize={pageSize}
-      cardComponent={IPOrgCard}
+      cardComponent={LicenseCard}
     />
   );
 }

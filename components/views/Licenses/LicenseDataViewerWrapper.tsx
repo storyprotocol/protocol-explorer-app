@@ -26,7 +26,7 @@ export default async function IPOrgLicenseDataViewerWrapper({ collectionId, ipId
       return <div className="mx-8 mt-4">No licenses found for this IP Asset</div>;
     }
 
-    return <LicenseDataViewerComponent data={licenseData} tableOnly={true} />;
+    return <LicenseDataViewerComponent data={licenseData} gridOnly={true} />;
   } catch (e) {
     console.log('Error:', e);
     return <div>Something went wrong. Unable to fetch licenses.</div>;

@@ -3,6 +3,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import BaseDataViewer from '../BaseDataViewer';
 import { Policy } from '@/lib/server/types';
 import moment from 'moment';
+import PolicyCard from '@/components/cards/PolicyCard';
 
 const columns: ColumnDef<Policy>[] = [
   {
@@ -63,5 +64,5 @@ const columns: ColumnDef<Policy>[] = [
 ];
 
 export default function PolicyDataViewerComponent({ data, ...params }: any) {
-  return <BaseDataViewer hasSearch={false} data={data} columns={columns} tableOnly {...params} />;
+  return <BaseDataViewer hasSearch={false} cardComponent={PolicyCard} data={data} columns={columns} {...params} />;
 }

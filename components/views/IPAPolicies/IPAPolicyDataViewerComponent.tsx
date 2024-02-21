@@ -52,7 +52,9 @@ const columns: ColumnDef<IPAPolicy>[] = [
     cell: ({ row }) => {
       const active: string = row.getValue('active');
       return (
-        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{active}</div>
+        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
+          {active.toString()}
+        </div>
       );
     },
   },
@@ -62,11 +64,24 @@ const columns: ColumnDef<IPAPolicy>[] = [
     cell: ({ row }) => {
       const inherited: string = row.getValue('inherited');
       return (
-        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{inherited}</div>
+        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
+          {inherited.toString()}
+        </div>
       );
     },
   },
-
+  // {
+  //   accessorKey: 'policyDetails',
+  //   header: 'Policy Details',
+  //   cell: ({ row }) => {
+  //     const policyDetails: string = row.getValue('policyDetails');
+  //     return (
+  //       <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
+  //         {policyDetails}
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     accessorKey: 'blockNumber',
     header: 'blockNumber',

@@ -109,9 +109,9 @@ export default async function AssetDetailCard({ data }: { data: Asset }) {
               <div className="flex items-center space-x-2 break-all">
                 <Icons.clock className="h-4 w-4 shrink-0" />
                 <b className="shrink truncate">
-                  {moment.unix(data.blockTimestamp as number).fromNow()}
+                  {moment.unix(parseInt(data.blockTimestamp)).fromNow()}
                   <span className="font-light text-gray-500 ml-2">
-                    ({moment.unix(data.blockTimestamp as number).format('Do MMMM YYYY, h:mm a')})
+                    ({moment.unix(parseInt(data.blockTimestamp)).format('Do MMMM YYYY, h:mm a')})
                   </span>
                 </b>
               </div>
@@ -126,31 +126,33 @@ export default async function AssetDetailCard({ data }: { data: Asset }) {
             </Row>
 
             <Row label="Root IP IDs">
-              {/* <Suspense fallback={<TimeSinceFallback />}> */}
-              {data.rootIpIds
-                ? data.rootIpIds.map((rootIpId) => (
-                    <Link href={`/ipa/${rootIpId.id}`}>
-                      <AddressComponent key={rootIpId.id} address={rootIpId.id} />
-                    </Link>
-                  ))
-                : 'Root'}
-              {/* </Suspense> */}
+              <div className="flex flex-col">
+                {data.rootIpIds
+                  ? data.rootIpIds.map((rootIpId) => (
+                      <Link key={rootIpId.id} href={`/ipa/${rootIpId.id}`}>
+                        <AddressComponent key={rootIpId.id} address={rootIpId.id} />
+                      </Link>
+                    ))
+                  : 'Root'}
+              </div>
             </Row>
 
             <Row label="Parent IP IDs">
-              {/* <Suspense fallback={<TimeSinceFallback />}> */}
-              {data.parentIpIds
-                ? data.parentIpIds.map((parentIpId) => <AddressComponent key={parentIpId.id} address={parentIpId.id} />)
-                : 'Root'}
-              {/* </Suspense> */}
+              <div className="flex flex-col">
+                {data.parentIpIds
+                  ? data.parentIpIds.map((parentIpId) => (
+                      <AddressComponent key={parentIpId.id} address={parentIpId.id} />
+                    ))
+                  : 'Root'}
+              </div>
             </Row>
 
             <Row label="Children IP IDs">
-              {/* <Suspense fallback={<TimeSinceFallback />}> */}
-              {data.childIpIds
-                ? data.childIpIds.map((childIpId) => <AddressComponent key={childIpId.id} address={childIpId.id} />)
-                : 'No children'}
-              {/* </Suspense> */}
+              <div className="flex flex-col">
+                {data.childIpIds
+                  ? data.childIpIds.map((childIpId) => <AddressComponent key={childIpId.id} address={childIpId.id} />)
+                  : 'No children'}
+              </div>
             </Row>
 
             <Row label="Collection">

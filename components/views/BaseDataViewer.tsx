@@ -18,6 +18,7 @@ export default function BaseViewSwitcher({
   columns,
   tableOnly,
   gridOnly,
+  cardOnly,
   pageSize,
   hasSearch = true,
   cardComponent: CardComponent = () => <></>,
@@ -26,6 +27,7 @@ export default function BaseViewSwitcher({
   columns: any;
   tableOnly?: boolean;
   gridOnly?: boolean;
+  cardOnly?: boolean;
   pageSize?: number;
   hasSearch?: boolean;
   cardComponent?: React.ComponentType<CardComponentProps>;
@@ -70,12 +72,21 @@ export default function BaseViewSwitcher({
       })}
     </Grid>
   );
+  const CardFlexComp = () => (
+    <div className="flex flex-col gap-2">
+      {filteredData?.map((d: any, id: number) => {
+        return <CardComponent key={id} data={d} />;
+      })}
+    </div>
+  );
 
   const renderDataView = () => {
     if (tableOnly) {
       return <TableComp />;
     } else if (gridOnly) {
       return <GridComp />;
+    } else if (cardOnly) {
+      return <CardFlexComp />;
     } else {
       return isGrid ? <GridComp /> : <TableComp />;
     }
@@ -93,7 +104,7 @@ export default function BaseViewSwitcher({
             className="max-w-sm focus-visible:ring-indigo-500"
           />
         )}
-        {!(tableOnly || gridOnly) && (
+        {!(tableOnly || gridOnly || cardOnly) && (
           <span className="isolate inline-flex rounded-md shadow-sm">
             <button
               type="button"

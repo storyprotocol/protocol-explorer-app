@@ -72,9 +72,9 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
 
         <div className="grid grid-cols-12 gap-2">
           <div className="flex col-span-12">
-            <Tabs defaultValue="tx" className="w-full">
+            <Tabs defaultValue="derivatives" className="w-full">
               <TabsList>
-                <TabsTrigger value="tx">Transactions</TabsTrigger>
+                {/* <TabsTrigger value="tx">Transactions</TabsTrigger> */}
                 <TabsTrigger value="derivatives">Derivative IPAs</TabsTrigger>
                 <TabsTrigger value="policies">Policies</TabsTrigger>
                 <TabsTrigger value="licenses">Licenses</TabsTrigger>
@@ -84,24 +84,23 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
                 {/* <TabsTrigger value="relationships">Relationships</TabsTrigger> */}
                 <TabsTrigger value="actions">Actions</TabsTrigger>
               </TabsList>
-              <TabsContent value="tx">
+              {/* <TabsContent value="tx">
                 <Suspense fallback={<SkeletonTable />}>
                   <TransactionTableWrapper ipId={ipAssetId} />
                 </Suspense>
-              </TabsContent>
+              </TabsContent> */}
               <TabsContent value="derivatives">
                 <h2>Derivatives IPA</h2>
                 {!assetData.childIpIds ? (
                   <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>
                 ) : (
-                  <AssetDataViewerComponent data={assetData.childIpIds} />
+                  <AssetDataViewerComponent gridOnly data={assetData.childIpIds} />
                 )}
                 {/* <AssetDataViewer ipId={ipAssetId} /> */}
               </TabsContent>
               <TabsContent value="policies">
-                <h2>Policies</h2>
                 <IPAPolicyDataViewerWrapper ipId={ipAssetId} />
-                <PolicyDataViewerWrapper ipId={ipAssetId} />
+                {/* <PolicyDataViewerWrapper ipId={ipAssetId} /> */}
               </TabsContent>
               <TabsContent value="licenses">
                 <h2>licenses</h2>
