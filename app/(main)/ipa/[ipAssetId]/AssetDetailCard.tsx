@@ -127,31 +127,49 @@ export default async function AssetDetailCard({ data }: { data: Asset }) {
 
             <Row label="Root IP IDs">
               <div className="flex flex-col">
-                {data.rootIpIds
+                {data.rootIpIds.length > 0
                   ? data.rootIpIds.map((rootIpId) => (
-                      <Link key={rootIpId.id} href={`/ipa/${rootIpId.id}`}>
+                      <Link
+                        key={rootIpId.id}
+                        href={`/ipa/${rootIpId.id}`}
+                        className="text-indigo-400 hover:text-indigo-500"
+                      >
                         <AddressComponent key={rootIpId.id} address={rootIpId.id} />
                       </Link>
                     ))
-                  : 'Root'}
+                  : '-'}
               </div>
             </Row>
 
             <Row label="Parent IP IDs">
               <div className="flex flex-col">
-                {data.parentIpIds
+                {data.parentIpIds.length > 0
                   ? data.parentIpIds.map((parentIpId) => (
-                      <AddressComponent key={parentIpId.id} address={parentIpId.id} />
+                      <Link
+                        key={parentIpId.id}
+                        href={`/ipa/${parentIpId.id}`}
+                        className="text-indigo-400 hover:text-indigo-500"
+                      >
+                        <AddressComponent key={parentIpId.id} address={parentIpId.id} />
+                      </Link>
                     ))
-                  : 'Root'}
+                  : '-'}
               </div>
             </Row>
 
             <Row label="Children IP IDs">
               <div className="flex flex-col">
-                {data.childIpIds
-                  ? data.childIpIds.map((childIpId) => <AddressComponent key={childIpId.id} address={childIpId.id} />)
-                  : 'No children'}
+                {data.childIpIds.length > 0
+                  ? data.childIpIds.map((childIpId) => (
+                      <Link
+                        key={childIpId.id}
+                        href={`/ipa/${childIpId.id}`}
+                        className="text-indigo-400 hover:text-indigo-500"
+                      >
+                        <AddressComponent key={childIpId.id} address={childIpId.id} />
+                      </Link>
+                    ))
+                  : '-'}
               </div>
             </Row>
 

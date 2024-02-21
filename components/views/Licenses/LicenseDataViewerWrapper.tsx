@@ -6,7 +6,7 @@ import { RESOURCE_TYPE } from '@/lib/server/types';
 
 import { Address } from 'viem';
 
-export default async function IPOrgLicenseDataViewerWrapper({ collectionId, ipId, ...params }: any) {
+export default async function LicenseDataViewerWrapper({ collectionId, ipId, ...params }: any) {
   try {
     const listReq = {
       pagination: {

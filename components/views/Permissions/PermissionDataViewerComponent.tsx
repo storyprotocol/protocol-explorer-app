@@ -3,6 +3,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import BaseDataViewer from '../BaseDataViewer';
 import { Permission } from '@/lib/server/types';
 import moment from 'moment';
+import AddressComponent from '@/components/snippets/AddressComponent';
 
 const columns: ColumnDef<Permission>[] = [
   {
@@ -10,7 +11,7 @@ const columns: ColumnDef<Permission>[] = [
     header: 'id',
     cell: ({ row }) => {
       const id: string = row.getValue('id');
-      return <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{id}</div>;
+      return <div className="capitalize font-mono text-xs">{id}</div>;
     },
   },
   {
@@ -18,9 +19,7 @@ const columns: ColumnDef<Permission>[] = [
     header: 'permission',
     cell: ({ row }) => {
       const permission: string = row.getValue('permission');
-      return (
-        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{permission}</div>
-      );
+      return <div className="capitalize font-mono text-xs">{permission}</div>;
     },
   },
   {
@@ -29,7 +28,9 @@ const columns: ColumnDef<Permission>[] = [
     cell: ({ row }) => {
       const signer: string = row.getValue('signer');
       return (
-        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{signer}</div>
+        // <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
+        <AddressComponent address={signer} size="sm"></AddressComponent>
+        // </div>
       );
     },
   },
@@ -38,7 +39,7 @@ const columns: ColumnDef<Permission>[] = [
     header: 'to',
     cell: ({ row }) => {
       const to: string = row.getValue('to');
-      return <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{to}</div>;
+      return <div className="capitalize font-mono text-xs">{to}</div>;
     },
   },
   {
@@ -46,7 +47,7 @@ const columns: ColumnDef<Permission>[] = [
     header: 'func',
     cell: ({ row }) => {
       const func: string = row.getValue('func');
-      return <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{func}</div>;
+      return <div className="capitalize font-mono text-xs ">{func}</div>;
     },
   },
 

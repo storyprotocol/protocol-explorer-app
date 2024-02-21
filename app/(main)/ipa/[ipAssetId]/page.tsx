@@ -90,8 +90,7 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
                 </Suspense>
               </TabsContent> */}
               <TabsContent value="derivatives">
-                <h2>Derivatives IPA</h2>
-                {!assetData.childIpIds ? (
+                {assetData.childIpIds.length === 0 ? (
                   <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>
                 ) : (
                   <AssetDataViewerComponent gridOnly data={assetData.childIpIds} />
@@ -103,20 +102,17 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
                 {/* <PolicyDataViewerWrapper ipId={ipAssetId} /> */}
               </TabsContent>
               <TabsContent value="licenses">
-                <h2>licenses</h2>
                 <Suspense fallback={<SkeletonTable />}>
                   <LicenseDataViewer ipId={ipAssetId} />
                 </Suspense>
               </TabsContent>
               <TabsContent value="royalties">
-                <h2>royalties</h2>
                 <Suspense fallback={<SkeletonTable />}>
                   {/* <RoyaltyDataViewerWrapper ipId={ipAssetId} /> */}
                   <RoyaltyPolicyDataViewerWrapper ipId={ipAssetId} />
                 </Suspense>
               </TabsContent>
               <TabsContent value="disputes">
-                <h2>disputes</h2>
                 <Suspense fallback={<SkeletonTable />}>
                   <DisputeDataViewerWrapper ipId={ipAssetId} />
                 </Suspense>

@@ -65,6 +65,7 @@ export default function LicenseDataViewerComponent({
   return (
     <BaseDataViewer
       data={data}
+      hasSearch={false}
       columns={columns}
       tableOnly={tableOnly}
       gridOnly={gridOnly}

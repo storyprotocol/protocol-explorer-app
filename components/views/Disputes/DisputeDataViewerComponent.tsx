@@ -25,7 +25,7 @@ const columns: ColumnDef<Dispute>[] = [
     header: 'id',
     cell: ({ row }) => {
       const id: string = row.getValue('id');
-      return <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{id}</div>;
+      return <div className="capitalize font-mono text-xs">{id}</div>;
     },
   },
   {
@@ -34,7 +34,12 @@ const columns: ColumnDef<Dispute>[] = [
     cell: ({ row }) => {
       const targetIpId: string = row.getValue('targetIpId');
       return (
-        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{targetIpId}</div>
+        <Link
+          href={`/ipa/${targetIpId}`}
+          className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400"
+        >
+          {targetIpId}
+        </Link>
       );
     },
   },
@@ -43,9 +48,7 @@ const columns: ColumnDef<Dispute>[] = [
     header: 'targetTag',
     cell: ({ row }) => {
       const targetTag: string = row.getValue('targetTag');
-      return (
-        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{targetTag}</div>
-      );
+      return <div className="capitalize font-mono text-xs">{targetTag}</div>;
     },
   },
   {
@@ -53,9 +56,7 @@ const columns: ColumnDef<Dispute>[] = [
     header: 'currentTag',
     cell: ({ row }) => {
       const currentTag: string = row.getValue('currentTag');
-      return (
-        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{currentTag}</div>
-      );
+      return <div className="capitalize font-mono text-xs">{currentTag}</div>;
     },
   },
   {
@@ -63,11 +64,7 @@ const columns: ColumnDef<Dispute>[] = [
     header: 'arbitrationPolicy',
     cell: ({ row }) => {
       const arbitrationPolicy: string = row.getValue('arbitrationPolicy');
-      return (
-        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
-          {arbitrationPolicy}
-        </div>
-      );
+      return <div className="capitalize font-mono text-xs">{arbitrationPolicy}</div>;
     },
   },
   {
@@ -75,11 +72,7 @@ const columns: ColumnDef<Dispute>[] = [
     header: 'evidenceLink',
     cell: ({ row }) => {
       const evidenceLink: string = row.getValue('evidenceLink');
-      return (
-        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
-          {evidenceLink}
-        </div>
-      );
+      return <div className="capitalize font-mono text-xs">{evidenceLink}</div>;
     },
   },
   {
@@ -88,7 +81,9 @@ const columns: ColumnDef<Dispute>[] = [
     cell: ({ row }) => {
       const initiator: string = row.getValue('initiator');
       return (
-        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{initiator}</div>
+        // <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
+        <AddressComponent address={initiator} size="sm" />
+        // </div>
       );
     },
   },
@@ -97,7 +92,7 @@ const columns: ColumnDef<Dispute>[] = [
     header: 'data',
     cell: ({ row }) => {
       const data: string = row.getValue('data');
-      return <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{data}</div>;
+      return <div className="capitalize font-mono text-xs">{data}</div>;
     },
   },
   {
