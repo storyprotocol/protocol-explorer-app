@@ -22,8 +22,9 @@ import RoyaltyDataViewerWrapper from '@/components/views/Royalties/RoyaltyDataVi
 import DisputeDataViewerWrapper from '@/components/views/Disputes/DisputeDataViewerWrapper';
 import PermissionDataViewerWrapper from '@/components/views/Permissions/PermissionDataViewerWrapper';
 import AssetDataViewerComponent from '@/components/views/Asset/AssetDataViewerComponent';
-import RoyaltyPolicyDataViewerWrapper from '@/components/views/RoyaltyPolicies/RoyaltyPolicyDataViewerWrapper';
-import IPAPolicyDataViewerWrapper from '@/components/views/IPAPolicies/IPAPolicyDataViewerWrapper';
+import RoyaltyPolicyDataViewerWrapper from '@/components/views/Royalties/RoyaltyPolicyDataViewerWrapper';
+import IPAPolicyDataViewerWrapper from '@/components/views/Policies/IPAPolicyDataViewerWrapper';
+import RoyaltyPage from '@/components/views/Royalties/RoyaltyPage';
 
 export const fetchCache = 'force-no-store';
 
@@ -109,6 +110,7 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
               <TabsContent value="royalties">
                 <Suspense fallback={<SkeletonTable />}>
                   {/* <RoyaltyDataViewerWrapper ipId={ipAssetId} /> */}
+                  <RoyaltyPage ipId={ipAssetId} />
                   <RoyaltyPolicyDataViewerWrapper ipId={ipAssetId} />
                 </Suspense>
               </TabsContent>

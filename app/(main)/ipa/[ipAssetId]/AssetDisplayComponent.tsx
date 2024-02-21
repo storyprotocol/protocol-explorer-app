@@ -13,10 +13,10 @@ export default async function AssetDisplayComponent({ data }: { data: Asset }) {
   const openseaNFTdata: OpenSeaNFT | null = await getOpenSeaNFTMetadata('sepolia', data.tokenContract, data.tokenId);
 
   return (
-    <div className="flex h-52 md:h-72 xl:h-full col-span-12 xl:col-span-6 rounded-xl bg-indigo-100 overflow-hidden justify-center items-center">
+    <div className="flex rounded-xl aspect-square bg-indigo-100 overflow-hidden justify-center items-center">
       {openseaNFTdata?.image_url ? (
         <Image
-          width={700}
+          width={600}
           height={600}
           alt={data.metadata.name}
           loading="lazy"

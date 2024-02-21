@@ -1,7 +1,7 @@
 import { IPAPolicy, Policy, RESOURCE_TYPE } from '@/lib/server/types';
 import { listResource } from '@/lib/server/sdk';
 // import IPAPolicyDataViewerComponent from './IPAPolicyDataViewerComponent';
-import PolicyDataViewerComponent from '../Policies/PolicyDataViewerComponent';
+import PolicyDataViewerComponent from './PolicyDataViewerComponent';
 
 export default async function PolicyDataViewerWrapper({ collectionId, ipId, ...params }: any) {
   const listReq = {
