@@ -2,7 +2,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import BaseDataViewer from '../BaseDataViewer';
 import Link from 'next/link';
-import AddressComponent from '@/components/snippets/AddressComponent';
+import AddressComponent from '@/components/address/AddressComponent';
 import { RoyaltyPolicy } from '@/lib/server/types';
 import moment from 'moment';
 

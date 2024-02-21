@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { PuzzlePieceIcon } from '@heroicons/react/24/outline';
-import AddressComponent from '../snippets/AddressComponent';
+import AddressComponent from '../address/AddressComponent';
 import { License } from '@/lib/server/types';
 import { OpenSeaNFT, getOpenSeaNFTMetadata } from '@/lib/opensea/api';
 import { getRoundedTime } from '@/utils';
@@ -28,7 +28,10 @@ const LicenseCard = ({ data }: { data: License }) => {
   return (
     <div className="w-full bg-white rounded-2xl overflow-hidden border-2 border-slate-100 hover:border-indigo-500 hover:shadow-md">
       <span data-state="closed">
-        <div className="overflow-hidden aspect-square">
+        <div className="overflow-hidden aspect-square relative">
+          <div className="absolute top-2 left-2 text-xs text-white rounded-lg py-1 px-2 bg-black/20">
+            x{data.amount}
+          </div>
           <Link
             href={`https://testnets.opensea.io/assets/sepolia/${process.env.NEXT_PUBLIC_LICENSE_REGISTRY_CONTRACT}/${data.id}`}
             target="_blank"
@@ -55,7 +58,7 @@ const LicenseCard = ({ data }: { data: License }) => {
           <div className="w-full flex flex-col">
             <div className="flex flex-row gap-1 items-center justify-between">
               <h3 className="font-medium truncate">#{data.id}</h3>
-              <span className="px-1.5 text-xs font-sans rounded-xl bg-indigo-500 text-white">
+              <span className="px-1.5 py-1 text-xs font-sans rounded-xl bg-indigo-500 text-white">
                 Policy {data.policyId}
               </span>
             </div>

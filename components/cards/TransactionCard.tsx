@@ -3,7 +3,7 @@ import { cn } from '@/utils';
 import SuccessBadge from '../badges/SuccessBadge';
 import Link from 'next/link';
 import moment from 'moment';
-import AddressComponent from '../snippets/AddressComponent';
+import AddressComponent from '../address/AddressComponent';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@radix-ui/react-accordion';
 import { useCallback, useEffect, useState } from 'react';
 

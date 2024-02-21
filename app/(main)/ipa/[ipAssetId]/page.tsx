@@ -29,31 +29,8 @@ import RoyaltyPage from '@/components/views/Royalties/RoyaltyPage';
 export const fetchCache = 'force-no-store';
 
 export default async function AssetDetailPage({ params: { ipAssetId } }: { params: { ipAssetId: Address } }) {
-  const defaultIpAssetValues = {
-    ipAssetId,
-  };
-
   const assetDetailRes = await getResource(RESOURCE_TYPE.ASSET, ipAssetId);
   const assetData: Asset = assetDetailRes.data;
-
-  // const defaultRegisterRelationshipValues = {
-  //   ...defaultIpAssetValues,
-  //   relationshipType: '',
-  //   srcContract: process.env.IP_ASSET_REGISTRY_CONTRACT,
-  //   srcTokenId: ipAssetId,
-  // };
-
-  // const defaultCreateIpaBoundLicenseValues: CreateLicenseRequest = {
-  //   ...defaultIpAssetValues,
-  //   ipaId: ipAssetId,
-  //   parentLicenseId: '',
-  //   params: [],
-  //   preHookData: [],
-  //   postHookData: [],
-  //   txOptions: {
-  //     waitForTransaction: true,
-  //   },
-  // };
 
   return (
     <div className="w-full p-4 md:p-8 max-w-[1600px] mx-auto">
@@ -91,7 +68,7 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
                 </Suspense>
               </TabsContent> */}
               <TabsContent value="derivatives">
-                {assetData.childIpIds.length === 0 ? (
+                {assetData.childIpIds && assetData.childIpIds.length === 0 ? (
                   <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>
                 ) : (
                   <AssetDataViewerComponent gridOnly data={assetData.childIpIds} />

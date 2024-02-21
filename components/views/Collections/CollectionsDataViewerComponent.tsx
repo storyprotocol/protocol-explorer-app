@@ -3,7 +3,7 @@ import BaseDataViewer from '../BaseDataViewer';
 import { ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
 import { shortenAddress } from '@/utils';
-import AddressComponent from '@/components/snippets/AddressComponent';
+import AddressComponent from '@/components/address/AddressComponent';
 import { Address } from 'viem';
 import CollectionCard from '@/components/cards/CollectionCard';
 

@@ -1,6 +1,6 @@
 import { shortenAddress } from '@/utils';
 import React, { useEffect, useState } from 'react';
-import AddressComponent from '../snippets/AddressComponent';
+import AddressComponent from '../address/AddressComponent';
 import { Address } from 'viem';
 import { getOpenSeaCollectionMetadata } from '@/lib/opensea/api';
 import { Collection } from '../views/Collections/CollectionsDataViewerComponent';

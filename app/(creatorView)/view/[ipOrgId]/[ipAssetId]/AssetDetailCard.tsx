@@ -9,7 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import TimeSince, { Fallback as TimeSinceFallback } from './TimeSince';
 import Link from 'next/link';
 import { GetIpAssetRequest, GetIpAssetResponse, IPAsset } from '@story-protocol/core-sdk';
-import AddressComponent from '@/components/snippets/AddressComponent';
+import AddressComponent from '@/components/address/AddressComponent';
 import AssetDisplayComponent from './AssetDisplayComponent';
 
 const Row = ({ label, children }: { label: string; children: React.ReactNode }) => {

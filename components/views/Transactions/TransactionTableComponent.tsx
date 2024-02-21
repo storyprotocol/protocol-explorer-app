@@ -7,7 +7,7 @@ import Link from 'next/link';
 import React from 'react';
 import moment from 'moment';
 import BaseDataViewer from '../BaseDataViewer';
-import AddressComponent from '@/components/snippets/AddressComponent';
+import AddressComponent from '@/components/address/AddressComponent';
 import { Transaction } from '@/lib/server/types';
 
 const columns: ColumnDef<Transaction>[] = [

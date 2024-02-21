@@ -1,4 +1,5 @@
-import AddressComponent from '@/components/snippets/AddressComponent';
+import AddressComponent from '@/components/address/AddressComponent';
+import TooltipWrapper from '@/components/tooltip/tooltip';
 import {
   Table,
   TableBody,
@@ -11,6 +12,7 @@ import {
 } from '@/components/ui/table';
 import { getResource, listResource } from '@/lib/server/sdk';
 import { RESOURCE_TYPE, RoyaltyPolicy } from '@/lib/server/types';
+import { InformationCircleIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import React from 'react';
 import { Address } from 'viem';
@@ -89,7 +91,12 @@ function combineArrays(targetAncestors: Address[], targetRoyaltyAmount: string[]
 export function AncestorVault({ data }: { data: RoyaltyPolicy }) {
   return (
     <div className="p-6 rounded-xl bg-white">
-      <h2 className="text-lg">Ancestor Vault</h2>
+      <div className="flex flex-row items-center gap-1 justify-start">
+        <h2 className="text-lg">Ancestor Vault</h2>
+        <TooltipWrapper content="Ancestor vault is the address where royalties are collected and distributed.">
+          <InformationCircleIcon className="h-4 w-4 text-slate-400 hover:text-indigo-300 transition-all" />
+        </TooltipWrapper>
+      </div>
       <div className="mt-4">
         <div>Address: {data.ancestorsVault}</div>
       </div>
@@ -100,7 +107,12 @@ export function AncestorVault({ data }: { data: RoyaltyPolicy }) {
 export function RoyaltyPool({ data }: { data: RoyaltyPolicy }) {
   return (
     <div className="p-6 rounded-xl bg-white">
-      <h2 className="text-lg">Royalty Pool</h2>
+      <div className="flex flex-row items-center gap-1 justify-start">
+        <h2 className="text-lg">Royalty Pool</h2>
+        <TooltipWrapper content="Royalty pool is the total amount royalties that are available to the target ancestor defined in 0xSplits">
+          <InformationCircleIcon className="h-4 w-4 text-slate-400 hover:text-indigo-300 transition-all" />
+        </TooltipWrapper>
+      </div>
       <div className="mt-4">Split Clone: {data.splitClone}</div>
     </div>
   );
@@ -110,7 +122,12 @@ export async function RoyaltyTargetTable({ data }: { data: RoyaltyPolicy }) {
   const tableData = combineArrays(data.targetAncestors, data.targetRoyaltyAmount);
   return (
     <div className="p-6 rounded-xl bg-white">
-      <h2 className="text-lg">Royalty Splits</h2>
+      <div className="flex flex-row items-center gap-1 justify-start">
+        <h2 className="text-lg">Royalty Splits</h2>
+        <TooltipWrapper content="Royalty splits are the percentage of royalties that are distributed to the target ancestor.">
+          <InformationCircleIcon className="h-4 w-4 text-slate-400 hover:text-indigo-300 transition-all" />
+        </TooltipWrapper>
+      </div>
       {tableData.length ? (
         <Table>
           {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
@@ -128,14 +145,14 @@ export async function RoyaltyTargetTable({ data }: { data: RoyaltyPolicy }) {
                     <AddressComponent address={targetAncestor} size="sm" />
                   </Link>
                 </TableCell>
-                <TableCell>{targetRoyaltyAmount}</TableCell>
+                <TableCell>{parseFloat(targetRoyaltyAmount) / 10}%</TableCell>
               </TableRow>
             ))}
           </TableBody>
           <TableFooter className="bg-white text-black">
             <TableRow>
               <TableCell>Total</TableCell>
-              <TableCell className="text-left">{data.royaltyStack}</TableCell>
+              <TableCell className="text-left">{parseFloat(data.royaltyStack) / 10}%</TableCell>
             </TableRow>
           </TableFooter>
         </Table>

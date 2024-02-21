@@ -10,7 +10,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
   }, [error]);
 
   return (
-    <div className="w-full p-4 md:p-8 max-w-[1600px] mx-auto flex justify-center items-center h-screen">
+    <div className="w-full p-4 md:p-8 max-w-[1600px] mx-auto flex justify-center items-center">
       <div className="text-center">
         <img src="/error.png" />
         <h2 className="text-4xl md:text-4xl">Error</h2>

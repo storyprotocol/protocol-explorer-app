@@ -53,23 +53,27 @@ const AssetCard = ({ data }: { data: Asset }) => {
                 <h3 className="truncate">{data.metadata.name || 'Untitled'}</h3>
               </div>
               <div className="flex flex-row gap-1 font-mono">
-                {data.parentIpIds?.length > 0 ? (
+                {data.parentIpIds && data.parentIpIds?.length > 0 ? (
                   <TooltipWrapper content={<p>{data.parentIpIds?.length} Parent IPs</p>}>
                     <div className="flex flex-row items-center">
                       <IoGitNetworkOutline className="h-3 w-3" />
                       {data.parentIpIds?.length}
                     </div>
                   </TooltipWrapper>
-                ) : (
+                ) : data.parentIpIds ? (
                   <span className="px-1.5 text-xs font-sans rounded-xl bg-indigo-500 text-white">Root</span>
+                ) : (
+                  ''
                 )}
 
-                <TooltipWrapper content={<p>{data.childIpIds?.length} Child IPs</p>}>
-                  <div className="flex flex-row items-center">
-                    <IoGitBranchOutline className="h-3 w-3" />
-                    {data.childIpIds?.length}
-                  </div>
-                </TooltipWrapper>
+                {data.childIpIds && (
+                  <TooltipWrapper content={<p>{data.childIpIds?.length} Child IPs</p>}>
+                    <div className="flex flex-row items-center">
+                      <IoGitBranchOutline className="h-3 w-3" />
+                      {data.childIpIds?.length}
+                    </div>
+                  </TooltipWrapper>
+                )}
               </div>
             </div>
             <TooltipWrapper content={data.id}>

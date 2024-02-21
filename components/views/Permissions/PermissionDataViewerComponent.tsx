@@ -3,7 +3,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import BaseDataViewer from '../BaseDataViewer';
 import { Permission } from '@/lib/server/types';
 import moment from 'moment';
-import AddressComponent from '@/components/snippets/AddressComponent';
+import AddressComponent from '@/components/address/AddressComponent';
 
 const columns: ColumnDef<Permission>[] = [
   {

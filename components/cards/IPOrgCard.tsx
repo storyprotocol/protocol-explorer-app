@@ -2,7 +2,7 @@ import { shortenAddress } from '@/utils';
 import { IPOrg } from '@story-protocol/core-sdk';
 import Link from 'next/link';
 import React from 'react';
-import AddressComponent from '../snippets/AddressComponent';
+import AddressComponent from '../address/AddressComponent';
 
 export default function IPOrgCard({ data }: { data: IPOrg }) {
   return (

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import SortableTable from './SortableTable';
-import AddressComponent from '../snippets/AddressComponent';
+import AddressComponent from '../address/AddressComponent';
 import { ColumnDef } from '@tanstack/react-table';
 
 const columns: ColumnDef<{ key: string; value: string }>[] = [

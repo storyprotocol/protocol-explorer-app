@@ -139,11 +139,11 @@ export type Transaction = {
 };
 
 export type Asset = {
-  id: string;
+  id: Address;
   chainId: string;
-  childIpIds: Asset[];
-  parentIpIds: Asset[];
-  rootIpIds: Asset[];
+  childIpIds: Asset[] | null;
+  parentIpIds: Asset[] | null;
+  rootIpIds: Asset[] | null;
   tokenContract: Address;
   tokenId: string;
   metadataResolverAddress: string;
@@ -172,6 +172,7 @@ export type License = {
   id: string;
   policyId: string;
   licensorIpId: Address;
+  amount: string;
   transferable: boolean;
   blockNumber: string;
   blockTimestamp: string;
