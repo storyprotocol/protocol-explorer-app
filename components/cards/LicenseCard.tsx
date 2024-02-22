@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { PuzzlePieceIcon } from '@heroicons/react/24/outline';
-import AddressComponent from '../address/AddressComponent';
 import { License } from '@/lib/server/types';
 import { OpenSeaNFT, getOpenSeaNFTMetadata } from '@/lib/opensea/api';
 import { getRoundedTime } from '@/utils';

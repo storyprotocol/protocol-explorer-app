@@ -1,3 +1,4 @@
+import { Collection } from '@/lib/server/types';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import * as z from 'zod';
@@ -124,4 +125,13 @@ export function getZodTypeName(type: z.ZodType<any, any>): string {
 
   // Add other Zod types as needed
   return '';
+}
+
+export function calculateTotalDisputes(data: Collection) {
+  return (
+    parseInt(data.resolvedDisputeCount) +
+    parseInt(data.cancelledDisputeCount) +
+    parseInt(data.raisedDisputeCount) +
+    parseInt(data.judgedDisputeCount)
+  );
 }

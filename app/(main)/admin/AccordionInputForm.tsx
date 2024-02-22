@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { removeEmptyStringFields } from '@/utils';
 import JsonView from '@uiw/react-json-view';
+import { githubLightTheme } from '@uiw/react-json-view/githubLight';
 
 type InputFormProps = {
   formSchema: z.ZodObject<any, any>;
@@ -136,7 +137,7 @@ export default function AccordionInputForm({
                 />
               ))}
               <Button type="submit">Submit</Button>
-              <JsonView value={result} />
+              <JsonView value={result} style={githubLightTheme} />
             </form>
           </Form>
         </AccordionContent>

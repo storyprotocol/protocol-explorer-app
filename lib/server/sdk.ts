@@ -47,6 +47,7 @@ export async function listResource(resourceName: ResourceType, options: QueryOpt
         'Content-Type': 'application/json',
         'x-api-key': API_KEY as string,
       },
+      cache: 'no-cache',
       body: JSON.stringify({ options }),
     });
     if (res.ok) {

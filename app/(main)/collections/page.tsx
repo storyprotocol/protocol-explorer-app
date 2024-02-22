@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import CollectionsDataViewer from '@/components/views/Collections';
 import SkeletonGrid from '@/components/Skeletons/SkeletonGrid';
-// import { Skeleton } from '@/components/ui/skeleton';
-export const revalidate = 60;
+
+export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
 
 export default async function CollectionsPage() {
@@ -20,7 +20,7 @@ export default async function CollectionsPage() {
             </div>
           }
         >
-          <CollectionsDataViewer gridOnly />
+          <CollectionsDataViewer />
         </Suspense>
       </div>
     </div>

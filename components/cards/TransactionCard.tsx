@@ -1,50 +1,18 @@
 'use client';
+
 import { cn } from '@/utils';
 import SuccessBadge from '../badges/SuccessBadge';
 import Link from 'next/link';
 import moment from 'moment';
 import AddressComponent from '../address/AddressComponent';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@radix-ui/react-accordion';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import JsonView from '@uiw/react-json-view';
 import { useStoryClientContext } from '@/app/(main)/context/StoryClientContext';
-import { RESOURCE_TYPE, ResourceType, Transaction } from '@/lib/server/types';
-import { Address } from 'viem';
+import { Transaction } from '@/lib/server/types';
 
 export default function TransactionCard({ classname, data }: { classname?: string; data: Transaction }) {
   const [additionalData, setAdditionalData] = useState<Record<any, any>>();
   const { client } = useStoryClientContext();
-
-  const isRelationship = data.resourceType === 'Relationship' && data.actionType === 'Register';
-
-  // const fetchData = useCallback(
-  //   async (resourceType: ResourceType, resourceId: string | Address) => {
-  //     let responseData;
-
-  //     RESOURCE_TYPE[resourceType]
-  //     if (actionType === 'Register') {
-  //       if (resourceType === 'IPAsset') {
-  //         responseData = await client.ipAsset.get({ ipAssetId: resourceId });
-  //       } else if (resourceType === 'Relationship') {
-  //         responseData = await client.relationship.get({ relationshipId: resourceId });
-  //       } else if (resourceType === 'RelationshipType') {
-  //         responseData = await client.relationshipType.get({ relType: resourceId, ipOrgId });
-  //       } else if (resourceType === 'IPOrg') {
-  //         responseData = await client.ipOrg.get({ ipOrgId: resourceId });
-  //       }
-
-  //       setAdditionalData(responseData);
-  //     }
-  //   },
-  //   [client.ipAsset, client.ipOrg, client.relationship, client.relationshipType],
-  // );
-
-  // useEffect(() => {
-  //   if (!additionalData) {
-  //     fetchData(data.resourceType, data.resourceId);
-  //   }
-  // }, [additionalData, data.actionType, data.ipOrgId, data.resourceId, data.resourceType, fetchData]);
 
   return (
     <>

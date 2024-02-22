@@ -41,9 +41,11 @@ export default function AddressStack({ data }: { data: Asset[] }) {
           </TooltipWrapper>
         ))}
       </div>
-      <Link href={`/ipa/${data[0].id}`} className="font-mono text-indigo-400 hover:text-indigo-500">
-        {shortenAddress(data[0].id)}
-      </Link>
+      <TooltipWrapper content={'abc'}>
+        <Link href={`/ipa/${data[0].id}`} className="font-mono text-indigo-400 hover:text-indigo-500">
+          {shortenAddress(data[0].id)}
+        </Link>
+      </TooltipWrapper>
       {data.length - 1 > 0 && (
         <div className="text-xs">
           and {data.length - 1} more{' '}

@@ -19,6 +19,8 @@ const PageTitle = async ({ collectionId }: { collectionId: string }) => {
   return <h1 className="font-medium text-xl md:text-3xl text-white md:mb-2">{collectionId}</h1>;
 };
 
+export const fetchCache = 'force-no-store';
+
 export default async function CollectionDetailPage({
   params: { contractAddress },
 }: {

@@ -7,11 +7,12 @@ import SuccessBadge from '@/components/badges/SuccessBadge';
 import { Skeleton } from '@/components/ui/skeleton';
 
 import Link from 'next/link';
-import AddressComponent from '@/components/address/AddressComponent';
+
 import AssetDisplayComponent from './AssetDisplayComponent';
 import { Asset, RESOURCE_TYPE } from '@/lib/server/types';
 import moment from 'moment';
 import JsonView from '@uiw/react-json-view';
+import { githubLightTheme } from '@uiw/react-json-view/githubLight';
 import { listResource } from '@/lib/server/sdk';
 import AddressStack from '@/components/address/AddressStack';
 
@@ -216,7 +217,7 @@ export default function AssetDetailCard({ data }: { data: Asset }) {
             </Row>
 
             <Row label="Metadata">
-              <JsonView value={data.metadata} className="w-full" />
+              <JsonView value={data.metadata} style={githubLightTheme} className="w-full" />
             </Row>
 
             <Row label="Status">

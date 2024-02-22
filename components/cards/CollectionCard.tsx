@@ -1,10 +1,16 @@
-import { shortenAddress } from '@/utils';
+import { calculateTotalDisputes, shortenAddress } from '@/utils';
 import React, { useEffect, useState } from 'react';
-import AddressComponent from '../address/AddressComponent';
 import { Address } from 'viem';
 import { getOpenSeaCollectionMetadata } from '@/lib/opensea/api';
-import { Collection } from '../views/Collections/CollectionsDataViewerComponent';
 import Link from 'next/link';
+import { Collection } from '@/lib/server/types';
+import { IoGitBranchOutline } from 'react-icons/io5';
+import TooltipWrapper from '../tooltip/tooltip';
+
+import { ExclamationTriangleIcon, NewspaperIcon } from '@heroicons/react/24/outline';
+
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 
 const CollectionCard = ({ data }: { data: Collection }) => {
   const [openseaMetadata, setOpenseaMetadata] = useState<any>(null);
@@ -19,6 +25,10 @@ const CollectionCard = ({ data }: { data: Collection }) => {
 
     return () => {};
   }, [data.id]);
+
+  console.log({ data });
+
+  const disputeCount = calculateTotalDisputes(data);
 
   return (
     <div className="w-full bg-white rounded-2xl overflow-hidden border-2 border-slate-100 hover:border-indigo-500 hover:shadow-md">
@@ -45,21 +55,34 @@ const CollectionCard = ({ data }: { data: Collection }) => {
         </Link>
       </div>
 
-      <div className="flex flex-row justify-between items-end text-sm px-6 py-4">
-        <div className="flex flex-col gap-1 items-start justify-between">
-          <p className="text-xs text-indigo-400 font-medium font-mono">{shortenAddress(data.id, 6)}</p>
-          <AddressComponent address={openseaMetadata?.owner as string} size="sm" />
-        </div>
-        <div>
-          {openseaMetadata?.opensea_url && (
-            <Link
-              className="text-blue-500 hover:text-blue-600 hover:cursor-pointer"
-              href={openseaMetadata.opensea_url}
-              target="_blank"
-            >
-              Opensea
-            </Link>
-          )}
+      <div className="text-xs p-4">
+        <div className="flex flex-col items-start justify-between">
+          <div className="flex flex-col w-full">
+            <TooltipWrapper content={data.id}>
+              <p className="text-xs text-left font-mono truncate text-indigo-400">{data.id}</p>
+            </TooltipWrapper>
+            <div className="flex flex-row text-xs justify-between items-center"></div>
+          </div>
+          <div className="flex flex-row gap-3 justify-between font-mono text-xs">
+            <TooltipWrapper content={<p>{data.assetCount} Registered Assets</p>}>
+              <div className="flex flex-row items-center">
+                <IoGitBranchOutline className="h-3 w-3" />
+                {data.assetCount}
+              </div>
+            </TooltipWrapper>
+            <TooltipWrapper content={<p>{data.licensesCount} Licenses</p>}>
+              <div className="flex flex-row items-center">
+                <NewspaperIcon className="h-3 w-3" />
+                {data.licensesCount}
+              </div>
+            </TooltipWrapper>
+            <TooltipWrapper content={<p>{disputeCount} Disputes</p>}>
+              <div className="flex flex-row items-center">
+                <ExclamationTriangleIcon className="h-3 w-3" />
+                {disputeCount}
+              </div>
+            </TooltipWrapper>
+          </div>
         </div>
       </div>
     </div>

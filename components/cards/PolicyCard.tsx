@@ -1,5 +1,6 @@
 import { Policy } from '@/lib/server/types';
 import JsonView from '@uiw/react-json-view';
+import { githubLightTheme } from '@uiw/react-json-view/githubLight';
 import moment from 'moment';
 import React from 'react';
 
@@ -27,7 +28,7 @@ export default function PolicyCard({ data }: { data: Policy }) {
         </span>
       </Row>
       <Row label="PIL data">
-        <JsonView value={data.pil} className="w-full" />
+        <JsonView value={data.pil} className="w-full" style={githubLightTheme} />
       </Row>
 
       {/* <div className="flex flex-col">

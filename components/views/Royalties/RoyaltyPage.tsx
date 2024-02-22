@@ -97,7 +97,7 @@ export function AncestorVault({ data }: { data: RoyaltyPolicy }) {
           <InformationCircleIcon className="h-4 w-4 text-slate-400 hover:text-indigo-300 transition-all" />
         </TooltipWrapper>
       </div>
-      <div className="mt-4">
+      <div className="mt-4 font-mono text-xs">
         <div>Address: {data.ancestorsVault}</div>
       </div>
     </div>
@@ -113,7 +113,7 @@ export function RoyaltyPool({ data }: { data: RoyaltyPolicy }) {
           <InformationCircleIcon className="h-4 w-4 text-slate-400 hover:text-indigo-300 transition-all" />
         </TooltipWrapper>
       </div>
-      <div className="mt-4">Split Clone: {data.splitClone}</div>
+      <div className="mt-4 font-mono text-xs">Split Clone: {data.splitClone}</div>
     </div>
   );
 }

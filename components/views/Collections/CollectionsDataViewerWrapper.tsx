@@ -3,6 +3,9 @@ import CollectionsDataViewerComponent from '@/components/views/Collections/Colle
 import { RESOURCE_TYPE } from '@/lib/server/types';
 import { listResource } from '@/lib/server/sdk';
 
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+
 export default async function CollectionsDataViewerWrapper({
   tableOnly,
   gridOnly,
@@ -22,6 +25,8 @@ export default async function CollectionsDataViewerWrapper({
   const collectionRes = await listResource(RESOURCE_TYPE.COLLECTION, listParams);
 
   const collectionData = collectionRes.data;
+
+  console.log({ collectionData });
   return (
     <CollectionsDataViewerComponent
       data={collectionData}
