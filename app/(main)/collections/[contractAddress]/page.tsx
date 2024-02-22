@@ -30,7 +30,7 @@ export default async function CollectionDetailPage({
 
   console.log({ collectionData });
   return (
-    <div className="">
+    <div className="w-full">
       <div className="relative w-full h-[24rem] bg-slate-500 mx-auto">
         {openseaMetadata.banner_image_url && (
           <img
@@ -60,25 +60,23 @@ export default async function CollectionDetailPage({
           <CollectionStatsCard data={collectionData} />
         </div>
 
-        <div className="grid grid-cols-12 gap-2">
-          <div className="flex col-span-12">
-            <Tabs defaultValue="assets" className="w-full">
-              <TabsList>
-                {/* <TabsTrigger value="tx">Transactions</TabsTrigger> */}
-                <TabsTrigger value="assets">Assets</TabsTrigger>
-              </TabsList>
-              {/* <TabsContent value="tx">
+        <div className="flex">
+          <Tabs defaultValue="assets" className="w-full">
+            <TabsList className="overflow-scroll">
+              {/* <TabsTrigger value="tx">Transactions</TabsTrigger> */}
+              <TabsTrigger value="assets">Assets</TabsTrigger>
+            </TabsList>
+            {/* <TabsContent value="tx">
                 <Suspense fallback={<SkeletonTable />}>
                   <TransactionTableWrapper collectionId={contractAddress} />
                 </Suspense>
               </TabsContent> */}
-              <TabsContent value="assets">
-                <Suspense fallback={<div className="w-full pt-8 text-center text-gray-500">No assets found</div>}>
-                  <AssetDataViewer collectionId={contractAddress} />
-                </Suspense>
-              </TabsContent>
-            </Tabs>
-          </div>
+            <TabsContent value="assets">
+              <Suspense fallback={<div className="w-full pt-8 text-center text-gray-500">No assets found</div>}>
+                <AssetDataViewer collectionId={contractAddress} />
+              </Suspense>
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </div>

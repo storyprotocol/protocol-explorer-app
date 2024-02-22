@@ -146,17 +146,20 @@ export default function AssetDetailCard({ data }: { data: Asset }) {
 
             <Row label="Root IP IDs">
               <div className="flex flex-col">
-                {data.rootIpIds && data.rootIpIds.length > 0
-                  ? data.rootIpIds.map((rootIpId) => (
-                      <Link
-                        key={rootIpId.id}
-                        href={`/ipa/${rootIpId.id}`}
-                        className="text-indigo-400 hover:text-indigo-500"
-                      >
-                        <AddressComponent key={rootIpId.id} address={rootIpId.id} />
-                      </Link>
-                    ))
-                  : '-'}
+                {data.rootIpIds && data.rootIpIds.length > 0 ? (
+                  <AddressStack data={data.rootIpIds} />
+                ) : (
+                  // data.rootIpIds.map((rootIpId) => (
+                  //     <Link
+                  //       key={rootIpId.id}
+                  //       href={`/ipa/${rootIpId.id}`}
+                  //       className="text-indigo-400 hover:text-indigo-500"
+                  //     >
+                  //       <AddressComponent key={rootIpId.id} address={rootIpId.id} />
+                  //     </Link>
+                  //   ))
+                  '-'
+                )}
               </div>
             </Row>
 

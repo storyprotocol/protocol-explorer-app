@@ -72,7 +72,7 @@ export default function AssetDetailPage({
         <div className="grid grid-cols-12 gap-2">
           <div className="flex col-span-12">
             <Tabs defaultValue="tx" className="w-full">
-              <TabsList>
+              <TabsList className="overflow-scroll">
                 <TabsTrigger value="tx">TX</TabsTrigger>
                 <TabsTrigger value="licenses">Licenses</TabsTrigger>
                 <TabsTrigger value="relationships">Relationships</TabsTrigger>
