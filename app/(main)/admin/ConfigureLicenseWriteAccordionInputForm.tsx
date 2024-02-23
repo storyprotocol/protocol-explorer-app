@@ -77,7 +77,6 @@ function EnumDropdown({ field, enumType }: EnumDropdownProps) {
     const isEnumOfNumbers = typeof enumType[selectedValue] === 'number';
 
     const convertedValue = isEnumOfNumbers ? Number(enumType[selectedValue]) : selectedValue;
-    console.log(convertedValue);
     field.onChange(convertedValue);
   };
 
@@ -276,7 +275,6 @@ export default function ConfigureLicenseWriteAccordionInputForm({
   );
 
   const FailedComponent = () => {
-    console.log('Failed:', data);
     return (
       <>
         <XCircleIcon className=" w-full mx-auto text-red-500 mb-4" width={40} height={40} />
@@ -292,10 +290,10 @@ export default function ConfigureLicenseWriteAccordionInputForm({
   const DialogComponent = isIdle
     ? IdleComponent
     : isLoading
-    ? LoadingComponent
-    : isSuccess
-    ? SuccessComponent
-    : FailedComponent;
+      ? LoadingComponent
+      : isSuccess
+        ? SuccessComponent
+        : FailedComponent;
 
   return (
     <>

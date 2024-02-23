@@ -2,36 +2,35 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { PuzzlePieceIcon } from '@heroicons/react/24/outline';
 import { Asset } from '@/lib/server/types';
-import { OpenSeaNFT, getOpenSeaNFTMetadata } from '@/lib/opensea/api';
 import { getRoundedTime } from '@/utils';
 import { IoGitBranchOutline, IoGitNetworkOutline } from 'react-icons/io5';
 import TooltipWrapper from '../tooltip/tooltip';
+import { NFTMetadata, getNFTByTokenId } from '@/lib/simpleHash';
 
 const AssetCard = ({ data }: { data: Asset }) => {
-  const [openseaNFTdata, setOpenseaNFTdata] = useState<OpenSeaNFT | null>(null);
+  const [nftMetadata, setNFTMetadata] = useState<NFTMetadata | null>(null);
 
+  console.log({ nftMetadata });
   useEffect(() => {
     const fetchMetadata = async () => {
-      const metadata = await getOpenSeaNFTMetadata('sepolia', data.tokenContract, data.tokenId);
-      setOpenseaNFTdata(metadata);
+      const metadata = await getNFTByTokenId(data.tokenContract, data.tokenId);
+      setNFTMetadata(metadata);
     };
 
     fetchMetadata();
-
-    return () => {};
   }, [data.tokenContract, data.tokenId]);
 
   return (
     <div className="w-full bg-white rounded-2xl overflow-hidden border-2 border-slate-100 hover:border-indigo-500 hover:shadow-md">
       <div className="overflow-hidden aspect-square">
         <Link href={`/ipa/${data.id}`} className="hover:cursor-pointer">
-          {openseaNFTdata?.image_url ? (
+          {nftMetadata?.image_url ? (
             <img
               width={400}
               height={400}
               alt={data.metadata.name}
               className="h-full w-full object-cover transition-all hover:scale-125"
-              src={`${openseaNFTdata.image_url}?date=${getRoundedTime(15)}`}
+              src={`${nftMetadata.image_url}?date=${getRoundedTime(15)}`}
             />
           ) : (
             <div className="flex h-full justify-center items-center bg-gradient-to-br from-indigo-50 to-indigo-200 px-5">

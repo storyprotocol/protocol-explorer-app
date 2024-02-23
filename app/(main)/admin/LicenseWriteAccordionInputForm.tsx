@@ -76,7 +76,6 @@ function EnumDropdown({ field, enumType }: EnumDropdownProps) {
     const isEnumOfNumbers = typeof enumType[selectedValue] === 'number';
 
     const convertedValue = isEnumOfNumbers ? Number(enumType[selectedValue]) : selectedValue;
-    console.log(convertedValue);
     field.onChange(convertedValue);
   };
 
@@ -281,10 +280,10 @@ export default function CreateLicenseWriteAccordionInputForm({
   const DialogComponent = isIdle
     ? IdleComponent
     : isLoading
-    ? LoadingComponent
-    : isSuccess
-    ? SuccessComponent
-    : FailedComponent;
+      ? LoadingComponent
+      : isSuccess
+        ? SuccessComponent
+        : FailedComponent;
 
   return (
     <>

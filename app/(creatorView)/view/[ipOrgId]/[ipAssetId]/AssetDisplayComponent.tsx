@@ -25,7 +25,6 @@ export default function AssetDisplayComponent({ data }: { data: IPAsset }) {
         } else {
           // Step 2: Access property values from the JavaScript object
           const imageURI = d.image; // Replace 'propertyName' with the actual property name in your JSON data
-          console.log('imageURI', imageURI);
           setImageUrl(imageURI);
         }
       })

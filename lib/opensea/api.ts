@@ -201,7 +201,7 @@ export async function getOpenSeaNFTMetadata(
   tokenId: string,
 ): Promise<OpenSeaNFT | null> {
   try {
-    const data = await fetch(`${OPENSEA_BASE_URL}/api/v2/chain/${chain}/contract/${address}/nfts/${tokenId}`);
+    const data = await fetch(`${OPENSEA_BASE_URL}/api/v2/chain/${chain}/contract/${address}/nfts/${tokenId}`, options);
     const res = await data.json();
 
     return res.nft;

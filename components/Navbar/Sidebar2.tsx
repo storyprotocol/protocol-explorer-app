@@ -69,7 +69,7 @@ export default function Sidebar2({ children }: { children: React.ReactNode }) {
         <body class="h-full">
         ```
       */}
-      <div>
+      <div className="bg-gray-100">
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
             <Transition.Child
@@ -247,10 +247,10 @@ export default function Sidebar2({ children }: { children: React.ReactNode }) {
         </div>
 
         <div className="lg:pl-60">
-          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-2 border-b border-gray-200 bg-white px-2 md:px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+          <div className="lg:pr-64 fixed top-0 z-40 flex h-16 shrink-0 items-center gap-x-3 bg-transparent px-2 md:px-4 sm:gap-x-3 sm:px-6 w-full">
             <button
               type="button"
-              className="md:-m-2.5 p-1 -m-1 md:p-2.5 text-gray-700 lg:hidden"
+              className="md:-m-2.5 p-1 -m-1 md:p-2.5 text-gray-700 lg:hidden bg-white h-10 rounded-md px-2 shadow-md"
               onClick={() => setSidebarOpen(true)}
             >
               <span className="sr-only">Open sidebar</span>
@@ -258,7 +258,7 @@ export default function Sidebar2({ children }: { children: React.ReactNode }) {
             </button>
 
             {/* Separator */}
-            <div className="h-6 w-px bg-gray-900/10 lg:hidden" aria-hidden="true" />
+            {/* <div className="h-6 w-px bg-transparent lg:hidden" aria-hidden="true" /> */}
 
             <div className="flex flex-1 gap-x-2 self-stretch lg:gap-x-6">
               <SearchBar />
@@ -279,9 +279,7 @@ export default function Sidebar2({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          <main className="">
-            <div className="">{children}</div>
-          </main>
+          <main className="">{children}</main>
         </div>
       </div>
     </>

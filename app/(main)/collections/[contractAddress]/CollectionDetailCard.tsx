@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import Icons from '@/components/ui/icons';
-import { OpenSeaCollection } from '@/lib/opensea/api';
+import { CollectionMetadata } from '@/lib/simpleHash';
 
 const CardWrapper = ({ children, txHash }: { children: React.ReactNode; txHash?: string }) => (
   <div className="flex flex-col col-span-12 md:col-span-6 bg-white rounded-2xl shadow-lg">
@@ -53,21 +53,21 @@ export const Fallback = () => (
 
 export default async function CollectionDetailCard({
   collectionId,
-  openseaMetadata,
+  collectionMetadata,
 }: {
   collectionId: string;
-  openseaMetadata: OpenSeaCollection;
+  collectionMetadata: CollectionMetadata;
 }) {
   return (
     <CardWrapper>
       <div className="w-full p-4 pb-6">
-        <Row label="IP Collection Name">{openseaMetadata.name}</Row>
+        <Row label="IP Collection Name">{collectionMetadata.name}</Row>
         <Row label="IP Collection Address">
           <span className="font-mono">{collectionId}</span>
         </Row>
-        <Row label="IP Collection Owner">
-          <span className="font-mono">{openseaMetadata.owner}</span>
-        </Row>
+        {/* <Row label="IP Collection Owner">
+          <span className="font-mono">{collectionMetadata.owner}</span>
+        </Row> */}
       </div>
     </CardWrapper>
   );

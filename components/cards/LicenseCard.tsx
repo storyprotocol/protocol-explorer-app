@@ -1,28 +1,23 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { PuzzlePieceIcon } from '@heroicons/react/24/outline';
 import { License } from '@/lib/server/types';
-import { OpenSeaNFT, getOpenSeaNFTMetadata } from '@/lib/opensea/api';
 import { getRoundedTime } from '@/utils';
 import { Address } from 'viem';
+import { NFTMetadata, getNFTByTokenId } from '@/lib/simpleHash';
 
 const LicenseCard = ({ data }: { data: License }) => {
-  const [openseaNFTdata, setOpenseaNFTdata] = useState<OpenSeaNFT | null>(null);
+  const [nftMetadata, setNFTMetadata] = useState<NFTMetadata | null>(null);
 
   useEffect(() => {
     const fetchMetadata = async () => {
-      const metadata = await getOpenSeaNFTMetadata(
-        'sepolia',
-        process.env.NEXT_PUBLIC_REGISTRATION_MODULE_CONTRACT as Address,
-        data.id,
-      );
-      setOpenseaNFTdata(metadata);
+      const metadata = await getNFTByTokenId(process.env.NEXT_PUBLIC_REGISTRATION_MODULE_CONTRACT as Address, data.id);
+      setNFTMetadata(metadata);
     };
 
     fetchMetadata();
-
-    return () => {};
-  }, [data.id]);
+  }, []);
 
   return (
     <div className="w-full bg-white rounded-2xl overflow-hidden border-2 border-slate-100 hover:border-indigo-500 hover:shadow-md">
@@ -36,13 +31,13 @@ const LicenseCard = ({ data }: { data: License }) => {
             target="_blank"
             className="hover:cursor-pointer"
           >
-            {openseaNFTdata?.image_url ? (
+            {nftMetadata?.image_url ? (
               <img
                 width={400}
                 height={400}
                 alt={data.id}
                 className="h-full w-full object-cover transition-all hover:scale-125"
-                src={`${openseaNFTdata.image_url}?date=${getRoundedTime(15)}`}
+                src={`${nftMetadata.image_url}?date=${getRoundedTime(15)}`}
               />
             ) : (
               <div className="flex h-full justify-center items-center bg-gradient-to-br from-indigo-50 to-indigo-200 px-5">

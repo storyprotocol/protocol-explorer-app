@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <WagmiConfigWrapper>
           <StoryClientProvider>
             <Layout>
-              <div className="flex flex-row w-full bg-gray-100 pb-20 min-h-[calc(100vh-64px)]">{children}</div>
+              <div className="flex flex-row w-full bg-gray-100 min-h-[calc(100vh-64px)]">{children}</div>
               <Toaster />
             </Layout>
           </StoryClientProvider>

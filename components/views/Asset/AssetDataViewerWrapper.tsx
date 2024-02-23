@@ -24,8 +24,6 @@ export default async function AssetDataViewerWrapper({ collectionId, ipId, ...pa
 
   let ipAssets: Asset[] = assetListRes.data;
 
-  console.log({ ipAssets });
-
   if (!ipAssets.length) {
     return <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>;
   }

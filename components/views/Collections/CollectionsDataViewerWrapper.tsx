@@ -26,7 +26,6 @@ export default async function CollectionsDataViewerWrapper({
 
   const collectionData = collectionRes.data;
 
-  console.log({ collectionData });
   return (
     <CollectionsDataViewerComponent
       data={collectionData}

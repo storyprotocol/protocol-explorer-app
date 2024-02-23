@@ -82,16 +82,16 @@ export default function SearchBar() {
   }, []);
 
   return (
-    <div className="relative flex flex-col justify-center flex-1 bg-white transition-all">
+    <div className="relative flex flex-col justify-center flex-1 transition-all">
       <Combobox onChange={() => {}}>
         <div ref={autocompleteRef}>
-          <div className="relative">
+          <div className="relative bg-white rounded-md shadow-lg">
             <MagnifyingGlassIcon
-              className="pointer-events-none absolute left-0 md:left-4 top-3.5 h-5 w-5 text-gray-400"
+              className="pointer-events-none absolute left-2 md:left-4 top-2.5 md:top-3 h-5 w-5 text-gray-400"
               aria-hidden="true"
             />
             <Combobox.Input
-              className="h-12 w-full border-0 bg-transparent pl-6 md:pl-11 pr-4 text-gray-900 placeholder:text-gray-400 text-xs sm:text-sm focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 "
+              className="h-10 w-full border-0 bg-transparent pl-8 md:pl-11 pr-4 text-gray-900 placeholder:text-gray-400 text-xs sm:text-sm focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:ring-indigo-500 focus-visible:ring-offset-indigo-100 outline-indigo-300 transition-all"
               placeholder="Search by Address / Txn Hash / IP Asset ID"
               onChange={debounce((event: ChangeEvent<HTMLInputElement>) => {
                 setQuery(event.target.value);
@@ -105,7 +105,7 @@ export default function SearchBar() {
           {showAutocomplete && query !== '' && hasResults && (
             <Combobox.Options
               static
-              className="absolute text-xs w-full top-16 max-h-80 scroll-py-2 divide-y divide-gray-100 overflow-y-auto z-30 bg-white shadow-md rounded-b-xl"
+              className="absolute text-xs w-full top-16 max-h-80 scroll-py-2 divide-y divide-gray-100 overflow-y-auto z-30 bg-white shadow-lg rounded-b-xl"
             >
               {transactions.length > 0 && (
                 <li className="p-2">
@@ -214,7 +214,7 @@ export default function SearchBar() {
           )}
 
           {query !== '' && !hasResults && (
-            <div className="absolute top-16 w-full px-6 py-14 text-center sm:px-14 bg-white shadow-md rounded-b-xl">
+            <div className="absolute top-14 w-full px-6 py-14 text-center sm:px-14 bg-white shadow-md rounded-b-xl">
               <FolderIcon className="mx-auto h-6 w-6 text-gray-400" aria-hidden="true" />
               <p className="mt-4 text-sm text-gray-900">
                 {`We couldn't find anything on our protocol with that term. Please try again.`}

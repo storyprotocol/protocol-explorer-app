@@ -1,19 +1,16 @@
 import { Suspense } from 'react';
 
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AssetDataViewer from '@/components/views/Asset';
-import TransactionTableWrapper from '@/components/views/Transactions/TransactionTableWrapper';
 import { Skeleton } from '@/components/ui/skeleton';
 
 import CollectionBreadcrumbs, { Fallback as FallbackBreadcrumbs } from './CollectionBreadcrumbs';
 import CollectionDetailCard, { Fallback as CollectionDetailCardFallback } from './CollectionDetailCard';
 import CollectionStatsCard from './CollectionStatsCard';
-
-import { getOpenSeaCollectionMetadata } from '@/lib/opensea/api';
 import { Address } from 'viem';
 import { getResource } from '@/lib/server/sdk';
-import { RESOURCE_TYPE } from '@/lib/server/types';
+import { Collection, RESOURCE_TYPE } from '@/lib/server/types';
+import { CollectionMetadata, getCollectionByAddress } from '@/lib/simpleHash';
 
 const PageTitle = async ({ collectionId }: { collectionId: string }) => {
   return <h1 className="font-medium text-xl md:text-3xl text-white md:mb-2">{collectionId}</h1>;
@@ -26,17 +23,16 @@ export default async function CollectionDetailPage({
 }: {
   params: { contractAddress: Address };
 }) {
-  const openseaMetadata = await getOpenSeaCollectionMetadata(contractAddress as Address);
+  const collectionMetadata: CollectionMetadata = await getCollectionByAddress(contractAddress as Address);
   const collectionRes = await getResource(RESOURCE_TYPE.COLLECTION, contractAddress);
-  const collectionData = collectionRes.data;
+  const collectionData: Collection = collectionRes.data;
 
-  console.log({ collectionData });
   return (
     <div className="w-full">
       <div className="relative w-full h-[24rem] bg-slate-500 mx-auto">
-        {openseaMetadata.banner_image_url && (
+        {collectionMetadata.banner_image_url && (
           <img
-            src={openseaMetadata.banner_image_url}
+            src={collectionMetadata.banner_image_url}
             alt="IP Org image"
             className="absolute w-full h-full object-cover"
           />
@@ -57,7 +53,7 @@ export default async function CollectionDetailPage({
 
         <div className="grid grid-cols-12 gap-6 mb-8">
           <Suspense fallback={<CollectionDetailCardFallback />}>
-            <CollectionDetailCard openseaMetadata={openseaMetadata} collectionId={contractAddress} />
+            <CollectionDetailCard collectionMetadata={collectionMetadata} collectionId={contractAddress} />
           </Suspense>
           <CollectionStatsCard data={collectionData} />
         </div>

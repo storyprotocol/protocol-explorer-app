@@ -36,7 +36,7 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
     <div className="w-full p-4 md:p-8 max-w-[1600px] mx-auto">
       <div className="flex flex-col items-left gap-6">
         <div>
-          <div className="flex flex-row gap-4 items-center mb-4">
+          <div className="flex flex-row gap-4 items-center mb-4 pt-10">
             <h1 className="text-xl md:text-2xl font-semibold leading-none">IP Asset Detail</h1>
             {!assetData.rootIpIds && <Badge className="bg-indigo-500 hover:bg-indigo-500">Root</Badge>}
           </div>

@@ -34,8 +34,4 @@ export default async function TransactionTableWrapper({
       <TransactionTableComponent data={filteredData} pageSize={pageSize} />
     </>
   );
-  // } catch (error) {
-  //   console.log('TEST', { error });
-  //   // return <ErrorComponent />;
-  // }
 }
