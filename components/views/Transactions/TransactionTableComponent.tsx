@@ -1,7 +1,7 @@
 'use client';
 
 import SuccessBadge from '@/components/badges/SuccessBadge';
-import { shortenAddress, shortenString } from '@/utils';
+import { shortenString } from '@/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
 import React from 'react';

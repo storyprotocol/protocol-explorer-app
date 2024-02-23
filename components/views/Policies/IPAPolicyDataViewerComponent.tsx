@@ -1,10 +1,7 @@
 'use client';
 import { ColumnDef } from '@tanstack/react-table';
 import BaseDataViewer from '../BaseDataViewer';
-import Link from 'next/link';
-import AddressComponent from '@/components/address/AddressComponent';
-import { IPAPolicy, Policy } from '@/lib/server/types';
-import { Address } from 'viem';
+import { IPAPolicy } from '@/lib/server/types';
 import moment from 'moment';
 
 const columns: ColumnDef<IPAPolicy>[] = [

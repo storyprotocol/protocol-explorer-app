@@ -1,24 +1,12 @@
 import { Suspense } from 'react';
-
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import TransactionTableWrapper from '@/components/views/Transactions/TransactionTableWrapper';
-
-import AssetDetailCard, { Fallback as FallbackDetailsCard } from './AssetDetailCard';
-// import AssetBreadcrumbs, { Fallback as FallbackBreadcrumbs } from './AssetBreadcrumbs';
-// import LicenseReadAccordion from '@/app/(main)/admin/LicenseReadAccordion';
-// import IpOrgLicenseDataViewer from '@/components/views/Licenses';
-// import CreateIpaBoundLicenseWriteAccordion from '@/app/(main)/admin/CreateIpaBoundLicenseWriteAccordion';
-// import { CreateLicenseRequest } from '@story-protocol/core-sdk';
-// import RelationshipWriteAccordion from '@/app/(main)/admin/RelationshipWriteAccordion';
+import AssetDetailCard from './AssetDetailCard';
 import { Badge } from '@/components/ui/badge';
 import { Address } from 'viem';
 import { getResource } from '@/lib/server/sdk';
 import { Asset, RESOURCE_TYPE } from '@/lib/server/types';
-
-import PolicyDataViewerWrapper from '@/components/views/Policies/PolicyDataViewerWrapper';
 import LicenseDataViewer from '@/components/views/Licenses';
-import RoyaltyDataViewerWrapper from '@/components/views/Royalties/RoyaltyDataViewerWrapper';
 import DisputeDataViewerWrapper from '@/components/views/Disputes/DisputeDataViewerWrapper';
 import PermissionDataViewerWrapper from '@/components/views/Permissions/PermissionDataViewerWrapper';
 import AssetDataViewerComponent from '@/components/views/Asset/AssetDataViewerComponent';
@@ -36,7 +24,7 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
     <div className="w-full p-4 md:p-8 max-w-[1600px] mx-auto">
       <div className="flex flex-col items-left gap-6">
         <div>
-          <div className="flex flex-row gap-4 items-center mb-4 pt-10">
+          <div className="flex flex-row gap-4 items-center pt-16 md:pt-10">
             <h1 className="text-xl md:text-2xl font-semibold leading-none">IP Asset Detail</h1>
             {!assetData.rootIpIds && <Badge className="bg-indigo-500 hover:bg-indigo-500">Root</Badge>}
           </div>

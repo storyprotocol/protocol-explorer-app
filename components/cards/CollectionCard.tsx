@@ -34,13 +34,13 @@ const CollectionCard = ({ data }: { data: Collection }) => {
         <Link href={`/collections/${data.id}`} className="hover:cursor-pointer">
           {collectionMetadata?.image_url ? (
             <img
-              width={400}
-              height={400}
+              width={'100%'}
+              height={'100%'}
               alt={data.id}
               loading="lazy"
               decoding="async"
               data-nimg="1"
-              className="h-auto w-full object-cover transition-all hover:scale-125"
+              className="h-full w-full object-cover transition-all hover:scale-125"
               src={collectionMetadata.image_url}
             />
           ) : (

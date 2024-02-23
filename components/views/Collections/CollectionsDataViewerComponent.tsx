@@ -37,7 +37,7 @@ const columns: ColumnDef<Collection>[] = [
     header: 'disputeCount',
     cell: ({ row }) => {
       const data = row.original;
-      return <div className="capitalize font-mono text-xs ">{calculateTotalDisputes(row.original)}</div>;
+      return <div className="capitalize font-mono text-xs ">{calculateTotalDisputes(data)}</div>;
     },
   },
   {

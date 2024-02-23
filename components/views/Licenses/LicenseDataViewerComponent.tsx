@@ -1,5 +1,5 @@
 'use client';
-import IPOrgCard from '@/components/cards/IPOrgCard';
+
 import BaseDataViewer from '../BaseDataViewer';
 import { ColumnDef } from '@tanstack/react-table';
 import { License } from '@story-protocol/core-sdk';

@@ -1,20 +1,8 @@
 import { RESOURCE_TYPE, RoyaltyPolicy } from '@/lib/server/types';
-import { getResource, listResource } from '@/lib/server/sdk';
+import { getResource } from '@/lib/server/sdk';
 import RoyaltyPolicyDataViewerComponent from './RoyaltyPolicyDataViewerComponent';
 
 export default async function RoyaltyPolicyDataViewerWrapper({ royaltyPolicy, ipId, ...params }: any) {
-  const listReq = {
-    pagination: {
-      limit: 1000,
-      offset: 0,
-    },
-    where: {
-      // tokenContract: collectionId as Address,
-      ipId: ipId,
-      // royaltyPolicy,
-    },
-  };
-
   const royaltyPolicyRes = await getResource(RESOURCE_TYPE.ROYALTY_POLICY, ipId);
 
   let royaltyPolicyData: RoyaltyPolicy = royaltyPolicyRes.data;

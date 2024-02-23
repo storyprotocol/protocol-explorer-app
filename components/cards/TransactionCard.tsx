@@ -5,15 +5,10 @@ import SuccessBadge from '../badges/SuccessBadge';
 import Link from 'next/link';
 import moment from 'moment';
 import AddressComponent from '../address/AddressComponent';
-import { useState } from 'react';
 
-import { useStoryClientContext } from '@/app/(main)/context/StoryClientContext';
 import { Transaction } from '@/lib/server/types';
 
 export default function TransactionCard({ classname, data }: { classname?: string; data: Transaction }) {
-  const [additionalData, setAdditionalData] = useState<Record<any, any>>();
-  const { client } = useStoryClientContext();
-
   return (
     <>
       <div className={cn('relative rounded-xl px-2 md:px-0 bg-[#FFFFFF] !p-5 dark:bg-[#2C2B35]', classname)}>

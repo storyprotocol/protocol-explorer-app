@@ -3,21 +3,8 @@ import { ColumnDef } from '@tanstack/react-table';
 import BaseDataViewer from '../BaseDataViewer';
 import Link from 'next/link';
 import AddressComponent from '@/components/address/AddressComponent';
-import { Dispute, Royalty } from '@/lib/server/types';
-import { Address } from 'viem';
+import { Dispute } from '@/lib/server/types';
 import moment from 'moment';
-
-// id: string;
-//     targetIpId: Address;
-//     targetTag: Address;
-//     currentTag: Address;
-//     arbitrationPolicy: Address;
-//     evidenceLink: string;
-//     initiator: Address;
-//     data: string;
-//     blockNumber: string;
-//     blockTimestamp: string;
-// }
 
 const columns: ColumnDef<Dispute>[] = [
   {

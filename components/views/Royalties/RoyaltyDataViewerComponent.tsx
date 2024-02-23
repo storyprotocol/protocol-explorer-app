@@ -1,10 +1,7 @@
 'use client';
 import { ColumnDef } from '@tanstack/react-table';
 import BaseDataViewer from '../BaseDataViewer';
-import Link from 'next/link';
-import AddressComponent from '@/components/address/AddressComponent';
 import { Royalty } from '@/lib/server/types';
-import { Address } from 'viem';
 import moment from 'moment';
 
 // id: string;

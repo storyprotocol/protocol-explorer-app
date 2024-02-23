@@ -26,8 +26,8 @@ const AssetCard = ({ data }: { data: Asset }) => {
         <Link href={`/ipa/${data.id}`} className="hover:cursor-pointer">
           {nftMetadata?.image_url ? (
             <img
-              width={400}
-              height={400}
+              width={'100%'}
+              height={'100%'}
               alt={data.metadata.name}
               className="h-full w-full object-cover transition-all hover:scale-125"
               src={`${nftMetadata.image_url}?date=${getRoundedTime(15)}`}

@@ -1,74 +1,12 @@
 import AddressComponent from '@/components/address/AddressComponent';
 import TooltipWrapper from '@/components/tooltip/tooltip';
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { getResource, listResource } from '@/lib/server/sdk';
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { getResource } from '@/lib/server/sdk';
 import { RESOURCE_TYPE, RoyaltyPolicy } from '@/lib/server/types';
 import { InformationCircleIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import React from 'react';
 import { Address } from 'viem';
-
-// Royalty Payment
-// {
-//   "data": [
-//       {
-//           "id": "0x3c456f1d379570x8b",
-//           "receiverIpId": "0x305c94f3debab37911b3b306931fe70ae7d54708",
-//           "payerIpId": "0x305c94f3debab37911b3b306931fe70ae7d54708",
-//           "sender": "0xf398c12a45bc409b6c652e25bb0a3e702492a4ab",
-//           "token": "0xd53c2a80d24f6b3ff009e48cf88d3b482e8e1457",
-//           "amount": "1000000000000000000",
-//           "blockNumber": "5311042",
-//           "blockTimestamp": "1708219080"
-//       }
-//   ]
-// }
-
-// Royalty Policy
-// {
-//   "data": {
-//       "id": "0xa494385b40e89127d92d3c244156d6ddfd70e4d6",
-//       "splitClone": "0x69d5ce93a87445cf2da93e2f6a965d41b2a94fb2",
-//       "ancestorsVault": "0x6dbacf8277ab88fa7259cbf2a28602a615fdae69",
-//       "royaltyStack": "100",
-//       "targetAncestors": [
-//           "0x0bf7660f5f7c984f0301359494c67219af4f5d58"
-//       ],
-//       "targetRoyaltyAmount": [
-//           "100"
-//       ],
-//       "blockNumber": "5325746",
-//       "blockTimestamp": "1708412160"
-//   }
-// }
-
-const mockRoyaltyTable = [
-  {
-    targetAncestor: '0x0bf7660f5f7c984f0301359494c67219af4f5d58',
-    targetRoyaltyAmount: '100',
-  },
-  {
-    targetAncestor: '0x0bf7660f5f7c984f0301359494c67219af4f5d58',
-    targetRoyaltyAmount: '100',
-  },
-  {
-    targetAncestor: '0x0bf7660f5f7c984f0301359494c67219af4f5d58',
-    targetRoyaltyAmount: '100',
-  },
-  {
-    targetAncestor: '0x0bf7660f5f7c984f0301359494c67219af4f5d58',
-    targetRoyaltyAmount: '100',
-  },
-];
 
 function combineArrays(targetAncestors: Address[], targetRoyaltyAmount: string[]) {
   // Check if both arrays have the same length

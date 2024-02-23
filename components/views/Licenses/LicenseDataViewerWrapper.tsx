@@ -4,8 +4,6 @@ import LicenseDataViewerComponent from './LicenseDataViewerComponent';
 import { listResource } from '@/lib/server/sdk';
 import { RESOURCE_TYPE } from '@/lib/server/types';
 
-import { Address } from 'viem';
-
 export default async function LicenseDataViewerWrapper({ collectionId, ipId, ...params }: any) {
   try {
     const listReq = {

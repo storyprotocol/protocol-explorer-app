@@ -40,7 +40,7 @@ export default async function CollectionDetailPage({
         <div className="absolute w-full bottom-0 left-0 right-0 h-4/5 bg-gradient-to-t from-[rgba(0,0,0,0.7)] via-[rgba(0,0,0,0.5)] to-transparent"></div>
       </div>
       <div className="relative w-full px-4 md:px-8 max-w-[1600px] -mt-48 mx-auto">
-        <div className="flex w-full justify-between items-center mb-4">
+        <div className="flex w-full justify-between items-center">
           <div className="flex flex-col">
             <Suspense fallback={<Skeleton className="h-7 mt-1 w-56 mb-5" />}>
               <PageTitle collectionId={contractAddress} />

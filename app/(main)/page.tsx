@@ -1,6 +1,5 @@
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import AssetDataViewerWrapper from '@/components/views/Asset/AssetDataViewerWrapper';
-import CollectionsDataViewerWrapper from '@/components/views/Collections/CollectionsDataViewerWrapper';
 import TransactionTableWrapper from '@/components/views/Transactions/TransactionTableWrapper';
 import { ChatBubbleLeftIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
