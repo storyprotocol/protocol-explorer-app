@@ -16,9 +16,6 @@ const Navbar = (props: Props) => {
       <nav
         className={classNames({
           'flex top-0 w-full items-center justify-between md:hidden': true,
-          // 'bg-white text-zinc-500 shadow-sm': true, // colors
-          // 'flex items-center': true, // layout
-          // 'w-screen md:w-full sticky z-10 px-4 h-[72px] top-0 ': true, //positioning & styling
           'sticky z-20 px-4 h-[72px] top-0 ': true, //positioning & styling
         })}
       >

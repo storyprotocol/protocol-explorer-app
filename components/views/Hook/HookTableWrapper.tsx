@@ -7,7 +7,7 @@ export default async function HookTableWrapper({
   pageSize = 20,
 }: {
   pageSize?: number;
-  ipOrgId?: string;
+  collectionId?: string;
   ipAssetId?: string;
 }) {
   const req = {

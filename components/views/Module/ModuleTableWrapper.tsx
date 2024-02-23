@@ -7,7 +7,7 @@ export default async function ModuleTableWrapper({
   pageSize = 20,
 }: {
   pageSize?: number;
-  ipOrgId?: string;
+  collectionId?: string;
   ipAssetId?: string;
 }) {
   const req = {

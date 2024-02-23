@@ -1,41 +1,30 @@
-import React from 'react';
-import {
-  ArrowsRightLeftIcon,
-  PresentationChartBarIcon,
-  PuzzlePieceIcon,
-  RectangleGroupIcon,
-  WrenchScrewdriverIcon,
-} from '@heroicons/react/24/outline';
+import { ArrowsRightLeftIcon, RectangleStackIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/outline';
+import IPIcon from '../icons/IPIcon';
 // define a NavItem prop
 export type NavItem = {
   label: string;
   href: string;
-  icon: React.ReactNode;
+  icon: any;
 };
 export const defaultNavItems: NavItem[] = [
   {
-    label: 'Overview',
-    href: '/',
-    icon: <PresentationChartBarIcon className="w-5 h-5 ml-0.5 shrink-0" />,
-  },
-  {
     label: 'Transactions',
     href: '/transactions',
-    icon: <ArrowsRightLeftIcon className="w-5 h-5 ml-0.5 shrink-0" />,
+    icon: ArrowsRightLeftIcon,
   },
   {
-    label: 'IP Orgs',
-    href: '/ipo',
-    icon: <RectangleGroupIcon className="w-5 h-5 ml-0.5 shrink-0" />,
+    label: 'Collections',
+    href: '/collections',
+    icon: RectangleStackIcon,
   },
   {
-    label: 'IP Assets',
+    label: 'Assets',
     href: '/ipa',
-    icon: <PuzzlePieceIcon className="w-5 h-5 ml-0.5 shrink-0" />,
+    icon: IPIcon,
   },
   {
     label: 'Admin',
     href: '/admin',
-    icon: <WrenchScrewdriverIcon className="w-5 h-5 ml-0.5 shrink-0" />,
+    icon: WrenchScrewdriverIcon,
   },
 ];

@@ -1,33 +1,32 @@
-import storyClient from '@/lib/SP';
 import React from 'react';
 import AssetDataViewerComponent from '@/components/views/Asset/AssetDataViewerComponent';
-import { ListIpAssetRequest, ListIpAssetResponse } from '@story-protocol/core-sdk';
+import { Asset, RESOURCE_TYPE } from '@/lib/server/types';
+import { listResource } from '@/lib/server/sdk';
+import { Address } from 'viem';
 
-type AssetDataViewerWrapperProps = {
-  ipAssetType?: number;
-  ipOrgId?: string;
-};
+export const fetchCache = 'force-no-store';
 
-export default async function AssetDataViewerWrapper({ ipOrgId }: AssetDataViewerWrapperProps) {
-  const listReq: ListIpAssetRequest = {
-    ipOrgId,
-    options: {
-      pagination: {
-        limit: 1000,
-        offset: 0,
-      },
+export default async function AssetDataViewerWrapper({ collectionId, ipId, ...params }: any) {
+  const listReq = {
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+    where: {
+      chainId: params.chainId,
+      metadataResolverAddress: params.metadataResolverAddress as Address,
+      tokenContract: collectionId as Address,
+      tokenId: params.tokenId,
     },
   };
-  const listRes: ListIpAssetResponse = await storyClient.ipAsset.list(listReq);
-  let ipAssets = listRes.ipAssets;
 
-  if (!ipAssets.length) return <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>;
+  const assetListRes = await listResource(RESOURCE_TYPE.ASSET, listReq);
 
-  // filter ipAssets to match ipAssetType
-  // if (ipAssetType !== undefined) {
-  //   ipAssets = ipAssets.filter((ipAsset) => ipAsset.type === ipAssetType);
-  //   if (ipAssets.length == 0) return <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>;
-  // }
+  let ipAssets: Asset[] = assetListRes.data;
 
-  return <AssetDataViewerComponent data={ipAssets} />;
+  if (!ipAssets.length) {
+    return <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>;
+  }
+
+  return <AssetDataViewerComponent data={ipAssets} {...params} />;
 }

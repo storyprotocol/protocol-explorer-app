@@ -1,9 +1,20 @@
+import { Collection } from '@/lib/server/types';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import * as z from 'zod';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function debounce(func: any, timeout = 1000) {
+  let timer: any;
+  return (...args: any) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, timeout);
+  };
 }
 
 export function getRoundedTime(minutes: number) {
@@ -70,6 +81,7 @@ export function getTxnDataInsights(data: Array<any>) {
   function countTypes(data: any[]): Record<string, number> {
     const typeCounts: Record<string, number> = {};
 
+    // TODO: extract license, policy fields.
     for (const item of data) {
       const resourceType = item.resourceType;
       if (typeCounts[resourceType]) {
@@ -113,4 +125,13 @@ export function getZodTypeName(type: z.ZodType<any, any>): string {
 
   // Add other Zod types as needed
   return '';
+}
+
+export function calculateTotalDisputes(data: Collection) {
+  return (
+    parseInt(data.resolvedDisputeCount) +
+    parseInt(data.cancelledDisputeCount) +
+    parseInt(data.raisedDisputeCount) +
+    parseInt(data.judgedDisputeCount)
+  );
 }

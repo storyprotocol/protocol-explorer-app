@@ -13,7 +13,7 @@ export async function getSignMessageRequest(walletAddress: `0x${string}`): Promi
 
 export async function verifySignature(signature: string, walletAddress: `0x${string}`) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/platform/web3-sign/verify`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/platform/web3-sign/verify`, {
       method: 'POST',
       body: JSON.stringify({
         signature,

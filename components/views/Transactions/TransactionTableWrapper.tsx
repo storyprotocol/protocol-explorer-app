@@ -1,33 +1,34 @@
 import React from 'react';
 import TransactionTableComponent from './TransactionTableComponent';
-import storyClient from '@/lib/SP';
+import { listResource } from '@/lib/server/sdk';
+import { RESOURCE_TYPE, Transaction } from '@/lib/server/types';
+import { Address } from 'viem';
 
 export default async function TransactionTableWrapper({
-  pageSize = 20,
-  ipOrgId,
-  ipAssetId,
+  pageSize = 100,
+  collectionId,
+  ipId,
 }: {
   pageSize?: number;
-  ipOrgId?: string;
-  ipAssetId?: string;
+  collectionId?: Address;
+  ipId?: Address;
 }) {
+  // try {
   const req = {
-    options: {
-      pagination: {
-        limit: 1000,
-        offset: 0,
-      },
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+    where: {
+      ipId,
     },
   };
 
-  const txnListRes = await storyClient.transaction.list(req);
+  const txnListRes = await listResource(RESOURCE_TYPE.TRANSACTION, req);
 
-  const transactionData = txnListRes.transactions;
-
-  const filteredData = transactionData.filter(
-    (tx) => (ipOrgId ? tx.ipOrgId === ipOrgId : true) && (ipAssetId ? tx.resourceId === ipAssetId : true),
-  );
-  // console.log('Filtered data:', filteredData);
+  const filteredData = txnListRes.data.filter((tx: Transaction) => {
+    return true;
+  });
   return (
     <>
       <TransactionTableComponent data={filteredData} pageSize={pageSize} />

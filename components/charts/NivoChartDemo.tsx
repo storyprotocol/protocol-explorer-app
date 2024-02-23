@@ -162,7 +162,7 @@ const NivoChartDemo = ({ data }: { data: Array<any> }) => {
   // }
 
   return (
-    <CardContainer>
+    <CardContainer className="pb-10">
       <div className="absolute top-6 left-6 z-20 ">
         <h1 className="text-xl ">Transactions </h1>
 
@@ -185,18 +185,23 @@ const NivoChartDemo = ({ data }: { data: Array<any> }) => {
           ]}
           lineWidth={3}
           pointSize={10}
-          margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
-          xScale={{ type: 'time', format: '%Y-%m-%d %H:%M:%S' }}
+          margin={{ top: 50, right: 50, bottom: 80, left: 50 }}
+          xScale={{
+            type: 'time',
+            format: '%Y-%m-%d %H:%M:%S',
+          }}
           xFormat="time:%Y-%m-%d %H:%M:%S"
+          useMesh
           axisBottom={{
-            tickValues: 0,
-            // tickPadding: 10,
-            // tickRotation: -80,
-            // tickSize: 4,
-            format: '%b %d %H:%M',
+            format: '%b %d',
+            // legend: 'time scale',
+            tickRotation: -80,
+            legendOffset: -12,
+            tickValues: 'every 2 days',
           }}
           axisRight={{
-            tickValues: 4,
+            tickValues: 3,
+            // legendOffset: 12,
           }}
           axisLeft={{ tickValues: 0 }}
           onMouseEnter={(e) => {
@@ -206,7 +211,7 @@ const NivoChartDemo = ({ data }: { data: Array<any> }) => {
           enableSlices="x"
           enablePoints={false}
           enableGridX={false}
-          enableGridY={false}
+          enableGridY={true}
           colors={['#a5b4fc']}
           theme={customTheme}
         />

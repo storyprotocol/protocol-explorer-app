@@ -77,3 +77,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.w-json-view-container .w-rjv-line {
+  display: flex;
+}
