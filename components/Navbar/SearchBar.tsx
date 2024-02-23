@@ -4,7 +4,6 @@ import { Combobox } from '@headlessui/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { ArrowsRightLeftIcon, FolderIcon, RectangleStackIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
-import { debounce } from '@/utils';
 import { getResource } from '@/lib/server/sdk';
 import { Asset, Collection, RESOURCE_TYPE, Transaction } from '@/lib/server/types';
 import Link from 'next/link';
@@ -129,8 +128,8 @@ export default function SearchBar() {
             />
             <Combobox.Input
               id="searchBar"
-              className="h-10 rounded-md bg-white w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm shadow-lg outline-none"
-              placeholder="Search by Address / Txn Hash / IP Asset ID"
+              className="h-10 rounded-md bg-white w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm shadow-lg outline-none"
+              placeholder="Search"
               onKeyUp={KeyUpHandler}
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 setQuery(event.target.value);

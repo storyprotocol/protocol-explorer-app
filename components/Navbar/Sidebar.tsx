@@ -6,6 +6,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { defaultNavItems } from './defaultNavItems';
 import { usePathname } from 'next/navigation';
 import SearchBar from './SearchBar';
+import Link from 'next/link';
 
 const teams = [
   { id: 1, name: 'Telegram', href: '#', initial: 'H', current: false },
@@ -56,19 +57,11 @@ const Logo: React.FC<LogoProps> = ({ className = '', ...props }) => {
   );
 };
 
-export default function Sidebar2({ children }: { children: React.ReactNode }) {
+export default function Sidebar({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const path = usePathname();
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
       <div className="bg-gray-100">
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
@@ -112,10 +105,10 @@ export default function Sidebar2({ children }: { children: React.ReactNode }) {
                     </div>
                   </Transition.Child>
                   {/* Sidebar component, swap this element with another sidebar if you like */}
-                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
-                    <div className="flex h-16 shrink-0 items-center">
+                  <div className="flex grow flex-col gap-y-2 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
+                    <Link href={'/'} className="flex h-16 shrink-0 items-center">
                       <Logo className="w-28 ml-1 shrink-0" />
-                    </div>
+                    </Link>
                     <nav className="flex flex-1 flex-col">
                       <ul role="list" className="flex flex-1 flex-col gap-y-7">
                         <li>
@@ -183,10 +176,10 @@ export default function Sidebar2({ children }: { children: React.ReactNode }) {
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-60 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-sp-purple-veryDark px-6 pb-4">
-            <div className="flex h-16 shrink-0 items-center">
+          <div className="flex grow flex-col gap-y-2 overflow-y-auto bg-sp-purple-veryDark px-6 pb-4">
+            <Link href={'/'} className="flex h-16 shrink-0 items-center">
               <Logo className="w-28 ml-1 shrink-0" />
-            </div>
+            </Link>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
                 <li>
@@ -247,10 +240,10 @@ export default function Sidebar2({ children }: { children: React.ReactNode }) {
         </div>
 
         <div className="lg:pl-60">
-          <div className="lg:pr-64 fixed top-0 z-40 flex h-16 shrink-0 items-center gap-x-3 bg-transparent px-2 md:px-4 sm:gap-x-3 sm:px-6 w-full">
+          <div className="lg:pr-64 fixed top-0 z-40 flex h-16 shrink-0 items-center gap-x-3 bg-transparent px-2 sm:gap-x-3 sm:px-6 w-full">
             <button
               type="button"
-              className="md:-m-2.5 p-1 -m-1 md:p-2.5 text-gray-700 lg:hidden bg-white h-10 rounded-md px-2 shadow-md"
+              className="p-1 -m-1 text-gray-700 lg:hidden bg-white h-10 rounded-md px-2 shadow-lg"
               onClick={() => setSidebarOpen(true)}
             >
               <span className="sr-only">Open sidebar</span>
