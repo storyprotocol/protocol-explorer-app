@@ -100,8 +100,20 @@ export default function SearchBar() {
         setIpAssets([]);
       }
     }
+
+    function listenToKeydown(event: KeyboardEvent) {
+      console.log(event.code, event.metaKey);
+      if (event.code === 'KeyK' && event.metaKey) {
+        const search = document.getElementById('searchBar');
+        if (search) {
+          search.focus();
+        }
+      }
+    }
+    document.addEventListener('keydown', listenToKeydown);
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
+      document.removeEventListener('keydown', listenToKeydown);
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
@@ -116,6 +128,7 @@ export default function SearchBar() {
               aria-hidden="true"
             />
             <Combobox.Input
+              id="searchBar"
               className="h-10 rounded-md bg-white w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm shadow-lg outline-none"
               placeholder="Search by Address / Txn Hash / IP Asset ID"
               onKeyUp={KeyUpHandler}
@@ -124,6 +137,12 @@ export default function SearchBar() {
                 setShowAutocomplete(true);
               }}
             />
+            <div className="absolute right-4 top-1.5">
+              <span className="ml-3 flex-none text-xs font-semibold text-gray-400">
+                <kbd className="font-sans">⌘</kbd>
+                <kbd className="font-sans">K</kbd>
+              </span>
+            </div>
           </div>
 
           {showAutocomplete && query !== '' && hasResults && (

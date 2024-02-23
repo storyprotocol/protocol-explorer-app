@@ -125,6 +125,9 @@ export default function AssetDetailCard({ data }: { data: Asset }) {
             <h1 className="font-medium md:text-2xl">{data.metadata.name || 'Untitled'}</h1>
           </div>
           <div className="border-t py-4 border-gray-200 dark:border-gray-900">
+            <Row label="IP ID">
+              <p className="font-mono text-gray-500">{data.id}</p>
+            </Row>
             <Row label="Blocknumber">
               <p className="font-mono text-gray-500">{data.blockNumber}</p>
             </Row>
