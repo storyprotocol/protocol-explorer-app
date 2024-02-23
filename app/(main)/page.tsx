@@ -92,7 +92,7 @@ function IntroCard({ data }: { data?: any }) {
 export default function Home() {
   return (
     <div className="flex flex-col w-full">
-      <div className="bg-[url('/story_banner.jpeg')]">
+      <div className="bg-[url('/story_banner.jpeg')] bg-cover">
         <div className="max-w-[1600px] px-4 md:px-8 py-4 mx-auto pt-20">
           <div className="flex flex-col items-left gap-6 mb-6 w-full">
             <h1 className="text-xl md:text-2xl font-semibold leading-none">Welcome</h1>

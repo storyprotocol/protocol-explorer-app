@@ -15,14 +15,6 @@ const columns: ColumnDef<Permission>[] = [
     },
   },
   {
-    accessorKey: 'permission',
-    header: 'permission',
-    cell: ({ row }) => {
-      const permission: string = row.getValue('permission');
-      return <div className="capitalize font-mono text-xs">{permission}</div>;
-    },
-  },
-  {
     accessorKey: 'signer',
     header: 'signer',
     cell: ({ row }) => {
@@ -34,6 +26,19 @@ const columns: ColumnDef<Permission>[] = [
       );
     },
   },
+  {
+    accessorKey: 'permission',
+    header: 'permission',
+    cell: ({ row }) => {
+      const permission: string = row.getValue('permission');
+      return (
+        <div className="font-mono text-xs">
+          {permission ? <span className="bg-indigo-100 text-indigo-500">{permission}</span> : '*'}
+        </div>
+      );
+    },
+  },
+
   {
     accessorKey: 'to',
     header: 'to',
