@@ -8,13 +8,13 @@ import { usePathname } from 'next/navigation';
 import SearchBar from './SearchBar';
 import Link from 'next/link';
 import { FaSquareXTwitter } from 'react-icons/fa6';
-import { FaTelegram, FaGithub, FaDiscord } from 'react-icons/fa';
+import { FaGithub, FaDiscord } from 'react-icons/fa';
 
 const teams = [
-  { id: 1, name: 'Telegram', href: '#', icons: FaTelegram },
-  { id: 2, name: 'Twitter (X)', href: '#', icons: FaSquareXTwitter },
-  { id: 3, name: 'Github', href: '#', icons: FaGithub },
-  { id: 4, name: 'Discord', href: '#', icons: FaDiscord },
+  // { id: 1, name: 'Telegram', href: '', icons: FaTelegram },
+  { id: 2, name: 'Twitter (X)', href: 'https://twitter.com/storyProtocol/', icons: FaSquareXTwitter },
+  { id: 3, name: 'Github', href: 'https://github.com/storyprotocol', icons: FaGithub },
+  { id: 4, name: 'Discord', href: 'https://discord.gg/storyprotocol', icons: FaDiscord },
 ];
 
 interface LogoProps {
