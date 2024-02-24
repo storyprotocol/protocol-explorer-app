@@ -19,7 +19,9 @@ export default function page() {
       <div className="flex flex-col items-left pt-16 md:pt-10">
         <h1 className="text-xl md:text-2xl font-semibold leading-none mb-2">Register</h1>
       </div>
-      <p className="text-sm">This page provides a convenient method to read and write from the contracts</p>
+      <p className="text-sm">
+        This page provides a convenient method to read and write from the Story Protocol contracts
+      </p>
 
       <Accordion type="single" collapsible>
         <AccordionItem value="mint-nft" className="bg-white px-4 rounded-xl mt-4">

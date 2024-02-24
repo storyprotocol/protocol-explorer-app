@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useAccount, useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
+import { useAccount, useWriteContract } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
@@ -29,7 +29,9 @@ export default function MintNft({ text, buttonText }: { text?: string; buttonTex
 
   return (
     <>
-      <p className="mb-2">This allows you to mint a simple standard ERC721 token for testing purposes. </p>
+      <p className="mb-2">
+        This allows you to mint a simple standard ERC721 token for testing purposes. (This is not part of the protocol).
+      </p>
       <p className="mb-2">
         The contract address for this mint is{' '}
         <Link
@@ -39,6 +41,7 @@ export default function MintNft({ text, buttonText }: { text?: string; buttonTex
         >
           0x7ee32b8b515dee0ba2f25f612a04a731eec24f49
         </Link>{' '}
+        You can want to note the token ID that was minted, by viewing the transaction on Etherscan.
       </p>
       <Button onClick={() => handleMintNft()} variant={'register'}>
         {isPendingInWallet ? 'Confirm in wallet' : buttonText ? buttonText : 'Mint an NFT'}

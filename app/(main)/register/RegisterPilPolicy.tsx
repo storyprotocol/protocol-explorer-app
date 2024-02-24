@@ -95,7 +95,7 @@ export function RegisterPilPolicyForm() {
     mintingFeeToken: '0x7b79995e5f793a07bc00c21412e50ecae098e7f9 (WETH)',
     commercializerChecker: '',
     commercializerCheckerData: '',
-    commercialRevShare: '5',
+    commercialRevShare: '0',
     territories: '',
     distributionChannels: '',
     contentRestrictions: '',
@@ -111,20 +111,23 @@ export function RegisterPilPolicyForm() {
     attribution: "Select 'true' or 'false' if using the original IPA requires attribution",
     commercialUse: "Select 'true' or 'false' if commercial use is allowed",
     commercialAttribution:
-      "Select 'true' or 'false' if commercial use requires attribution, only if commercialUse is true. ",
+      "Select 'true' or 'false' if commercial use requires attribution, only if applicable if commercialUse is true.",
     commercializerChecker: 'The commercializer contract address, if applicable. Leave blank otherwise.', // Assuming zeroAddress is a string
     commercializerCheckerData: 'Additional commercializer checker calldata, if applicable. Leave blank otherwise.', // Validates a string starting with 0x followed by hex characters
-    commercialRevShare: 'Revenue share in percentage (number), e.g 5. ', // Assuming this is a percentage
+    commercialRevShare: 'Revenue share in percentage (number), e.g 5. Only if applicable if commercialUse is true', // Assuming this is a percentage
     derivativesAllowed: "Select 'true' or 'false' if derivatives are allowed.",
     derivativesAttribution:
-      "Select 'true' or 'false' if derivatives require attribution, only if derivativesAllowed is true.",
-    derivativesApproval: "Select 'true' or 'false' if derivatives require approval.",
-    derivativesReciprocal: "Select 'true' or 'false' if derivatives require reciprocal licensing.",
-    territories: 'List of territories where the policy applies, if applicable e.g ["US", "UK"]. Leave blank otherwise.',
+      "Select 'true' or 'false' if derivatives require attribution, only applicable if derivativesAllowed is true.",
+    derivativesApproval:
+      "Select 'true' or 'false' if derivatives require approval, only applicable if derivativesAllowed is true.",
+    derivativesReciprocal:
+      "Select 'true' or 'false' if derivatives require reciprocal licensing., only applicable if derivativesAllowed is true.",
+    territories:
+      '(Optional) List of territories where the policy applies, if applicable e.g ["US", "UK"]. Leave blank otherwise.',
     distributionChannels:
-      'List of distribution channels, if applicable e.g ["TV", "video games"]. Leave blank otherwise.',
+      '(Optional) List of distribution channels, if applicable e.g ["TV", "video games"]. Leave blank otherwise.',
     contentRestrictions:
-      "List of content restrictions, if applicable e.g ['No-Hate', 'Suitable-for-All-Ages']. Leave blank otherwise.",
+      "(Optional) List of content restrictions, if applicable e.g ['No-Hate', 'Suitable-for-All-Ages']. Leave blank otherwise.",
   };
 
   return (
@@ -198,6 +201,16 @@ function PolicyParametersForm({
 
   return (
     <>
+      <p>
+        Read more details on PIL, in the{' '}
+        <Link
+          href="https://docs.storyprotocol.xyz/docs/programmable-ip-license-pil"
+          target="_blank"
+          className="text-blue-600 dark:text-blue-500 hover:underline"
+        >
+          documentation
+        </Link>
+      </p>
       {policyFields.map((fieldName) => {
         const fieldSchema = policyParametersSchema.shape[fieldName];
         const isCheckbox = fieldSchema instanceof z.ZodOptional && fieldSchema._def.innerType instanceof z.ZodBoolean;
