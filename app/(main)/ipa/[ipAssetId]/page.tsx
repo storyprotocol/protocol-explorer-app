@@ -72,7 +72,6 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
               </Suspense>
             </TabsContent>
             <TabsContent value="permissions">
-              <h2>permissions</h2>
               <Suspense fallback={<SkeletonTable />}>
                 <PermissionDataViewerWrapper ipId={ipAssetId} />
               </Suspense>

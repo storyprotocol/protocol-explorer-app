@@ -136,7 +136,7 @@ export default function SearchBar() {
                 setShowAutocomplete(true);
               }}
             />
-            <div className="absolute right-4 top-1.5">
+            <div className="absolute right-4 top-1.5 bg-white">
               <span className="ml-3 flex-none text-xs font-semibold text-gray-400">
                 <kbd className="font-sans">⌘</kbd>
                 <kbd className="font-sans">K</kbd>

@@ -33,7 +33,7 @@ const columns: ColumnDef<Permission>[] = [
       const permission: string = row.getValue('permission');
       return (
         <div className="font-mono text-xs">
-          {permission ? <span className="bg-indigo-100 text-indigo-500">{permission}</span> : '*'}
+          {permission ? <span className="text-indigo-500">{permission}</span> : '*'}
         </div>
       );
     },
