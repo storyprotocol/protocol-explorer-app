@@ -7,6 +7,7 @@ export enum RESOURCE_TYPE {
   IPA_POLICY = 'ipapolicies',
   LICENSE = 'licenses',
   LICENSE_MINT_FEES = 'licenses/mintingfees',
+  LICENSE_OWNER = 'licenses/owners',
   MODULE = 'modules',
   PERMISSION = 'permissions',
   POLICY = 'policies',
@@ -14,6 +15,7 @@ export enum RESOURCE_TYPE {
   ROYALTY = 'royalties',
   ROYALTY_PAY = 'royalties/payments',
   ROYALTY_POLICY = 'royalties/policies',
+  ROYALTY_SPLIT = 'royalties/splits',
   TAGS = 'tags',
   TRANSACTION = 'transactions',
 }
@@ -23,15 +25,18 @@ export type ResourceType =
   | RESOURCE_TYPE.COLLECTION
   | RESOURCE_TYPE.TRANSACTION
   | RESOURCE_TYPE.LICENSE
+  | RESOURCE_TYPE.LICENSE_MINT_FEES
+  | RESOURCE_TYPE.LICENSE_OWNER
   | RESOURCE_TYPE.MODULE
   | RESOURCE_TYPE.POLICY
   | RESOURCE_TYPE.PERMISSION
   | RESOURCE_TYPE.POLICY_FRAMEWORK
   | RESOURCE_TYPE.TAGS
   | RESOURCE_TYPE.IPA_POLICY
-  | RESOURCE_TYPE.ROYALTY_PAY
   | RESOURCE_TYPE.ROYALTY
+  | RESOURCE_TYPE.ROYALTY_PAY
   | RESOURCE_TYPE.ROYALTY_POLICY
+  | RESOURCE_TYPE.ROYALTY_SPLIT
   | RESOURCE_TYPE.DISPUTE;
 
 export type PaginationOptions = {
@@ -300,4 +305,14 @@ export type PILType = {
   territories: string[];
   distributionChannels: string[];
   contentRestrictions: string[];
+};
+
+export type RoyaltySplit = {
+  id: Address;
+  holders: RoyaltyHolder[];
+};
+
+export type RoyaltyHolder = {
+  id: string;
+  ownership: string;
 };

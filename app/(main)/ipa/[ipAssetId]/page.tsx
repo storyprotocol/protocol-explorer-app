@@ -22,21 +22,8 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
 
   return (
     <div className="w-full p-4 md:p-8 max-w-[1600px] mx-auto">
-      <div className="flex flex-col items-left gap-6">
-        <div>
-          <div className="flex flex-row gap-4 items-center pt-16 md:pt-10">
-            <h1 className="text-xl md:text-2xl font-semibold leading-none">IP Asset Detail</h1>
-            {!assetData.rootIpIds && <Badge className="bg-indigo-500 hover:bg-indigo-500">Root</Badge>}
-          </div>
-          {/* <Suspense fallback={<FallbackBreadcrumbs />}>
-            <AssetBreadcrumbs ipAssetId={ipAssetId} ipOrgId={ipOrgId} />
-          </Suspense> */}
-        </div>
-        {/* <Suspense fallback={<FallbackDetailsCard />}> */}
+      <div className="flex flex-col items-left gap-6 mt-12">
         <AssetDetailCard data={assetData} />
-        {/* </Suspense> */}
-
-        {/* <div className="grid grid-cols-12 gap-2"> */}
         <div className="flex">
           <Tabs defaultValue="derivatives" className="w-full">
             <TabsList className="overflow-scroll">
@@ -76,7 +63,7 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
               <Suspense fallback={<SkeletonTable />}>
                 {/* <RoyaltyDataViewerWrapper ipId={ipAssetId} /> */}
                 <RoyaltyPage ipId={ipAssetId} />
-                <RoyaltyPolicyDataViewerWrapper ipId={ipAssetId} />
+                {/* <RoyaltyPolicyDataViewerWrapper ipId={ipAssetId} /> */}
               </Suspense>
             </TabsContent>
             <TabsContent value="disputes">
