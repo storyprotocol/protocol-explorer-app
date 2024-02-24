@@ -5,6 +5,7 @@ import { RegisterPilPolicyForm } from './RegisterPilPolicy';
 import { AddPolicyToIpAssetForm } from './AddPolicyToIpAssetForm';
 import { MintLicenseForm } from './MintLicenseForm';
 import { RegisterDerivativeIpAssetForm } from './RegisterDerivativeIpAssetForm';
+import MintNft from './MintNft';
 
 // Register IPA
 // Register Derivative
@@ -16,13 +17,17 @@ export default function page() {
   return (
     <div className="w-full p-4 md:p-8 max-w-[1600px] mx-auto">
       <div className="flex flex-col items-left pt-16 md:pt-10">
-        <h1 className="text-xl md:text-2xl font-semibold leading-none mb-2">
-          Interact with Story Protocol Smart Contracts
-        </h1>
+        <h1 className="text-xl md:text-2xl font-semibold leading-none mb-2">Register</h1>
       </div>
       <p className="text-sm">This page provides a convenient method to read and write from the contracts</p>
 
       <Accordion type="single" collapsible>
+        <AccordionItem value="mint-nft" className="bg-white px-4 rounded-xl mt-4">
+          <AccordionTrigger>Mint a test ERC721 NFT</AccordionTrigger>
+          <AccordionContent>
+            <MintNft />
+          </AccordionContent>
+        </AccordionItem>
         <AccordionItem value="register-ipa" className="bg-white px-4 rounded-xl mt-4">
           <AccordionTrigger>Register IP Asset</AccordionTrigger>
           <AccordionContent>

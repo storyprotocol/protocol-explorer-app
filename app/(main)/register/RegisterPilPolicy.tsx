@@ -91,9 +91,8 @@ export function RegisterPilPolicyForm() {
 
   const placeholders: Record<string, string> = {
     royaltyPolicy: '0x1234...6789', // Assuming royaltyPolicy is a string address
-    mintingFee: '1000000000', // Assuming mintingFee is a bigint
-    mintingFeeToken:
-      '(Optional) The contract address of the ERC20 token used to mint, if applicable. Leave blank otherwise',
+    mintingFee: '1000000000000000000 (1 WETH, in wei)', // Assuming mintingFee is a bigint
+    mintingFeeToken: '0x7b79995e5f793a07bc00c21412e50ecae098e7f9 (WETH)',
     commercializerChecker: '',
     commercializerCheckerData: '',
     commercialRevShare: '5',
@@ -172,11 +171,13 @@ export function RegisterPilPolicyForm() {
           }
         })}
         {txHash ? (
-          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`}>
-            <Button>View on Etherscan</Button>
+          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank">
+            <Button variant={'etherscan'}>View on Etherscan</Button>
           </Link>
         ) : (
-          <Button type="submit">{isPendingInWallet ? 'Confirm in wallet' : 'Register IP Asset'}</Button>
+          <Button type="submit" variant={'register'}>
+            {isPendingInWallet ? 'Confirm in wallet' : 'Register IP Asset'}
+          </Button>
         )}
       </form>
     </Form>

@@ -103,11 +103,13 @@ export function RegisterDerivativeIpAssetForm() {
           />
         ))}
         {txHash ? (
-          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`}>
-            <Button>View on Etherscan</Button>
+          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank">
+            <Button variant={'etherscan'}>View on Etherscan</Button>
           </Link>
         ) : (
-          <Button type="submit">{isPendingInWallet ? 'Confirm in wallet' : 'Register Derivative IP'}</Button>
+          <Button type="submit" variant={'register'}>
+            {isPendingInWallet ? 'Confirm in wallet' : 'Register Derivative IP'}
+          </Button>
         )}
       </form>
     </Form>

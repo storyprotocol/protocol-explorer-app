@@ -79,11 +79,13 @@ export function MintLicenseForm() {
           />
         ))}
         {txHash ? (
-          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`}>
-            <Button>View on Etherscan</Button>
+          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank">
+            <Button variant={'etherscan'}>View on Etherscan</Button>
           </Link>
         ) : (
-          <Button type="submit">{isPendingInWallet ? 'Confirm in wallet' : 'Mint License'}</Button>
+          <Button type="submit" variant={'register'}>
+            {isPendingInWallet ? 'Confirm in wallet' : 'Mint License'}
+          </Button>
         )}
       </form>
     </Form>

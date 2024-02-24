@@ -89,11 +89,13 @@ export function RegisterIpAssetForm() {
           />
         ))}
         {txHash ? (
-          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`}>
-            <Button>View on Etherscan</Button>
+          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank">
+            <Button variant={'etherscan'}>View on Etherscan</Button>
           </Link>
         ) : (
-          <Button type="submit">{isPendingInWallet ? 'Confirm in wallet' : 'Register IP Asset'}</Button>
+          <Button type="submit" variant={'register'}>
+            {isPendingInWallet ? 'Confirm in wallet' : 'Register IP Asset'}
+          </Button>
         )}
       </form>
     </Form>
