@@ -2,7 +2,6 @@ import { Suspense } from 'react';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AssetDetailCard from './AssetDetailCard';
-import { Badge } from '@/components/ui/badge';
 import { Address } from 'viem';
 import { getResource } from '@/lib/server/sdk';
 import { Asset, RESOURCE_TYPE } from '@/lib/server/types';
@@ -10,7 +9,6 @@ import LicenseDataViewer from '@/components/views/Licenses';
 import DisputeDataViewerWrapper from '@/components/views/Disputes/DisputeDataViewerWrapper';
 import PermissionDataViewerWrapper from '@/components/views/Permissions/PermissionDataViewerWrapper';
 import AssetDataViewerComponent from '@/components/views/Asset/AssetDataViewerComponent';
-import RoyaltyPolicyDataViewerWrapper from '@/components/views/Royalties/RoyaltyPolicyDataViewerWrapper';
 import IPAPolicyDataViewerWrapper from '@/components/views/Policies/IPAPolicyDataViewerWrapper';
 import RoyaltyPage from '@/components/views/Royalties/RoyaltyPage';
 
