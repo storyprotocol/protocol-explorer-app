@@ -4,15 +4,13 @@ import React, { Suspense } from 'react';
 
 export default function TransactionDetails({ params: { transactionId } }: { params: { transactionId: string } }) {
   return (
-    <div>
-      <div className="container">
-        <div className="flex flex-col items-left gap-2">
-          <div className="relative px-2 md:px-0 mt-6">{/* <TransactionCard classname="mt-6" /> */}</div>
-          <Suspense fallback={<SkeletonTransactionCard />}>
-            <TransactionDetailComponent txHash={transactionId} />
-          </Suspense>
+    <div className="w-full p-4 md:p-8 max-w-[1600px] mx-auto">
+      <div className="flex flex-col items-left gap-2 mt-12 w-full">
+        <Suspense fallback={<SkeletonTransactionCard />}>
+          <TransactionDetailComponent txHash={transactionId} />
+        </Suspense>
 
-          {/* <div className="relative rounded-xl px-2 md:px-0 mt-6 bg-[#FFFFFF] !p-5 dark:bg-[#2C2B35]">
+        {/* <div className="relative rounded-xl px-2 md:px-0 mt-6 bg-[#FFFFFF] !p-5 dark:bg-[#2C2B35]">
             <button
               className="flex w-full items-center justify-between rounded-lg py-2 text-left font-medium tracking-wide opacity-70 hover:opacity-100 focus:outline-none"
               id="headlessui-disclosure-button-:r1:"
@@ -36,7 +34,6 @@ export default function TransactionDetails({ params: { transactionId } }: { para
               </svg>
             </button>
           </div> */}
-        </div>
       </div>
     </div>
   );
