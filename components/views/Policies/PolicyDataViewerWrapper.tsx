@@ -1,4 +1,4 @@
-import { Policy, RESOURCE_TYPE, PolicyFilterOptions } from '@/lib/server/types';
+import { Policy, PolicyFilterOptions, RESOURCE_TYPE } from '@/lib/server/types';
 import { listResource } from '@/lib/server/sdk';
 import PolicyDataViewerComponent from './PolicyDataViewerComponent';
 

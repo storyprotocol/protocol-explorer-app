@@ -1,8 +1,17 @@
 import AddressComponent from '@/components/address/AddressComponent';
 import TooltipWrapper from '@/components/tooltip/tooltip';
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { getResource } from '@/lib/server/sdk';
-import { RESOURCE_TYPE, RoyaltyPolicy } from '@/lib/server/types';
+import { RESOURCE_TYPE, RoyaltyHolder, RoyaltyPolicy, RoyaltySplit } from '@/lib/server/types';
 import { InformationCircleIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import React from 'react';
@@ -30,13 +39,16 @@ export function AncestorVault({ data }: { data: RoyaltyPolicy }) {
   return (
     <div className="p-6 rounded-xl bg-white">
       <div className="flex flex-row items-center gap-1 justify-start">
-        <h2 className="text-lg">Ancestor Vault</h2>
+        <h2 className="text-lg">Ancestors</h2>
         <TooltipWrapper content="Ancestor vault is the address where royalties are collected and distributed.">
           <InformationCircleIcon className="h-4 w-4 text-slate-400 hover:text-indigo-300 transition-all" />
         </TooltipWrapper>
       </div>
       <div className="mt-4 font-mono text-xs">
-        <div>Address: {data.ancestorsVault}</div>
+        <div>Ancestor Vault Address: {data.ancestorsVault}</div>
+      </div>
+      <div className="mt-4 font-mono text-xs">
+        <AncestorRoyaltyTable data={data} />
       </div>
     </div>
   );
@@ -46,32 +58,31 @@ export function RoyaltyPool({ data }: { data: RoyaltyPolicy }) {
   return (
     <div className="p-6 rounded-xl bg-white">
       <div className="flex flex-row items-center gap-1 justify-start">
-        <h2 className="text-lg">Royalty Pool</h2>
-        <TooltipWrapper content="Royalty pool is the total amount royalties that are available to the target ancestor defined in 0xSplits">
+        <h2 className="text-lg">Royalty IP Pool</h2>
+        <TooltipWrapper content="Royalty IP pool displays the current holders of the RNFTs">
           <InformationCircleIcon className="h-4 w-4 text-slate-400 hover:text-indigo-300 transition-all" />
         </TooltipWrapper>
       </div>
       <div className="mt-4 font-mono text-xs">Split Clone: {data.splitClone}</div>
+      <div className="mt-4 font-mono text-xs">
+        <RoyaltyHoldersTable data={data} />
+      </div>
     </div>
   );
 }
 
-export async function RoyaltyTargetTable({ data }: { data: RoyaltyPolicy }) {
+export async function AncestorRoyaltyTable({ data }: { data: RoyaltyPolicy }) {
   const tableData = combineArrays(data.targetAncestors, data.targetRoyaltyAmount);
   return (
-    <div className="p-6 rounded-xl bg-white">
-      <div className="flex flex-row items-center gap-1 justify-start">
-        <h2 className="text-lg">Royalty Splits</h2>
-        <TooltipWrapper content="Royalty splits are the percentage of royalties that are distributed to the target ancestor.">
-          <InformationCircleIcon className="h-4 w-4 text-slate-400 hover:text-indigo-300 transition-all" />
-        </TooltipWrapper>
-      </div>
+    <>
       {tableData.length ? (
-        <Table>
-          {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-          <TableHeader>
+        <Table className="text-xs">
+          <TableCaption className="font-sans text-left">
+            A list of ancestors that this IP Asset was derived from and their percentage of royalty share.
+          </TableCaption>
+          <TableHeader className="bg-gray-100">
             <TableRow>
-              <TableHead>IP ID</TableHead>
+              <TableHead>Ancestor IP IDs</TableHead>
               <TableHead>Percentage</TableHead>
             </TableRow>
           </TableHeader>
@@ -89,15 +100,65 @@ export async function RoyaltyTargetTable({ data }: { data: RoyaltyPolicy }) {
           </TableBody>
           <TableFooter className="bg-white text-black">
             <TableRow>
-              <TableCell>Total</TableCell>
+              <TableCell>Royalty Stack</TableCell>
               <TableCell className="text-left">{parseFloat(data.royaltyStack) / 10}%</TableCell>
             </TableRow>
           </TableFooter>
         </Table>
       ) : (
-        <div className="flex justify-center items-center p-10">No royalty splits defined</div>
+        <div className="flex justify-center items-center p-10">No royalty stack defined</div>
       )}
-    </div>
+    </>
+  );
+}
+
+export async function RoyaltyHoldersTable({ data }: { data: RoyaltyPolicy }) {
+  const royaltySplit = await getResource(RESOURCE_TYPE.ROYALTY_SPLIT, data.splitClone);
+  const royaltySplitData: RoyaltySplit = royaltySplit.data;
+  const royaltySplitHolders: RoyaltyHolder[] = royaltySplitData.holders;
+
+  return (
+    <>
+      {royaltySplitHolders.length ? (
+        <Table className="text-xs">
+          <TableCaption className="font-sans text-left">
+            A list of RNFT holders and the amount they are holding in the royalty pool. <br />
+            Note: if the RNFTs are not claimed yet, the holder will be the Ancestor Vault address.
+          </TableCaption>
+          <TableHeader className="bg-gray-100">
+            <TableRow>
+              <TableHead>RNFT Holder Address</TableHead>
+              <TableHead>Percentage</TableHead>
+              <TableHead>Amount</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {royaltySplitHolders.map(({ id, ownership }) => (
+              <TableRow key={id}>
+                <TableCell className="font-xs flex flex-row ">
+                  <Link href={`/ipa/${id}`}>
+                    <AddressComponent address={id} size="sm" />
+                  </Link>
+                  {id.split('-')[1] === data.ancestorsVault && '(Ancestor Vault)'}
+                  {id.split('-')[1] === data.id && '(Current NFT)'}
+                </TableCell>
+                <TableCell>{parseFloat(ownership) / 10000}%</TableCell>
+                <TableCell>{parseFloat(ownership)}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter className="bg-white text-black">
+            <TableRow>
+              <TableCell>Total</TableCell>
+              <TableCell className="text-left">100%</TableCell>
+              <TableCell>1000000</TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      ) : (
+        <div className="flex justify-center items-center p-10">No royalty stack defined</div>
+      )}
+    </>
   );
 }
 
@@ -114,10 +175,9 @@ export default async function RoyaltyPage({ ipId }: { ipId: Address }) {
     <div className="flex flex-col xl:flex-row gap-2 max-w-full">
       <div className="flex flex-col gap-2 flex-1">
         <AncestorVault data={royaltyPolicyData} />
-        <RoyaltyPool data={royaltyPolicyData} />
       </div>
       <div className="flex-1">
-        <RoyaltyTargetTable data={royaltyPolicyData} />
+        <RoyaltyPool data={royaltyPolicyData} />
       </div>
     </div>
   );

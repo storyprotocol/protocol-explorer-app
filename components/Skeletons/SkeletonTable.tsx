@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '../ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Skeleton } from '../ui/skeleton';
 
 export default function SkeletonTable() {

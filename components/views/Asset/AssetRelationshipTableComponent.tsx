@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import React from 'react';
 import BaseDataViewer from '../BaseDataViewer';
 import { Badge } from '@/components/ui/badge';
-import { BsFillArrowRightCircleFill, BsFillArrowLeftCircleFill } from 'react-icons/bs';
+import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs';
 
 export type Relationship = {
   id: string;
