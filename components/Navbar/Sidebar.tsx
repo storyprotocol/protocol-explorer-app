@@ -140,7 +140,8 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                           <ul role="list" className="-mx-2 mt-2 space-y-1">
                             {teams.map((team) => (
                               <li key={team.name}>
-                                <a
+                                <Link
+                                  target="_blank"
                                   href={team.href}
                                   className={classNames(
                                     'text-gray-400 hover:text-white hover:bg-gray-800',
@@ -152,7 +153,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                                     {team.initial}
                                   </span> */}
                                   <span className="truncate">{team.name}</span>
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
@@ -209,7 +210,8 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                   <ul role="list" className="flex flex-row -mx-2 mt-2">
                     {teams.map((team) => (
                       <li key={team.name}>
-                        <a
+                        <Link
+                          target="_blank"
                           href={team.href}
                           className={classNames(
                             'text-gray-400 hover:text-white hover:bg-sp-purple-dark',
@@ -221,7 +223,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                           </span> */}
                           <team.icons className="h-6 w-6 shrink-0" aria-hidden="true" />
                           {/* <span className="truncate">{team.name}</span> */}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
