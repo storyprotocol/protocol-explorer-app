@@ -1,4 +1,5 @@
 import Layout from '@/components/Navbar/Layout';
+import { Analytics } from '@vercel/analytics/react';
 import '../globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Toaster />
           </Layout>
         </WagmiConfigWrapper>
+        <Analytics />
       </body>
     </html>
   );
