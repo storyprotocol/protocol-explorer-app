@@ -122,7 +122,7 @@ export async function RoyaltyHoldersTable({ data }: { data: RoyaltyPolicy }) {
       {royaltySplitHolders.length ? (
         <Table className="text-xs">
           <TableCaption className="font-sans text-left">
-            A list of RNFT holders and the amount they are holding in the royalty pool. <br />
+            A list of RNFT holders and the amount they are holding at the moment. <br />
             Note: if the RNFTs are not claimed yet, the holder will be the Ancestor Vault address.
           </TableCaption>
           <TableHeader className="bg-gray-100">
