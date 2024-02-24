@@ -1,7 +1,7 @@
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import AssetDataViewerWrapper from '@/components/views/Asset/AssetDataViewerWrapper';
 import TransactionTableWrapper from '@/components/views/Transactions/TransactionTableWrapper';
-import { ChatBubbleLeftIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
+import { DocumentTextIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { FaDiscord, FaGithub } from 'react-icons/fa';
