@@ -8,7 +8,8 @@ import { useAddPolicyToIp } from '@story-protocol/react'; // Import useAddPolicy
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Address, stringToHex, zeroAddress } from 'viem';
+import { Address } from 'viem';
+import Link from 'next/link';
 
 const formSchema = z.object({
   ipId: z.string(), // Add ipId field
@@ -16,7 +17,7 @@ const formSchema = z.object({
 });
 
 export function AddPolicyToIpAssetForm() {
-  const { writeContractAsync } = useAddPolicyToIp(); // Use useAddPolicyToIp hook
+  const { writeContractAsync, isPending: isPendingInWallet, data: txHash } = useAddPolicyToIp(); // Use useAddPolicyToIp hook
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,7 +70,13 @@ export function AddPolicyToIpAssetForm() {
             )}
           />
         ))}
-        <Button type="submit">Submit</Button>
+        {txHash ? (
+          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`}>
+            <Button>View on Etherscan</Button>
+          </Link>
+        ) : (
+          <Button type="submit">{isPendingInWallet ? 'Confirm in wallet' : 'Add Policy to IPA'}</Button>
+        )}
       </form>
     </Form>
   );

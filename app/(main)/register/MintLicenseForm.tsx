@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Address } from 'viem';
+import Link from 'next/link';
 
 const formSchema = z.object({
   policyId: z.string(),
@@ -19,7 +20,7 @@ const formSchema = z.object({
 });
 
 export function MintLicenseForm() {
-  const { writeContractAsync } = useMintLicense();
+  const { writeContractAsync, isPending: isPendingInWallet, data: txHash } = useMintLicense();
   const { address } = useAccount(); // Get the user's address
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -38,7 +39,6 @@ export function MintLicenseForm() {
         values.amount,
         address as Address, // Using the user's address as minter
         (values.royaltyContext ?? '0x') as `0x${string}`, // Defaulting to '0x' if undefined
-        // ... other arguments as needed
       ],
     });
   }
@@ -78,7 +78,13 @@ export function MintLicenseForm() {
             )}
           />
         ))}
-        <Button type="submit">Mint License</Button>
+        {txHash ? (
+          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`}>
+            <Button>View on Etherscan</Button>
+          </Link>
+        ) : (
+          <Button type="submit">{isPendingInWallet ? 'Confirm in wallet' : 'Mint License'}</Button>
+        )}
       </form>
     </Form>
   );

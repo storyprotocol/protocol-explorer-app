@@ -1,5 +1,5 @@
+//@ts-nocheck
 'use client';
-//@ts-ignore
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -11,6 +11,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Address, zeroAddress } from 'viem';
+import Link from 'next/link';
 
 const policyParametersSchema = z.object({
   attribution: z.boolean().optional(),
@@ -170,8 +171,13 @@ export function RegisterPilPolicyForm() {
             );
           }
         })}
-
-        <Button type="submit">Submit</Button>
+        {txHash ? (
+          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`}>
+            <Button>View on Etherscan</Button>
+          </Link>
+        ) : (
+          <Button type="submit">{isPendingInWallet ? 'Confirm in wallet' : 'Register IP Asset'}</Button>
+        )}
       </form>
     </Form>
   );

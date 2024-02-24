@@ -8,7 +8,8 @@ import { useRegisterRootIp } from '@story-protocol/react';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { stringToHex } from 'viem';
+import { Address, stringToHex } from 'viem';
+import Link from 'next/link';
 
 const formSchema = z.object({
   policyId: z.string(),
@@ -38,7 +39,7 @@ export function RegisterIpAssetForm() {
     writeContractAsync({
       args: [
         BigInt(values.policyId),
-        values.nftContract,
+        values.nftContract as Address,
         BigInt(values.tokenId),
         values.ipName ?? '',
         stringToHex(values.contentHash ?? '', { size: 32 }),
@@ -87,7 +88,13 @@ export function RegisterIpAssetForm() {
             )}
           />
         ))}
-        <Button type="submit">Submit</Button>
+        {txHash ? (
+          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`}>
+            <Button>View on Etherscan</Button>
+          </Link>
+        ) : (
+          <Button type="submit">{isPendingInWallet ? 'Confirm in wallet' : 'Register IP Asset'}</Button>
+        )}
       </form>
     </Form>
   );

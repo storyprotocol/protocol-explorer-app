@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Address, stringToHex } from 'viem';
+import Link from 'next/link';
 
 const formSchema = z.object({
   licenseIds: z.string(), // Changed to string
@@ -37,7 +38,7 @@ export function RegisterDerivativeIpAssetForm() {
       return;
     }
 
-    const licenseIdsBigInt = parsedLicenseIds.map((id) => BigInt(id));
+    const licenseIdsBigInt = parsedLicenseIds.map((id: any) => BigInt(id));
     writeContractAsync({
       args: [
         licenseIdsBigInt,
@@ -79,7 +80,16 @@ export function RegisterDerivativeIpAssetForm() {
           <FormField
             key={fieldName}
             control={form.control}
-            name={fieldName}
+            name={
+              fieldName as
+                | 'royaltyContext'
+                | 'licenseIds'
+                | 'nftTokenId'
+                | 'nftContract'
+                | 'ipName'
+                | 'contentHash'
+                | 'externalUrl'
+            }
             render={({ field }: { field: any }) => (
               <FormItem>
                 <FormLabel>{fieldName}</FormLabel>
@@ -92,7 +102,13 @@ export function RegisterDerivativeIpAssetForm() {
             )}
           />
         ))}
-        <Button type="submit">{isPendingInWallet ? 'Confirm in wallet' : 'Register Derivative IP'}</Button>
+        {txHash ? (
+          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`}>
+            <Button>View on Etherscan</Button>
+          </Link>
+        ) : (
+          <Button type="submit">{isPendingInWallet ? 'Confirm in wallet' : 'Register Derivative IP'}</Button>
+        )}
       </form>
     </Form>
   );
