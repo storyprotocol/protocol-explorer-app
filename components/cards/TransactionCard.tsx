@@ -115,7 +115,7 @@ export default function TransactionCard({ classname, data }: { classname?: strin
             <dd className="relative w-full truncate mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-2 sm:mt-0">
               {data.ipId ? (
                 <Link
-                  href={`/collections/${data.ipId}`}
+                  href={`/ipa/${data.ipId}`}
                   className="flex font-mono items-center space-x-2 break-all text-indigo-400 underline dark:text-[#D0DBFF]"
                 >
                   <span>{data.ipId}</span>

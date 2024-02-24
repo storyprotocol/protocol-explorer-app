@@ -33,7 +33,7 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
               <TabsTrigger value="disputes">Disputes</TabsTrigger>
               <TabsTrigger value="permissions">Permissions</TabsTrigger>
               {/* <TabsTrigger value="relationships">Relationships</TabsTrigger> */}
-              <TabsTrigger value="actions">Actions</TabsTrigger>
+              {/* <TabsTrigger value="actions">Actions</TabsTrigger> */}
             </TabsList>
             {/* <TabsContent value="tx">
                 <Suspense fallback={<SkeletonTable />}>
@@ -74,15 +74,15 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
                 <PermissionDataViewerWrapper ipId={ipAssetId} />
               </Suspense>
             </TabsContent>
-            <TabsContent value="actions">
-              {/* <Suspense fallback={<SkeletonTable />}>
+            {/* <TabsContent value="actions"> */}
+            {/* <Suspense fallback={<SkeletonTable />}>
                   <div className="flex flex-col gap-4">
                     <RelationshipWriteAccordion defaultValues={defaultRegisterRelationshipValues} />
                     <LicenseReadAccordion defaultValues={defaultIpAssetValues} />
                     <CreateIpaBoundLicenseWriteAccordion defaultValues={defaultCreateIpaBoundLicenseValues} />
                   </div>
                 </Suspense> */}
-            </TabsContent>
+            {/* </TabsContent> */}
           </Tabs>
         </div>
         {/* </div> */}
