@@ -1,10 +1,10 @@
 'use client';
 
-import { Module } from '@story-protocol/core-sdk';
 import { ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
 import React from 'react';
 import BaseDataViewer from '../BaseDataViewer';
+import { Module } from '@/lib/server/types';
 
 const columns: ColumnDef<Module>[] = [
   {
@@ -23,15 +23,6 @@ const columns: ColumnDef<Module>[] = [
       const moduleKey = row.getValue('moduleKey');
       return <>{moduleKey}</>;
     },
-  },
-  {
-    accessorKey: 'ipOrgId',
-    header: 'Module ID',
-    cell: ({ row }) => (
-      <Link href={`/collections/${row.original.ipOrgId}`} className="capitalize font-mono underline">
-        {row.original.ipOrgId}
-      </Link>
-    ),
   },
 ];
 

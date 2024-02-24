@@ -1,5 +1,4 @@
 import React from 'react';
-import { ListModuleResponse } from '@story-protocol/core-sdk';
 import storyClient from '@/lib/SP';
 import ModuleTableComponent from './ModuleTableComponent';
 

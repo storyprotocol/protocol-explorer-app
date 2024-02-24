@@ -1,42 +1,25 @@
 'use client';
 import '@rainbow-me/rainbowkit/styles.css';
 
-import { getDefaultWallets, lightTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
-import { configureChains, createConfig, WagmiConfig } from 'wagmi';
+import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { WagmiProvider } from 'wagmi';
 import { sepolia } from 'wagmi/chains';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
-import { publicProvider } from 'wagmi/providers/public';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
-const { chains, publicClient } = configureChains(
-  [sepolia],
-  [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID! }), publicProvider()],
-);
-
-const { connectors } = getDefaultWallets({
-  appName: 'Story Testnet Explorer',
+const config = getDefaultConfig({
+  appName: 'My RainbowKit App',
   projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID!,
-  chains,
+  chains: [sepolia],
+  ssr: true, // If your dApp uses server side rendering (SSR)
 });
-
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient,
-});
+const queryClient = new QueryClient();
 
 export default function WagmiConfigWrapper({ children }: { children: React.ReactNode }) {
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider
-        theme={lightTheme({
-          accentColor: '#5538CE',
-          borderRadius: 'medium',
-          fontStack: 'system',
-        })}
-        chains={chains}
-      >
-        {children}
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>{children}</RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }

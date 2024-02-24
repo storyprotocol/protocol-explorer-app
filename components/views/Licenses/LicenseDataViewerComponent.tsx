@@ -2,10 +2,10 @@
 
 import BaseDataViewer from '../BaseDataViewer';
 import { ColumnDef } from '@tanstack/react-table';
-import { License } from '@story-protocol/core-sdk';
 import { shortenAddress } from '@/utils';
 import moment from 'moment';
 import LicenseCard from '@/components/cards/LicenseCard';
+import { License } from '@/lib/server/types';
 
 const columns: ColumnDef<License>[] = [
   {

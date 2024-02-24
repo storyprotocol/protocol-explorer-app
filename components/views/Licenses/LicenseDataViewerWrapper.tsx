@@ -1,8 +1,7 @@
 import React from 'react';
-import { License } from '@story-protocol/core-sdk';
 import LicenseDataViewerComponent from './LicenseDataViewerComponent';
 import { listResource } from '@/lib/server/sdk';
-import { RESOURCE_TYPE } from '@/lib/server/types';
+import { License, RESOURCE_TYPE } from '@/lib/server/types';
 
 export default async function LicenseDataViewerWrapper({ collectionId, ipId, ...params }: any) {
   try {
