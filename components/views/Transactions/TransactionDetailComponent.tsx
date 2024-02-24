@@ -9,7 +9,7 @@ export default async function TransactionDetailComponent({ txHash }: { txHash: s
     const txData: Transaction = txDetailRes.data;
 
     return (
-      <div>
+      <div className="w-full">
         <TransactionCard data={txData} />
       </div>
     );
