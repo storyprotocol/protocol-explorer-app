@@ -2,11 +2,11 @@
 
 import classNames from 'classnames';
 import React, { PropsWithChildren } from 'react';
-import Sidebar2 from './Sidebar2';
+import Sidebar from './Sidebar';
 
 const Layout = (props: PropsWithChildren) => {
   return (
-    <Sidebar2>
+    <Sidebar>
       <div
         className={classNames({
           'w-full': true,
@@ -14,7 +14,7 @@ const Layout = (props: PropsWithChildren) => {
       >
         {props.children}
       </div>
-    </Sidebar2>
+    </Sidebar>
   );
 };
 

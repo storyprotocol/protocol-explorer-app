@@ -17,10 +17,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className}>
         <WagmiConfigWrapper>
-          <Layout>
-            <div className="flex flex-row w-full bg-gray-100 min-h-[calc(100vh-64px)]">{children}</div>
-            <Toaster />
-          </Layout>
+          <StoryClientProvider>
+            <Layout>
+              <div className="flex flex-row w-full bg-gray-100 min-h-screen h-full">{children}</div>
+              <Toaster />
+            </Layout>
+          </StoryClientProvider>
         </WagmiConfigWrapper>
       </body>
     </html>

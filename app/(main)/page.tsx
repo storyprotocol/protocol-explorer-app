@@ -1,9 +1,10 @@
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import AssetDataViewerWrapper from '@/components/views/Asset/AssetDataViewerWrapper';
 import TransactionTableWrapper from '@/components/views/Transactions/TransactionTableWrapper';
-import { ChatBubbleLeftIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
+import { DocumentTextIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Suspense } from 'react';
+import { FaDiscord, FaGithub } from 'react-icons/fa';
 
 export const revalidate = 60;
 export const fetchCache = 'force-no-store';
@@ -11,31 +12,31 @@ export const fetchCache = 'force-no-store';
 const INTRO_CARDS = [
   {
     title: 'Get started',
-    description: 'Get started with our open-source SDK in Typescript or React',
+    description: 'Learn about Story Protocol, Programmable IP, core modules with our Beta documentation.',
     cta: 'View Docs',
-    href: '/docs/getting-started/introduction/',
+    href: 'https://docs.storyprotocol.xyz/docs/what-is-story-protocol',
     icon: DocumentTextIcon,
   },
-  // {
-  //   title: 'Learn about the protocol',
-  //   description: 'Get started with an open-source component library based on the Tailwind CSS framework.',
-  //   cta: 'View library',
-  //   href: '/docs/getting-started/introduction/',
-  //   icon: DocumentTextIcon,
-  // },
-  // {
-  //   title: 'Learn more about Story Protocol',
-  //   description: '',
-  //   cta: 'View library',
-  //   href: '/docs/getting-started/introduction/',
-  //   icon: DocumentTextIcon,
-  // },
+  {
+    title: 'Start building',
+    description: 'Check out our open-source SDK in Typescript or React to start building on our Protocol',
+    cta: 'Visit Github',
+    href: 'https://github.com/storyprotocol/sdk',
+    icon: FaGithub,
+  },
+  {
+    title: 'Programmable IP',
+    description: 'Our white paper on how Story Protocol plans to transform Programmable IPs into networks',
+    cta: 'View Blog',
+    href: 'https://www.storyprotocol.xyz/media/programmable-ip',
+    icon: DocumentTextIcon,
+  },
   {
     title: 'Join our community',
     description: "Join our community on Discord and get involved in the world's first decentralized IP protocol.",
-    cta: 'Join Community',
-    href: '/docs/getting-started/introduction/',
-    icon: ChatBubbleLeftIcon,
+    cta: 'Join Discord',
+    href: 'https://discord.gg/storyprotocol',
+    icon: FaDiscord,
   },
 ];
 
@@ -44,6 +45,7 @@ function IntroCard({ data }: { data?: any }) {
     <Link
       className="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
       href={data.href}
+      target="_blank"
     >
       <div className="relative w-6 h-6 mb-3">
         <span
@@ -92,14 +94,14 @@ function IntroCard({ data }: { data?: any }) {
 export default function Home() {
   return (
     <div className="flex flex-col w-full">
-      <div className="bg-[url('/story_banner.jpeg')]">
+      <div className="bg-[url('/story_banner.jpeg')] bg-cover">
         <div className="max-w-[1600px] px-4 md:px-8 py-4 mx-auto pt-20">
           <div className="flex flex-col items-left gap-6 mb-6 w-full">
-            <h1 className="text-xl md:text-2xl font-semibold leading-none">Welcome</h1>
+            <h1 className="text-xl md:text-2xl font-semibold leading-none"></h1>
             <p></p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2  translate-y-20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2  translate-y-20">
             {INTRO_CARDS.map((card, index) => (
               <IntroCard key={index} data={card} />
             ))}

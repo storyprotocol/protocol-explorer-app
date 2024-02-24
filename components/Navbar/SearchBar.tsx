@@ -1,14 +1,14 @@
 'use client';
-import { ChangeEvent, useEffect, useState, useRef } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Combobox } from '@headlessui/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { ArrowsRightLeftIcon, FolderIcon, RectangleStackIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
-import { debounce } from '@/utils';
 import { getResource } from '@/lib/server/sdk';
 import { Asset, Collection, RESOURCE_TYPE, Transaction } from '@/lib/server/types';
 import Link from 'next/link';
 import IPIcon from '../icons/IPIcon';
+import { useRouter } from 'next/navigation';
 
 export default function SearchBar() {
   const [query, setQuery] = useState('');
@@ -17,10 +17,11 @@ export default function SearchBar() {
   const [ipAssets, setIpAssets] = useState<Asset[]>([]);
   const [showAutocomplete, setShowAutocomplete] = useState(false);
   const autocompleteRef = useRef(null);
+  const router = useRouter();
 
   const hasResults = collections.length > 0 || transactions.length > 0 || ipAssets.length > 0;
 
-  console.log({ collections, ipAssets, transactions });
+  console.log({ collections, ipAssets, transactions, hasResults, showAutocomplete });
 
   useEffect(() => {
     if (query.includes('0x')) {
@@ -57,6 +58,29 @@ export default function SearchBar() {
     }
   }, [query]);
 
+  const KeyUpHandler = (e: any) => {
+    if (e.code === 'Enter') {
+      let route = '';
+      if (collections.length > 0) {
+        route = `/collections/${collections[0].id}`;
+      } else if (ipAssets.length > 0) {
+        route = `/ipa/${ipAssets[0].id}`;
+      } else if (transactions.length > 0) {
+        route = `/transactions/${transactions[0].id}`;
+      }
+
+      if (route !== '') {
+        router.push(route);
+      }
+
+      setShowAutocomplete(false);
+      setQuery('');
+      setCollections([]);
+      setTransactions([]);
+      setIpAssets([]);
+    }
+  };
+
   const handleLinkClick = () => {
     setShowAutocomplete(false);
     setQuery('');
@@ -75,37 +99,55 @@ export default function SearchBar() {
         setIpAssets([]);
       }
     }
+
+    function listenToKeydown(event: KeyboardEvent) {
+      console.log(event.code, event.metaKey);
+      if (event.code === 'KeyK' && event.metaKey) {
+        const search = document.getElementById('searchBar');
+        if (search) {
+          search.focus();
+        }
+      }
+    }
+    document.addEventListener('keydown', listenToKeydown);
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
+      document.removeEventListener('keydown', listenToKeydown);
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
   return (
     <div className="relative flex flex-col justify-center flex-1 transition-all">
-      <Combobox onChange={() => {}}>
+      <Combobox value={query} onChange={() => {}}>
         <div ref={autocompleteRef}>
-          <div className="relative bg-white rounded-md shadow-lg">
+          <div className="relative">
             <MagnifyingGlassIcon
-              className="pointer-events-none absolute left-2 md:left-4 top-2.5 md:top-3 h-5 w-5 text-gray-400"
+              className="pointer-events-none absolute left-4 top-2.5 h-5 w-5 text-gray-400"
               aria-hidden="true"
             />
             <Combobox.Input
-              className="h-10 w-full border-0 bg-transparent pl-8 md:pl-11 pr-4 text-gray-900 placeholder:text-gray-400 text-xs sm:text-sm focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:ring-indigo-500 focus-visible:ring-offset-indigo-100 outline-indigo-300 transition-all"
-              placeholder="Search by Address / Txn Hash / IP Asset ID"
-              onChange={debounce((event: ChangeEvent<HTMLInputElement>) => {
+              id="searchBar"
+              className="h-10 rounded-md bg-white w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm shadow-lg outline-none"
+              placeholder="Search"
+              onKeyUp={KeyUpHandler}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 setQuery(event.target.value);
                 setShowAutocomplete(true);
-              })}
+              }}
             />
+            <div className="absolute right-4 top-1.5 bg-white">
+              <span className="ml-3 flex-none text-xs font-semibold text-gray-400">
+                <kbd className="font-sans">⌘</kbd>
+                <kbd className="font-sans">K</kbd>
+              </span>
+            </div>
           </div>
-
-          {/* Autocomplete section start */}
 
           {showAutocomplete && query !== '' && hasResults && (
             <Combobox.Options
               static
-              className="absolute text-xs w-full top-16 max-h-80 scroll-py-2 divide-y divide-gray-100 overflow-y-auto z-30 bg-white shadow-lg rounded-b-xl"
+              className="text-xs w-full max-h-80 scroll-py-2 divide-y divide-gray-100 overflow-y-auto z-30 bg-white shadow-lg rounded-b-xl absolute top-[50px] z-100"
             >
               {transactions.length > 0 && (
                 <li className="p-2">
@@ -176,6 +218,7 @@ export default function SearchBar() {
                   </ul>
                 </li>
               )}
+
               {ipAssets.length > 0 && (
                 <li className="p-2">
                   <h2 className="mb-2 mt-4 px-3 text-xs font-semibold text-gray-500">Assets</h2>
@@ -214,14 +257,13 @@ export default function SearchBar() {
           )}
 
           {query !== '' && !hasResults && (
-            <div className="absolute top-14 w-full px-6 py-14 text-center sm:px-14 bg-white shadow-md rounded-b-xl">
+            <div className="absolute top-[50px] w-full px-6 py-16 text-center sm:px-14 bg-white shadow-md rounded-b-xl">
               <FolderIcon className="mx-auto h-6 w-6 text-gray-400" aria-hidden="true" />
               <p className="mt-4 text-sm text-gray-900">
                 {`We couldn't find anything on our protocol with that term. Please try again.`}
               </p>
             </div>
           )}
-          {/* Autocomplete section end */}
         </div>
       </Combobox>
     </div>

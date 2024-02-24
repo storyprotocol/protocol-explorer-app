@@ -15,6 +15,7 @@ import JsonView from '@uiw/react-json-view';
 import { githubLightTheme } from '@uiw/react-json-view/githubLight';
 import { listResource } from '@/lib/server/sdk';
 import AddressStack from '@/components/address/AddressStack';
+import { Badge } from '@/components/ui/badge';
 
 const Row = ({ label, children }: { label: string; children: React.ReactNode }) => {
   return (
@@ -121,10 +122,16 @@ export default function AssetDetailCard({ data }: { data: Asset }) {
       </div>
       <div className="flex flex-col lg:w-3/5 gap-2">
         <div className={cn('relative rounded-xl px-6 py-2 bg-[#FFFFFF] dark:bg-[#2C2B35] w-full')}>
-          <div className="flex items-center justify-between py-4">
+          <div className="flex items-center justify-start gap-2 py-4">
             <h1 className="font-medium md:text-2xl">{data.metadata.name || 'Untitled'}</h1>
+            {(!data.rootIpIds || data.rootIpIds.length === 0) && (
+              <Badge className="bg-indigo-500 hover:bg-indigo-500">Root</Badge>
+            )}
           </div>
           <div className="border-t py-4 border-gray-200 dark:border-gray-900">
+            <Row label="IP ID">
+              <p className="font-mono text-gray-500">{data.id}</p>
+            </Row>
             <Row label="Blocknumber">
               <p className="font-mono text-gray-500">{data.blockNumber}</p>
             </Row>

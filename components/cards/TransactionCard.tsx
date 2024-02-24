@@ -11,21 +11,14 @@ import { Transaction } from '@/lib/server/types';
 export default function TransactionCard({ classname, data }: { classname?: string; data: Transaction }) {
   return (
     <>
-      <div className={cn('relative rounded-xl px-2 md:px-0 bg-[#FFFFFF] !p-5 dark:bg-[#2C2B35]', classname)}>
-        <div className="flex flex-wrap items-center justify-between space-y-3 px-4 sm:px-0">
-          <div>
-            <h1 className="font-medium md:text-3xl">Transaction Details</h1>
-          </div>
-          {/* <button className="group ml-auto flex">
-            <button className="rounded-full bg-[#aeb4e8] px-3 py-1 text-white hover:bg-[#8888f5] focus:outline-none disabled:opacity-50 dark:bg-[#aeb4e8] dark:text-[#2C2B35] dark:hover:bg-[#8888f5] text-[13px] font-bold uppercase leading-[13px]">
-              <span>Etherscan</span>
-            </button>
-          </button> */}
+      <div className={cn('relative rounded-xl px-6 py-2 bg-[#FFFFFF] dark:bg-[#2C2B35] w-full')}>
+        <div className="flex items-center justify-start gap-2 py-4">
+          <h1 className="font-medium md:text-2xl">Transaction Details</h1>
         </div>
-        <div className="mt-6 border-t border-gray-200 dark:border-gray-900">
-          <div className="px-4 py-6 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-0">
+        <div className="border-t border-gray-200 dark:border-gray-900">
+          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4">
             <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">TxHash</dt>
-            <dd className="mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-4 sm:mt-0">
+            <dd className="relative w-full truncate mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-2 sm:mt-0">
               <span className="truncate">
                 <a
                   className="flex font-mono items-center space-x-2 break-all text-indigo-400 underline dark:text-[#D0DBFF]"
@@ -52,9 +45,9 @@ export default function TransactionCard({ classname, data }: { classname?: strin
               </span>
             </dd>
           </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-0">
+          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4">
             <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Created At</dt>
-            <dd className="mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-4 sm:mt-0">
+            <dd className="relative w-full truncate mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-2 sm:mt-0">
               <span className="truncate">
                 <div className="flex items-center space-x-2">
                   <svg
@@ -77,9 +70,9 @@ export default function TransactionCard({ classname, data }: { classname?: strin
               </span>
             </dd>
           </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-0">
+          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4">
             <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Status</dt>
-            <dd className="mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-4 sm:mt-0">
+            <dd className="relative w-full truncate mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-2 sm:mt-0">
               <span className="truncate">
                 <div className="flex items-center space-x-2">
                   <SuccessBadge>Success</SuccessBadge>
@@ -88,72 +81,41 @@ export default function TransactionCard({ classname, data }: { classname?: strin
             </dd>
           </div>
 
-          <div className="px-4 py-6 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-0">
+          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4">
             <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Action Type</dt>
-            <dd className="mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-4 sm:mt-0">
+            <dd className="relative w-full truncate mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-2 sm:mt-0">
               <span>{data.actionType}</span>
             </dd>
           </div>
 
-          <div className="px-4 py-6 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-0">
+          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4">
             <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Resource Type</dt>
-            <dd className="mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-4 sm:mt-0">
+            <dd className="relative w-full truncate mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-2 sm:mt-0">
               <span>{data.resourceType}</span>
             </dd>
           </div>
 
-          {/* {isRelationship && additionalData && (
-            <div className="px-4 py-6 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Relationship Details</dt>
-              <dd className="mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-4 sm:mt-0">
-                <div className="flex flex-col">
-                  <div>
-                    Source IPA:{' '}
-                    <Link
-                      href={`/ipa/${additionalData.relationship.srcContract}/${additionalData.relationship.srcTokenId}`}
-                      className="font-mono text-indigo-400 underline dark:text-[#D0DBFF]"
-                    >
-                      {additionalData.relationship.srcTokenId}
-                    </Link>
-                  </div>
-                  <div>
-                    Type: <span className="font-mono">{additionalData.relationship.type}</span>
-                  </div>
-                  <div>
-                    Destination IPA:{' '}
-                    <Link
-                      href={`/ipa/${additionalData.relationship.dstContract}/${additionalData.relationship.dstTokenId}`}
-                      className="font-mono text-indigo-400 underline dark:text-[#D0DBFF]"
-                    >
-                      {additionalData.relationship.dstTokenId}
-                    </Link>
-                  </div>
-                </div>
-              </dd>
-            </div>
-          )} */}
-
-          <div className="px-4 py-6 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-0">
+          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4">
             <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Posted by</dt>
-            <dd className="mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-4 sm:mt-0">
+            <dd className="relative w-full truncate mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-2 sm:mt-0">
               <span className="truncate">
                 <AddressComponent address={data.initiator} displayFull />
               </span>
             </dd>
           </div>
 
-          <div className="px-4 py-6 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-0">
+          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4">
             <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Resource ID</dt>
-            <dd className="mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-4 sm:mt-0">
+            <dd className="relative w-full truncate mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-2 sm:mt-0">
               <span className="font-mono">{data.resourceId}</span>
             </dd>
           </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-0">
+          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4">
             <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">IP ID</dt>
-            <dd className="mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-4 sm:mt-0">
+            <dd className="relative w-full truncate mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-2 sm:mt-0">
               {data.ipId ? (
                 <Link
-                  href={`/collections/${data.ipId}`}
+                  href={`/ipa/${data.ipId}`}
                   className="flex font-mono items-center space-x-2 break-all text-indigo-400 underline dark:text-[#D0DBFF]"
                 >
                   <span>{data.ipId}</span>
@@ -189,9 +151,9 @@ export default function TransactionCard({ classname, data }: { classname?: strin
               </svg>
             </AccordionTrigger>
             <AccordionContent>
-              <div className="px-4 py-6 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-0">
+              <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt className="text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Type</dt>
-                <dd className="mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-4 sm:mt-0">
+                <dd className="relative w-full truncate mt-1 flex items-center space-x-2 text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-2 sm:mt-0">
                   <JsonView value={additionalData} />
                 </dd>
               </div>
