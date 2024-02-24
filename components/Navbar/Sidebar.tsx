@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import SearchBar from './SearchBar';
 import Link from 'next/link';
 import { FaSquareXTwitter } from 'react-icons/fa6';
-import { FaGithub, FaDiscord } from 'react-icons/fa';
+import { FaDiscord, FaGithub } from 'react-icons/fa';
 
 const teams = [
   // { id: 1, name: 'Telegram', href: '', icons: FaTelegram },

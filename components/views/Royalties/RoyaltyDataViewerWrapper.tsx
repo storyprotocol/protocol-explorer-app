@@ -1,4 +1,4 @@
-import { Royalty, RESOURCE_TYPE } from '@/lib/server/types';
+import { RESOURCE_TYPE, Royalty } from '@/lib/server/types';
 import { listResource } from '@/lib/server/sdk';
 import RoyaltyDataViewerComponent from './RoyaltyDataViewerComponent';
 

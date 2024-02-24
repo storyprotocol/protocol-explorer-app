@@ -1,5 +1,5 @@
 import React from 'react';
-import { TooltipProvider, TooltipTrigger, Tooltip, TooltipContent } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 export default function TooltipWrapper({ children, content }: { children: React.ReactNode; content: React.ReactNode }) {
   return (
