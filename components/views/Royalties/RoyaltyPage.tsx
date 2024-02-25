@@ -117,16 +117,21 @@ export async function RoyaltyHoldersTable({ data }: { data: RoyaltyPolicy }) {
   const royaltySplitData: RoyaltySplit = royaltySplit.data;
   const royaltySplitHolders: RoyaltyHolder[] = royaltySplitData.holders;
 
-  function extractIds(arrayOfObjects) {
-    return arrayOfObjects.map((obj) => obj.id);
+  function extractIds(arrayOfObjects: RoyaltyHolder[]) {
+    // check if the ownership is 1000000 and return empty array else loop through the array and return an array of ids
+    if (arrayOfObjects.some((obj: RoyaltyHolder) => obj.ownership === '1000000')) return [];
+
+    return arrayOfObjects.map((obj: RoyaltyHolder) => {
+      return obj.id.split('-')[1];
+    });
   }
 
   return (
     <>
       {royaltySplitHolders.length ? (
         <>
-          <div className="flex flex-row items-center mb-6 gap-2">
-            <div>NFT Holder array:</div>
+          <div className="items-center mb-6 gap-2">
+            NFT Holder array:
             <code className="text-xs inline-flex text-left items-center space-x-4 bg-gray-100 text-black rounded-lg p-4 pl-3 h-8 ">
               <span className="flex flex-1 gap-4 text-nowrap overflow-x-scroll w-full max-w-[400px]">
                 {JSON.stringify(extractIds(royaltySplitHolders))}
@@ -147,10 +152,10 @@ export async function RoyaltyHoldersTable({ data }: { data: RoyaltyPolicy }) {
             </TableHeader>
             <TableBody>
               {royaltySplitHolders.map(({ id, ownership }) => (
-                <TableRow key={id}>
+                <TableRow key={id.split('-')[1]}>
                   <TableCell className="font-xs flex flex-row ">
-                    <Link href={`/ipa/${id}`}>
-                      <AddressComponent address={id} size="sm" />
+                    <Link href={`/ipa/${id.split('-')[1]}`}>
+                      <AddressComponent address={id.split('-')[1]} size="sm" />
                     </Link>
                     {id.split('-')[1] === data.ancestorsVault && '(Ancestor Vault)'}
                     {id.split('-')[1] === data.id && '(Current NFT)'}
