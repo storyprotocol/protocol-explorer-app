@@ -173,14 +173,13 @@ export function RegisterPilPolicyForm() {
             );
           }
         })}
-        {txHash ? (
-          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank">
+        <Button type="submit" variant={'register'}>
+          {isPendingInWallet ? 'Confirm in wallet' : 'Register IP Asset'}
+        </Button>
+        {txHash && (
+          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" className="ml-4">
             <Button variant={'etherscan'}>View on Etherscan</Button>
           </Link>
-        ) : (
-          <Button type="submit" variant={'register'}>
-            {isPendingInWallet ? 'Confirm in wallet' : 'Register IP Asset'}
-          </Button>
         )}
       </form>
     </Form>

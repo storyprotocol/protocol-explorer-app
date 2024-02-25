@@ -12,9 +12,9 @@ import { Address, stringToHex } from 'viem';
 import Link from 'next/link';
 
 const formSchema = z.object({
-  licenseIds: z.string(), // Changed to string
-  nftTokenId: z.string(),
   nftContract: z.string(),
+  nftTokenId: z.string(),
+  licenseIds: z.string(), // Changed to string
   ipName: z.string(),
   contentHash: z.string(),
   externalUrl: z.string(),
@@ -102,14 +102,13 @@ export function RegisterDerivativeIpAssetForm() {
             )}
           />
         ))}
-        {txHash ? (
+        <Button type="submit" variant={'register'}>
+          {isPendingInWallet ? 'Confirm in wallet' : 'Register Derivative IP'}
+        </Button>
+        {txHash && (
           <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank">
             <Button variant={'etherscan'}>View on Etherscan</Button>
           </Link>
-        ) : (
-          <Button type="submit" variant={'register'}>
-            {isPendingInWallet ? 'Confirm in wallet' : 'Register Derivative IP'}
-          </Button>
         )}
       </form>
     </Form>

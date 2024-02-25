@@ -13,8 +13,8 @@ import { Address } from 'viem';
 import Link from 'next/link';
 
 const formSchema = z.object({
-  policyId: z.string(),
   ipId: z.string(), // Added field for ipId
+  policyId: z.string(),
   amount: z.bigint(), // Added field for amount
   royaltyContext: z.string().optional(), // Added field for royaltyContext
 });
@@ -78,14 +78,13 @@ export function MintLicenseForm() {
             )}
           />
         ))}
-        {txHash ? (
-          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank">
+        <Button type="submit" variant={'register'}>
+          {isPendingInWallet ? 'Confirm in wallet' : 'Mint License'}
+        </Button>
+        {txHash && (
+          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" className="ml-4">
             <Button variant={'etherscan'}>View on Etherscan</Button>
           </Link>
-        ) : (
-          <Button type="submit" variant={'register'}>
-            {isPendingInWallet ? 'Confirm in wallet' : 'Mint License'}
-          </Button>
         )}
       </form>
     </Form>

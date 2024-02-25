@@ -12,9 +12,9 @@ import { Address, stringToHex } from 'viem';
 import Link from 'next/link';
 
 const formSchema = z.object({
-  policyId: z.string(),
   nftContract: z.string(),
   tokenId: z.string(),
+  policyId: z.string(),
   ipName: z.string(),
   contentHash: z.string(),
   externalURL: z.string(),
@@ -60,12 +60,12 @@ export function RegisterIpAssetForm() {
 
   const descriptions: Record<string, string> = {
     policyId:
-      'Enter Policy ID (number). If you use a pre-set policy, you can find the policyId here: https://docs.storyprotocol.xyz/docs/pil-flavors-preset-policy.',
+      '(Optional) This allows you to attach a policy ID (number) to your IP Asset in a single transaction while registering it. If you use a pre-set policy, you can find the policyId here: https://docs.storyprotocol.xyz/docs/preset-pil-policies. Note: Leave blank if not applicable, you can always add a policy ID later on.',
     nftContract: 'Contract address of your NFT (address)',
     tokenId: 'Token ID of your NFT (number)',
-    ipName: '(Optional) Enter IP Name. Leave empty is not applicable (string)',
-    contentHash: '(Optional) Enter Content Hash. Leave empty is not applicable (string)',
-    externalURL: '(Optional) Enter External URL. Leave empty is not applicable (string)',
+    ipName: '(Optional) Enter IP Name. Leave empty if not applicable (string)',
+    contentHash: '(Optional) Enter Content Hash. Leave empty if not applicable (string)',
+    externalURL: '(Optional) Enter External URL. Leave empty if not applicable (string)',
   };
 
   return (
@@ -88,14 +88,15 @@ export function RegisterIpAssetForm() {
             )}
           />
         ))}
-        {txHash ? (
-          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank">
-            <Button variant={'etherscan'}>View on Etherscan</Button>
+        <Button type="submit" variant={'register'}>
+          {isPendingInWallet ? 'Confirm in wallet' : 'Register IP Asset'}
+        </Button>
+        {txHash && (
+          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" className="ml-4">
+            <Button variant={'etherscan'} type="button">
+              View on Etherscan
+            </Button>
           </Link>
-        ) : (
-          <Button type="submit" variant={'register'}>
-            {isPendingInWallet ? 'Confirm in wallet' : 'Register IP Asset'}
-          </Button>
         )}
       </form>
     </Form>

@@ -70,14 +70,13 @@ export function AddPolicyToIpAssetForm() {
             )}
           />
         ))}
-        {txHash ? (
-          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank">
+        <Button type="submit" variant={'register'}>
+          {isPendingInWallet ? 'Confirm in wallet' : 'Add Policy to IPA'}
+        </Button>
+        {txHash && (
+          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" className="ml-4">
             <Button variant={'etherscan'}>View on Etherscan</Button>
           </Link>
-        ) : (
-          <Button type="submit" variant={'register'}>
-            {isPendingInWallet ? 'Confirm in wallet' : 'Add Policy to IPA'}
-          </Button>
         )}
       </form>
     </Form>
