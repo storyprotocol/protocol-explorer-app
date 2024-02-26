@@ -174,7 +174,7 @@ export function RegisterPilPolicyForm() {
           }
         })}
         <Button type="submit" variant={'register'}>
-          {isPendingInWallet ? 'Confirm in wallet' : 'Register IP Asset'}
+          {isPendingInWallet ? 'Confirm in wallet' : 'Register PIL Policy'}
         </Button>
         {txHash && (
           <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" className="ml-4">
