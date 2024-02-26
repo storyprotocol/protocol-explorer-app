@@ -9,6 +9,7 @@ import SearchBar from './SearchBar';
 import Link from 'next/link';
 import { FaSquareXTwitter } from 'react-icons/fa6';
 import { FaDiscord, FaGithub } from 'react-icons/fa';
+import { Badge } from '../ui/badge';
 
 const teams = [
   // { id: 1, name: 'Telegram', href: '', icons: FaTelegram },
@@ -23,40 +24,43 @@ interface LogoProps {
 
 const Logo: React.FC<LogoProps> = ({ className = '', ...props }) => {
   return (
-    <svg
-      viewBox="0 0 401 92"
-      className={className}
-      {...props}
-      fill="white"
-      stroke="white"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        id="s-parts"
-        d="M34.9,92C54,92,69.5,80.5,69.5,61.1C69.5,43,56,30.3,34.9,30.3v13.4c-9.7,0-16.9-4.3-16.9-13.1
+    <div className="flex flex-row justify-start py-6 shrink-0 items-start gap-1">
+      <svg
+        viewBox="0 0 401 92"
+        className={className}
+        {...props}
+        fill="white"
+        stroke="white"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          id="s-parts"
+          d="M34.9,92C54,92,69.5,80.5,69.5,61.1C69.5,43,56,30.3,34.9,30.3v13.4c-9.7,0-16.9-4.3-16.9-13.1
 		c0-8.8,6.2-14,17.4-14c9.2,0,14.7,3.8,16.1,8.8h17C67.2,11.4,54,0,35,0C14.9,0,0.6,12.6,0.6,31c0,18.4,14.9,29.5,34.3,29.5V47.8
 		c10.3,0,17.4,4.6,17.4,13.7c0,9-7.2,14.1-17.3,14.1c-9.1,0-15.4-4-17.3-9.5H0C2.5,80.6,15.8,92,34.9,92z"
-      />
+        />
 
-      <polygon id="t-default" points="101,90 120.3,90 120.3,19.5 147.9,19.5 147.9,2.1 73.4,2.1 73.4,19.5 101,19.5 	" />
+        <polygon id="t-default" points="101,90 120.3,90 120.3,19.5 147.9,19.5 147.9,2.1 73.4,2.1 73.4,19.5 101,19.5 	" />
 
-      <path
-        id="o-parts"
-        d="M192.9,92v-9c20.3,0,35.5-15.9,35.5-37h9.4c0-25-19.4-46-44.9-46c-27.4,0-45.1,19.1-45.1,46
+        <path
+          id="o-parts"
+          d="M192.9,92v-9c20.3,0,35.5-15.9,35.5-37h9.4c0-25-19.4-46-44.9-46c-27.4,0-45.1,19.1-45.1,46
 		C147.8,71,167.4,92,192.9,92z M220.5,46h-8.6c0,11.4-8.4,19.8-19,19.8v8.6c-15.5,0-26.7-12.9-26.7-28.3c0-16.7,10-28,26.7-28
 		C208.4,18,220.5,29.9,220.5,46z"
-      />
-      <path
-        id="r-default"
-        d="M297.8,32.5c0,9-4.9,13.4-14.2,13.4h-17.8V19.6H283C292.3,19.6,297.8,23.5,297.8,32.5z M246.8,90h19.1V63.3
+        />
+        <path
+          id="r-default"
+          d="M297.8,32.5c0,9-4.9,13.4-14.2,13.4h-17.8V19.6H283C292.3,19.6,297.8,23.5,297.8,32.5z M246.8,90h19.1V63.3
 		h17.8c1.1,0,2.1-0.1,3.2-0.1L300.7,90h20.4L304,57.8c8.1-5.6,12.1-14.8,12.1-25.2c0-17-10.4-30.4-33.1-30.4h-36.2V90z"
-      />
+        />
 
-      <path
-        id="y-parts"
-        d="M354.8,90h18.4V52.9L401,2.2h-21.2l-25,46.9V90z M338.7,40.6h20.7L338.7,2.2h-20.7L338.7,40.6z"
-      />
-    </svg>
+        <path
+          id="y-parts"
+          d="M354.8,90h18.4V52.9L401,2.2h-21.2l-25,46.9V90z M338.7,40.6h20.7L338.7,2.2h-20.7L338.7,40.6z"
+        />
+      </svg>
+      <Badge className="bg-indigo-900 hover:bg-indigo-900 rounded-md px-2 text-xs">BETA</Badge>
+    </div>
   );
 };
 
@@ -109,7 +113,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                   </Transition.Child>
                   {/* Sidebar component, swap this element with another sidebar if you like */}
                   <div className="flex grow flex-col gap-y-2 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
-                    <Link href={'/'} className="flex h-16 shrink-0 items-center">
+                    <Link href={'/'}>
                       <Logo className="w-28 ml-1 shrink-0" />
                     </Link>
                     <nav className="flex flex-1 flex-col">
@@ -180,7 +184,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-60 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-2 overflow-y-auto bg-sp-purple-veryDark px-6 pb-4">
-            <Link href={'/'} className="flex h-16 shrink-0 items-center">
+            <Link href={'/'}>
               <Logo className="w-28 ml-1 shrink-0" />
             </Link>
             <nav className="flex flex-1 flex-col">

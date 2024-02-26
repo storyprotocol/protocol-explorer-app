@@ -26,37 +26,37 @@ export default function page() {
       <Accordion type="single" collapsible>
         <AccordionItem value="mint-nft" className="bg-white px-4 rounded-xl mt-4">
           <AccordionTrigger>Mint a test ERC721 NFT</AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="px-2">
             <MintNft />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="register-ipa" className="bg-white px-4 rounded-xl mt-4">
           <AccordionTrigger>Register IP Asset</AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="px-2">
             <RegisterIpAssetForm />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="register-pil" className="bg-white px-4 rounded-xl mt-4">
           <AccordionTrigger>Register PIL Policy</AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="px-2">
             <RegisterPilPolicyForm />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="add-policy-to-ipa" className="bg-white px-4 rounded-xl mt-4">
           <AccordionTrigger>Add Policy to IP Asset</AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="px-2">
             <AddPolicyToIpAssetForm />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="mint-license" className="bg-white px-4 rounded-xl mt-4">
           <AccordionTrigger>Mint License NFT</AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="px-2">
             <MintLicenseForm />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="register-derivative" className="bg-white px-4 rounded-xl mt-4">
           <AccordionTrigger>Register Derivative IP Asset</AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="px-2">
             <RegisterDerivativeIpAssetForm />
           </AccordionContent>
         </AccordionItem>
