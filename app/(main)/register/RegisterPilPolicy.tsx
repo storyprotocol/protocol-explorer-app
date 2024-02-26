@@ -30,7 +30,7 @@ const registrationParamsSchema = z.object({
   contentRestrictions: z.string().optional(),
 
   royaltyPolicy: z.string().optional(),
-  mintingFee: z.bigint().optional(),
+  mintingFee: z.string().optional(),
   mintingFeeToken: z.string().optional(),
 });
 
