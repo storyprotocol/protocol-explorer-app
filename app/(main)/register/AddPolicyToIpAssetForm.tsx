@@ -75,7 +75,9 @@ export function AddPolicyToIpAssetForm() {
         </Button>
         {txHash && (
           <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" className="ml-4">
-            <Button variant={'etherscan'}>View on Etherscan</Button>
+            <Button variant={'etherscan'} type="button">
+              View on Etherscan
+            </Button>
           </Link>
         )}
       </form>

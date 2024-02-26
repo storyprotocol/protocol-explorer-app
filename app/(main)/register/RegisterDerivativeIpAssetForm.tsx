@@ -107,7 +107,9 @@ export function RegisterDerivativeIpAssetForm() {
         </Button>
         {txHash && (
           <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank">
-            <Button variant={'etherscan'}>View on Etherscan</Button>
+            <Button variant={'etherscan'} type="button">
+              View on Etherscan
+            </Button>
           </Link>
         )}
       </form>

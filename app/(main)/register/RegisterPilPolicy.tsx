@@ -25,9 +25,9 @@ const registrationParamsSchema = z.object({
   derivativesAttribution: z.boolean().optional(),
   derivativesApproval: z.boolean().optional(),
   derivativesReciprocal: z.boolean().optional(),
-  territories: z.array(z.string()).optional(),
-  distributionChannels: z.array(z.string()).optional(),
-  contentRestrictions: z.array(z.string()).optional(),
+  territories: z.string().optional(),
+  distributionChannels: z.string().optional(),
+  contentRestrictions: z.string().optional(),
 
   royaltyPolicy: z.string().optional(),
   mintingFee: z.bigint().optional(),
@@ -47,7 +47,27 @@ export function RegisterPilPolicyForm() {
   const derivativesAllowed = form.watch('derivativesAllowed');
 
   function onSubmit(values: z.infer<typeof registrationParamsSchema>) {
-    console.log('Form Values', values);
+    if (values.territories && typeof values.territories === 'string') {
+      values.territories = values.territories.split(',').map((s) => s.trim());
+    }
+    if (values.distributionChannels && typeof values.distributionChannels === 'string') {
+      values.distributionChannels = values.distributionChannels.split(',').map((s) => s.trim());
+    }
+    if (values.contentRestrictions && typeof values.contentRestrictions === 'string') {
+      values.contentRestrictions = values.contentRestrictions.split(',').map((s) => s.trim());
+    }
+
+    const parseStringToArray = (str: string) => {
+      try {
+        // Remove the outer double quotes
+        const trimmedStr = str.startsWith('"') && str.endsWith('"') ? str.substring(1, str.length - 1) : str;
+
+        // Parse the JSON array
+        return JSON.parse(trimmedStr);
+      } catch (e) {
+        return []; // Return an empty array if parsing fails
+      }
+    };
 
     const transformBooleanFields = (obj: any) => {
       console.log('OBJ', obj);
@@ -82,9 +102,9 @@ export function RegisterPilPolicyForm() {
         derivativesAttribution: values.derivativesAttribution || false,
         derivativesApproval: values.derivativesApproval || false,
         derivativesReciprocal: values.derivativesReciprocal || false,
-        territories: values.territories || [], // List of strings
-        distributionChannels: values.distributionChannels || [], // List of strings
-        contentRestrictions: values.contentRestrictions || [], // List of strings, assuming contentRestrictions should be a string array
+        territories: parseStringToArray(values.territories) || [], // List of strings
+        distributionChannels: parseStringToArray(values.distributionChannels) || [], // List of strings
+        contentRestrictions: parseStringToArray(values.contentRestrictions) || [], // List of strings, assuming contentRestrictions should be a string array
       },
     };
 
@@ -206,7 +226,9 @@ export function RegisterPilPolicyForm() {
         </Button>
         {txHash && (
           <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" className="ml-4">
-            <Button variant={'etherscan'}>View on Etherscan</Button>
+            <Button variant={'etherscan'} type="button">
+              View on Etherscan
+            </Button>
           </Link>
         )}
       </form>
