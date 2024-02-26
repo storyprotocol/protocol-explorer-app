@@ -43,6 +43,8 @@ export function RegisterPilPolicyForm() {
       // ... your default values
     },
   });
+  const commercialUse = form.watch('commercialUse');
+  const derivativesAllowed = form.watch('derivativesAllowed');
 
   function onSubmit(values: z.infer<typeof registrationParamsSchema>) {
     console.log('Form Values', values);
@@ -109,17 +111,19 @@ export function RegisterPilPolicyForm() {
   const descriptions: Record<string, string> = {
     transferable: "Select 'true' or 'false' if a policy is transferable",
     royaltyPolicy:
-      '(Optional) The contract address of a specific royalty policy, if commercialUse = true. If blank, this defaults to the RoyaltyPolicyLAP contract.', // Assuming royaltyPolicy is a string address
+      '(Optional) The contract address of a specific royalty policy, applicable if commercialUse is true. If blank, this defaults to the RoyaltyPolicyLAP contract.', // Assuming royaltyPolicy is a string address
     mintingFee: '(Optional) The minting fee for the policy, if applicable. Leave blank otherwise.', // Assuming mintingFee is a bigint
     mintingFeeToken:
       '(Optional) The contract address of the ERC20 token used to mint, if applicable. Leave blank otherwise',
     attribution: "Select 'true' or 'false' if using the original IPA requires attribution",
     commercialUse: "Select 'true' or 'false' if commercial use is allowed",
     commercialAttribution:
-      "Select 'true' or 'false' if commercial use requires attribution, only if applicable if commercialUse is true.",
-    commercializerChecker: 'The commercializer contract address, if applicable. Leave blank otherwise.', // Assuming zeroAddress is a string
-    commercializerCheckerData: 'Additional commercializer checker calldata, if applicable. Leave blank otherwise.', // Validates a string starting with 0x followed by hex characters
-    commercialRevShare: 'Revenue share in percentage (number), e.g 5. Only if applicable if commercialUse is true', // Assuming this is a percentage
+      "Select 'true' or 'false' if commercial use requires attribution, only applicable if commercialUse is true.",
+    commercializerChecker:
+      'The commercializer contract address, Only applicable if commercialUse is true. Leave blank otherwise.', // Assuming zeroAddress is a string
+    commercializerCheckerData:
+      'Additional commercializer checker calldata, Only applicable if commercialUse is true. Leave blank otherwise.', // Validates a string starting with 0x followed by hex characters
+    commercialRevShare: 'Revenue share in percentage (number), e.g 5. Only applicable if commercialUse is true', // Assuming this is a percentage
     derivativesAllowed: "Select 'true' or 'false' if derivatives are allowed.",
     derivativesAttribution:
       "Select 'true' or 'false' if derivatives require attribution, only applicable if derivativesAllowed is true.",
@@ -143,6 +147,26 @@ export function RegisterPilPolicyForm() {
             const fieldSchema = registrationParamsSchema.shape[fieldName];
             const isCheckbox =
               fieldSchema instanceof z.ZodOptional && fieldSchema._def.innerType instanceof z.ZodBoolean;
+
+            if (
+              (fieldName === 'commercialRevShare' ||
+                fieldName === 'commercialAttribution' ||
+                fieldName === 'commercializerChecker' ||
+                fieldName === 'commercializerCheckerData' ||
+                fieldName === 'royaltyPolicy') &&
+              !commercialUse
+            ) {
+              return null;
+            }
+
+            if (
+              (fieldName === 'derivativesAttribution' ||
+                fieldName === 'derivativesApproval' ||
+                fieldName === 'derivativesReciprocal') &&
+              !derivativesAllowed
+            ) {
+              return null;
+            }
 
             return (
               <FormField
