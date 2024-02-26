@@ -36,7 +36,7 @@ export function MintLicenseForm() {
       args: [
         BigInt(values.policyId),
         values.ipId as Address,
-        values.amount,
+        BigInt(values.amount),
         address as Address, // Using the user's address as minter
         (values.royaltyContext ?? '0x') as `0x${string}`, // Defaulting to '0x' if undefined
       ],
@@ -44,6 +44,9 @@ export function MintLicenseForm() {
   }
 
   const formFields = Object.keys(formSchema.shape);
+  //amount 是一个数字，那么 placeholders 应该重新定义
+
+
   const placeholders: Record<string, string> = {
     policyId: '1',
     ipId: '0x123...456', // Added field for ipId
