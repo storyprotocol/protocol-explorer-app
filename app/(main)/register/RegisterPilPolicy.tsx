@@ -13,11 +13,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Address, zeroAddress } from 'viem';
 import Link from 'next/link';
 
-const policyParametersSchema = z.object({
+const registrationParamsSchema = z.object({
+  transferable: z.boolean().optional(),
   attribution: z.boolean().optional(),
   commercialUse: z.boolean().optional(),
   commercialAttribution: z.boolean().optional(),
-  commercialRevShare: z.number().min(0).max(100).optional(),
+  commercialRevShare: z.string().optional(),
   commercializerChecker: z.string().optional(),
   commercializerCheckerData: z.string().optional(),
   derivativesAllowed: z.boolean().optional(),
@@ -27,11 +28,7 @@ const policyParametersSchema = z.object({
   territories: z.array(z.string()).optional(),
   distributionChannels: z.array(z.string()).optional(),
   contentRestrictions: z.array(z.string()).optional(),
-});
 
-const registrationParamsSchema = z.object({
-  transferable: z.boolean().optional(),
-  policy: policyParametersSchema, // Nested policyParameters schema
   royaltyPolicy: z.string().optional(),
   mintingFee: z.bigint().optional(),
   mintingFeeToken: z.string().optional(),
@@ -48,42 +45,50 @@ export function RegisterPilPolicyForm() {
   });
 
   function onSubmit(values: z.infer<typeof registrationParamsSchema>) {
-    // Transform 'true'/'false' string values to boolean for policy parameters
-    Object.keys(values.policy).forEach((key) => {
-      if (values.policy[key] === 'true') {
-        values.policy[key] = true;
-      } else if (values.policy[key] === 'false') {
-        values.policy[key] = false;
-      }
-    });
+    console.log('Form Values', values);
 
-    const policyParameters = {
-      attribution: values.policy.attribution || false,
-      commercialUse: values.policy.commercialUse || false,
-      commercialAttribution: values.policy.commercialAttribution || false,
-      commercializerChecker: (values.policy.commercializerChecker || zeroAddress) as Address, // Assuming zeroAddress is a string
-      commercializerCheckerData: (values.policy.commercializerCheckerData || '0x') as `0x${string}`, // Validates a string starting with 0x followed by hex characters
-      commercialRevShare: values.policy.commercialRevShare || 0, // Assuming this is a percentage
-      derivativesAllowed: values.policy.derivativesAllowed || false,
-      derivativesAttribution: values.policy.derivativesAttribution || false,
-      derivativesApproval: values.policy.derivativesApproval || false,
-      derivativesReciprocal: values.policy.derivativesReciprocal || false,
-      territories: values.policy.territories || [], // List of strings
-      distributionChannels: values.policy.distributionChannels || [], // List of strings
-      contentRestrictions: values.policy.contentRestrictions || [], // List of strings, assuming contentRestrictions should be a string array
+    const transformBooleanFields = (obj: any) => {
+      console.log('OBJ', obj);
+      Object.keys(obj).forEach((key) => {
+        console.log('Key', key, obj[key]);
+
+        if (typeof obj[key] === 'object' && obj[key] !== null) {
+          transformBooleanFields(obj[key]);
+        } else if (obj[key] === 'true' || obj[key] === 'false' || obj[key] === 'True' || obj[key] === 'False') {
+          obj[key] = obj[key] === 'true';
+        }
+      });
     };
 
-    console.log('Transformed values', values);
+    transformBooleanFields(values);
+    console.log('Form Values after check', values);
+
+    const submitValues = {
+      transferable: values.transferable || true,
+      royaltyPolicy: (values.royaltyPolicy ||
+        (values.commercialUse ? '0xda483fd6e6ecA1C2D913802F9a6B57a83b73029f' : zeroAddress)) as Address,
+      mintingFee: BigInt(values.mintingFee || 0),
+      mintingFeeToken: (values.mintingFeeToken || zeroAddress) as Address,
+      policy: {
+        attribution: values.attribution || false,
+        commercialUse: values.commercialUse || false,
+        commercialAttribution: values.commercialAttribution || false,
+        commercializerChecker: (values.commercializerChecker || zeroAddress) as Address, // Assuming zeroAddress is a string
+        commercializerCheckerData: (values.commercializerCheckerData || '0x') as `0x${string}`, // Validates a string starting with 0x followed by hex characters
+        commercialRevShare: Number(values.commercialRevShare) || 0, // Assuming this is a percentage
+        derivativesAllowed: values.derivativesAllowed || false,
+        derivativesAttribution: values.derivativesAttribution || false,
+        derivativesApproval: values.derivativesApproval || false,
+        derivativesReciprocal: values.derivativesReciprocal || false,
+        territories: values.territories || [], // List of strings
+        distributionChannels: values.distributionChannels || [], // List of strings
+        contentRestrictions: values.contentRestrictions || [], // List of strings, assuming contentRestrictions should be a string array
+      },
+    };
+
+    console.log('Submit Values', submitValues);
     writeContractAsync({
-      args: [
-        {
-          transferable: values.transferable || true,
-          royaltyPolicy: (values.royaltyPolicy || zeroAddress) as Address,
-          mintingFee: BigInt(values.mintingFee || 0),
-          mintingFeeToken: (values.mintingFeeToken || zeroAddress) as Address,
-          policy: policyParameters,
-        },
-      ],
+      args: [submitValues],
     });
   }
 
@@ -104,7 +109,7 @@ export function RegisterPilPolicyForm() {
   const descriptions: Record<string, string> = {
     transferable: "Select 'true' or 'false' if a policy is transferable",
     royaltyPolicy:
-      '(Optional) The contract address of a specific royalty policy, if applicable. Leave blank otherwise.', // Assuming royaltyPolicy is a string address
+      '(Optional) The contract address of a specific royalty policy, if commercialUse = true. If blank, this defaults to the RoyaltyPolicyLAP contract.', // Assuming royaltyPolicy is a string address
     mintingFee: '(Optional) The minting fee for the policy, if applicable. Leave blank otherwise.', // Assuming mintingFee is a bigint
     mintingFeeToken:
       '(Optional) The contract address of the ERC20 token used to mint, if applicable. Leave blank otherwise',
@@ -133,38 +138,37 @@ export function RegisterPilPolicyForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 text-sm">
-        <PolicyParametersForm control={form.control} descriptions={descriptions} placeholders={placeholders} />
-
         {formFields.map((fieldName) => {
           if (fieldName !== 'policy') {
             const fieldSchema = registrationParamsSchema.shape[fieldName];
             const isCheckbox =
               fieldSchema instanceof z.ZodOptional && fieldSchema._def.innerType instanceof z.ZodBoolean;
-            const fieldType = isCheckbox ? 'boolean' : 'string'; // Adjust this logic based on your actual schema types
 
             return (
               <FormField
                 key={fieldName}
                 control={form.control}
-                name={fieldName}
+                name={fieldName as any}
                 render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>{`${fieldName}`} </FormLabel>
-                    <FormControl>
-                      {isCheckbox ? (
-                        <Select>
+                    {isCheckbox ? (
+                      <Select onValueChange={(value) => field.onChange(value === 'true')}>
+                        <FormControl>
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select True/False" />
                           </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="true">True</SelectItem>
-                            <SelectItem value="false">False</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      ) : (
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="true">True</SelectItem>
+                          <SelectItem value="false">False</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <FormControl>
                         <Input {...field} placeholder={placeholders[fieldName]} />
-                      )}
-                    </FormControl>
+                      </FormControl>
+                    )}
                     <FormDescription>{descriptions[fieldName]}</FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -183,68 +187,5 @@ export function RegisterPilPolicyForm() {
         )}
       </form>
     </Form>
-  );
-}
-
-function PolicyParametersForm({
-  control,
-  descriptions,
-  placeholders,
-}: {
-  control: any;
-  descriptions: Record<string, string>;
-  placeholders: Record<string, string>;
-}) {
-  // Define the fields for the policyParametersSchema
-  const policyFields = Object.keys(policyParametersSchema.shape);
-
-  return (
-    <>
-      <p>
-        Read more details on PIL, in the{' '}
-        <Link
-          href="https://docs.storyprotocol.xyz/docs/programmable-ip-license-pil"
-          target="_blank"
-          className="text-blue-600 dark:text-blue-500 hover:underline"
-        >
-          documentation
-        </Link>
-      </p>
-      {policyFields.map((fieldName) => {
-        const fieldSchema = policyParametersSchema.shape[fieldName];
-        const isCheckbox = fieldSchema instanceof z.ZodOptional && fieldSchema._def.innerType instanceof z.ZodBoolean;
-        const fieldType = isCheckbox ? 'boolean' : 'string'; // Adjust this logic based on your actual schema types
-
-        return (
-          <FormField
-            key={fieldName}
-            control={control}
-            name={`policy.${fieldName}`} // Use dot notation for nested fields
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{`${fieldName}`}</FormLabel>
-                <FormControl>
-                  {isCheckbox ? (
-                    <Select {...field}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select True/False" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="true">True</SelectItem>
-                        <SelectItem value="false">False</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  ) : (
-                    <Input {...field} placeholder={placeholders[fieldName]} />
-                  )}
-                </FormControl>
-                <FormDescription>{descriptions[fieldName]}</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        );
-      })}
-    </>
   );
 }
