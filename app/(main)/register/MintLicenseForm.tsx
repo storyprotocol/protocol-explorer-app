@@ -15,7 +15,7 @@ import Link from 'next/link';
 const formSchema = z.object({
   ipId: z.string(), // Added field for ipId
   policyId: z.string(),
-  amount: z.bigint(), // Added field for amount
+  amount: z.string(), // Added field for amount
   royaltyContext: z.string().optional(), // Added field for royaltyContext
 });
 
