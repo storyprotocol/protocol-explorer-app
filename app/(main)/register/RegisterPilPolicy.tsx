@@ -39,9 +39,7 @@ export function RegisterPilPolicyForm() {
 
   const form = useForm<z.infer<typeof registrationParamsSchema>>({
     resolver: zodResolver(registrationParamsSchema),
-    defaultValues: {
-      // ... your default values
-    },
+    defaultValues: {},
   });
   const commercialUse = form.watch('commercialUse');
   const derivativesAllowed = form.watch('derivativesAllowed');
@@ -59,10 +57,8 @@ export function RegisterPilPolicyForm() {
 
     const parseStringToArray = (str: string) => {
       try {
-        // Remove the outer double quotes
         const trimmedStr = str.startsWith('"') && str.endsWith('"') ? str.substring(1, str.length - 1) : str;
 
-        // Parse the JSON array
         return JSON.parse(trimmedStr);
       } catch (e) {
         return []; // Return an empty array if parsing fails
@@ -70,10 +66,7 @@ export function RegisterPilPolicyForm() {
     };
 
     const transformBooleanFields = (obj: any) => {
-      console.log('OBJ', obj);
       Object.keys(obj).forEach((key) => {
-        console.log('Key', key, obj[key]);
-
         if (typeof obj[key] === 'object' && obj[key] !== null) {
           transformBooleanFields(obj[key]);
         } else if (obj[key] === 'true' || obj[key] === 'false' || obj[key] === 'True' || obj[key] === 'False') {
@@ -83,7 +76,6 @@ export function RegisterPilPolicyForm() {
     };
 
     transformBooleanFields(values);
-    console.log('Form Values after check', values);
 
     const submitValues = {
       transferable: values.transferable || true,

@@ -22,7 +22,6 @@ export default function page() {
       <p className="text-sm">
         This page provides a convenient method to read and write from the Story Protocol contracts
       </p>
-
       <Accordion type="single" collapsible>
         <AccordionItem value="mint-nft" className="bg-white px-4 rounded-xl mt-4">
           <AccordionTrigger>Mint a test ERC721 NFT</AccordionTrigger>
