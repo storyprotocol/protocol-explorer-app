@@ -15,10 +15,10 @@ const formSchema = z.object({
   nftContract: z.string(),
   nftTokenId: z.string(),
   licenseIds: z.string(), // Changed to string
-  ipName: z.string(),
-  contentHash: z.string(),
-  externalUrl: z.string(),
-  royaltyContext: z.string(),
+  ipName: z.string().optional(),
+  contentHash: z.string().optional(),
+  externalUrl: z.string().optional(),
+  royaltyContext: z.string().optional(),
 });
 
 export function RegisterDerivativeIpAssetForm() {
@@ -37,17 +37,17 @@ export function RegisterDerivativeIpAssetForm() {
       // Handle parsing error (e.g., show a message to the user)
       return;
     }
-
     const licenseIdsBigInt = parsedLicenseIds.map((id: any) => BigInt(id));
+
     writeContractAsync({
       args: [
         licenseIdsBigInt,
         values.nftContract as Address,
         BigInt(values.nftTokenId),
-        values.ipName ?? '',
-        stringToHex(values.contentHash ?? '', { size: 32 }),
-        values.externalUrl ?? '',
-        (values.royaltyContext ?? '0x') as `0x${string}`,
+        values.ipName || '',
+        stringToHex(values.contentHash || '', { size: 32 }),
+        values.externalUrl || '',
+        (values.royaltyContext || '0x') as `0x${string}`,
       ],
     });
   }
