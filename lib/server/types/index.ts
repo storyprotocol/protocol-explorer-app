@@ -310,9 +310,10 @@ export type PILType = {
 export type RoyaltySplit = {
   id: Address;
   holders: RoyaltyHolder[];
+  claimFromIPPoolArg: string;
 };
 
 export type RoyaltyHolder = {
-  id: string;
+  id: Address;
   ownership: string;
 };
