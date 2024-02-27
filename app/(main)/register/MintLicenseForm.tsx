@@ -15,7 +15,7 @@ import Link from 'next/link';
 const formSchema = z.object({
   ipId: z.string(), // Added field for ipId
   policyId: z.string(),
-  amount: z.bigint(), // Added field for amount
+  amount: z.string(), // Added field for amount
   royaltyContext: z.string().optional(), // Added field for royaltyContext
 });
 
@@ -36,7 +36,7 @@ export function MintLicenseForm() {
       args: [
         BigInt(values.policyId),
         values.ipId as Address,
-        values.amount,
+        BigInt(values.amount),
         address as Address, // Using the user's address as minter
         (values.royaltyContext ?? '0x') as `0x${string}`, // Defaulting to '0x' if undefined
       ],
