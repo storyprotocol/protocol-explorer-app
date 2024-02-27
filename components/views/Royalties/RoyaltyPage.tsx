@@ -120,41 +120,55 @@ export async function RoyaltyHoldersTable({ data }: { data: RoyaltyPolicy }) {
   return (
     <>
       {royaltySplitHolders.length ? (
-        <Table className="text-xs">
-          <TableCaption className="font-sans text-left">
-            A list of RNFT holders and the amount they are holding at the moment. <br />
-            Note: if the RNFTs are not claimed yet, the holder will be the Ancestor Vault address.
-          </TableCaption>
-          <TableHeader className="bg-gray-100">
-            <TableRow>
-              <TableHead>RNFT Holder Address</TableHead>
-              <TableHead>Percentage</TableHead>
-              <TableHead>Amount</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {royaltySplitHolders.map(({ id, ownership }) => (
-              <TableRow key={id}>
-                <TableCell className="font-xs flex flex-row ">
-                  <Link href={`/ipa/${id}`}>
-                    <AddressComponent address={id} size="sm" />
-                  </Link>
-                  {id.split('-')[1] === data.ancestorsVault && '(Ancestor Vault)'}
-                  {id.split('-')[1] === data.id && '(Current NFT)'}
-                </TableCell>
-                <TableCell>{parseFloat(ownership) / 10000}%</TableCell>
-                <TableCell>{parseFloat(ownership)}</TableCell>
+        <>
+          <div className="items-center mb-6 gap-2">
+            NFT Holder array:
+            <code className="text-xs inline-flex text-left items-center space-x-4 bg-gray-100 text-black rounded-lg p-4 pl-3 h-8 ">
+              <span className="flex flex-1 gap-4 text-nowrap overflow-x-scroll w-full max-w-[400px]">
+                {royaltySplitData.claimFromIPPoolArg}
+              </span>
+            </code>
+          </div>
+          <Table className="text-xs">
+            <TableCaption className="font-sans text-left">
+              A list of RNFT holders and the amount they are holding at the moment. <br />
+              Note: if the RNFTs are not claimed yet, the holder will be the Ancestor Vault address.
+            </TableCaption>
+            <TableHeader className="bg-gray-100">
+              <TableRow>
+                <TableHead>RNFT Holder Address</TableHead>
+                <TableHead>Percentage</TableHead>
+                <TableHead>Amount</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-          <TableFooter className="bg-white text-black">
-            <TableRow>
-              <TableCell>Total</TableCell>
-              <TableCell className="text-left">100%</TableCell>
-              <TableCell>1000000</TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {royaltySplitHolders.map(({ id, ownership }) =>
+                ownership !== '' ? (
+                  <TableRow key={id}>
+                    <TableCell className="font-xs flex flex-row ">
+                      <Link href={`/ipa/${id}`}>
+                        <AddressComponent address={id} size="sm" />
+                      </Link>
+                      {id === data.ancestorsVault && '(Ancestor Vault)'}
+                      {id === data.id && '(Current NFT)'}
+                    </TableCell>
+                    <TableCell>{parseFloat(ownership) / 10}%</TableCell>
+                    <TableCell>{parseFloat(ownership)}</TableCell>
+                  </TableRow>
+                ) : (
+                  <></>
+                ),
+              )}
+            </TableBody>
+            <TableFooter className="bg-white text-black">
+              <TableRow>
+                <TableCell>Total</TableCell>
+                <TableCell className="text-left">100%</TableCell>
+                <TableCell>1000</TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </>
       ) : (
         <div className="flex justify-center items-center p-10">No royalty stack defined</div>
       )}
