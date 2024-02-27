@@ -12,7 +12,7 @@ const LicenseCard = ({ data }: { data: License }) => {
 
   useEffect(() => {
     const fetchMetadata = async () => {
-      const metadata = await getNFTByTokenId(process.env.NEXT_PUBLIC_REGISTRATION_MODULE_CONTRACT as Address, data.id);
+      const metadata = await getNFTByTokenId(process.env.NEXT_PUBLIC_LICENSE_REGISTRY_CONTRACT as Address, data.id);
       setNFTMetadata(metadata);
     };
 
