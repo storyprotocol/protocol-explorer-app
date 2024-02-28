@@ -6,6 +6,7 @@ import { AddPolicyToIpAssetForm } from './AddPolicyToIpAssetForm';
 import { MintLicenseForm } from './MintLicenseForm';
 import { RegisterDerivativeIpAssetForm } from './RegisterDerivativeIpAssetForm';
 import MintNft from './MintNft';
+import { ReadIpIdForm } from './ReadIpIdForm';
 
 // Register IPA
 // Register Derivative
@@ -57,6 +58,17 @@ export default function page() {
           <AccordionTrigger>Register Derivative IP Asset</AccordionTrigger>
           <AccordionContent className="px-2">
             <RegisterDerivativeIpAssetForm />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      <div className="flex flex-col items-left pt-16 md:pt-10">
+        <h1 className="text-xl md:text-2xl font-semibold leading-none mb-2">Read Contract Storage Variables</h1>
+      </div>
+      <Accordion type="single" collapsible>
+        <AccordionItem value="read-ip-id" className="bg-white px-4 rounded-xl mt-4">
+          <AccordionTrigger>Read IP ID</AccordionTrigger>
+          <AccordionContent className="px-2">
+            <ReadIpIdForm />
           </AccordionContent>
         </AccordionItem>
       </Accordion>
