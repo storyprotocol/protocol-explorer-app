@@ -1,9 +1,20 @@
 'use client';
-import ReactECharts from 'echarts-for-react';
+import React from 'react';
+import ReactECharts, { EChartsOption } from 'echarts-for-react';
 
-const EChartLineTotalTxn: React.FC<{ data: any[] }> = ({ data }) => {
+// Define a type for the data items
+interface DataItem {
+  createdAt: string; // Assuming createdAt is always a string in your data
+  // Add other properties as needed
+}
+
+interface EChartLineTotalTxnProps {
+  data: DataItem[];
+}
+
+const EChartLineTotalTxn: React.FC<EChartLineTotalTxnProps> = ({ data }) => {
   // Convert and aggregate data by hour
-  const transactionsPerHour = data.reduce((acc, { createdAt }) => {
+  const transactionsPerHour = data.reduce<Record<string, number>>((acc, { createdAt }) => {
     // Convert UNIX timestamp to a date-time string including the hour
     const date = new Date(parseInt(createdAt) * 1000);
     const dateHour = date.toISOString().split(':00:00.')[0]; // Format: YYYY-MM-DDTHH
@@ -16,7 +27,7 @@ const EChartLineTotalTxn: React.FC<{ data: any[] }> = ({ data }) => {
 
   // Sort hours and calculate cumulative sum
   const sortedHours = Object.keys(transactionsPerHour).sort();
-  const cumulativeCounts = sortedHours.reduce((acc, hour, index) => {
+  const cumulativeCounts = sortedHours.reduce<number[]>((acc, hour, index) => {
     if (index === 0) {
       acc.push(transactionsPerHour[hour]);
     } else {
@@ -25,7 +36,7 @@ const EChartLineTotalTxn: React.FC<{ data: any[] }> = ({ data }) => {
     return acc;
   }, []);
 
-  const options = {
+  const options: EChartsOption = {
     title: {
       text: 'Total Transactions',
       textStyle: {
@@ -38,7 +49,6 @@ const EChartLineTotalTxn: React.FC<{ data: any[] }> = ({ data }) => {
       trigger: 'axis',
     },
     xAxis: {
-      // type: 'time',
       data: sortedHours,
     },
     yAxis: {
