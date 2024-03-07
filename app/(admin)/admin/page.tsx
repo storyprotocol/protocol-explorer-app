@@ -14,7 +14,7 @@ import NivoStackedBarChart from '@/components/charts/Nivo/NivoStackedBarChart';
 import Login from '@/components/login/Login';
 
 export default function Admin() {
-  const [isAdmin, setIsAdmin] = useState();
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const txnReqOptions = {
     pagination: {
       limit: 1000,
