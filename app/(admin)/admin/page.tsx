@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import CardContainer from '@/components/cards/CardContainer';
 import { listResource } from '@/lib/server/sdk';
 import { RESOURCE_TYPE } from '@/lib/server/types';
@@ -11,8 +11,10 @@ import EChartTop10IpIdsPie from '@/components/charts/ECharts/transactions/TxnPie
 import LicensesByPolicyId from '@/components/charts/ECharts/licenses/LicensesByPolicyId';
 import NivoBarChart from '@/components/charts/Nivo/NivoBarChart';
 import NivoStackedBarChart from '@/components/charts/Nivo/NivoStackedBarChart';
+import Login from '@/components/login/Login';
 
 export default function Admin() {
+  const [isAdmin, setIsAdmin] = useState();
   const txnReqOptions = {
     pagination: {
       limit: 1000,
@@ -57,6 +59,10 @@ export default function Admin() {
   const licenseData = licenseResponse?.data;
   // const licenseOwnerData = licenseOwnerResponse?.data;
   // const policyData = policyResponse?.data;
+
+  if (!isAdmin) {
+    return <Login setIsAdmin={setIsAdmin} />;
+  }
 
   return (
     <div className="w-full p-4 md:p-8 max-w-[1600px] mx-auto">
