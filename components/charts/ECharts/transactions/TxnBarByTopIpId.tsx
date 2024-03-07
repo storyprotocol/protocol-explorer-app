@@ -13,7 +13,7 @@ const EChartTop10IpIds: React.FC<{ data: any[] }> = ({ data }) => {
 
   // Convert the object to an array of [ipId, count] tuples, sort by count in descending order, and take the top 10
   const sortedIpIds = Object.entries(totalCountByIpId)
-    .sort((a, b) => b[1] - a[1])
+    .sort((a, b) => (b[1] as number) - (a[1] as number))
     .slice(1, 11);
 
   // Separate the sorted data into two arrays for the chart
@@ -41,7 +41,7 @@ const EChartTop10IpIds: React.FC<{ data: any[] }> = ({ data }) => {
       axisLabel: {
         interval: 0,
         rotate: 45,
-        formatter: function (value) {
+        formatter: function (value: string | any[]) {
           // Customize the label to show first 3 chars, ..., last 3 chars
           return `${value.slice(0, 3)}...${value.slice(-3)}`;
         },
