@@ -10,6 +10,7 @@ const NivoBarChart: React.FC<{ data: any[] }> = ({ data }) => {
   return (
     <ResponsiveBar
       data={transformedData}
+      colors={{ scheme: 'purples' }}
       keys={['total']}
       indexBy="actionType"
       margin={{ top: 50, right: 0, bottom: 50, left: 60 }}

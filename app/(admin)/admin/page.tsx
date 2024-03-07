@@ -62,7 +62,7 @@ export default function Admin() {
     <div className="w-full p-4 md:p-8 max-w-[1600px] mx-auto">
       <div className="flex flex-col items-left pt-16 md:pt-10">
         {/* <h1 className="text-xl md:text-2xl font-semibold leading-none">Admin</h1> */}
-        {txnData && (
+        {txnData && licenseData && (
           <div className="flex flex-col gap-4">
             <div className="flex flex-col xl:flex-row gap-4">
               <CardContainer>

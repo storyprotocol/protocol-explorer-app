@@ -2,8 +2,8 @@ import { groupAndCalculateTotal } from '@/utils/chartUtil';
 import { BarDatum, ResponsiveBar } from '@nivo/bar';
 
 // Render the line chart with Nivo
-const NivoStackedBarChart: React.FC<{ data: any[] }> = ({ data }) => {
-  const { keys, index, results: transformedData } = groupAndCalculateTotal(data, 'actionType', 'resourceId');
+const MyStackedBar: React.FC<{ data: any[] }> = ({ data }) => {
+  const { keys, index, results: transformedData } = groupAndCalculateTotal(data, 'actionType', 'resourceType');
 
   console.log({ transformedData, keys, index });
 
@@ -99,4 +99,4 @@ const NivoStackedBarChart: React.FC<{ data: any[] }> = ({ data }) => {
   );
 };
 
-export default NivoStackedBarChart;
+export default MyStackedBar;
