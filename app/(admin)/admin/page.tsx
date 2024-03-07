@@ -9,6 +9,8 @@ import EChartLineTotalTxn from '@/components/charts/ECharts/transactions/TxnLine
 import EChartLineTxnByDay from '@/components/charts/ECharts/transactions/TxnLineByDay';
 import EChartTop10IpIdsPie from '@/components/charts/ECharts/transactions/TxnPieChartByTopIpId';
 import LicensesByPolicyId from '@/components/charts/ECharts/licenses/LicensesByPolicyId';
+import NivoBarChart from '@/components/charts/Nivo/NivoBarChart';
+import NivoStackedBarChart from '@/components/charts/Nivo/NivoStackedBarChart';
 
 export default function Admin() {
   const txnReqOptions = {
@@ -82,7 +84,13 @@ export default function Admin() {
               <CardContainer>
                 <LicensesByPolicyId data={licenseData} />
               </CardContainer>
+              <CardContainer>
+                <NivoBarChart data={txnData as any[]} />
+              </CardContainer>
             </div>
+            <CardContainer className="h-80">
+              <NivoStackedBarChart data={txnData as any[]} />
+            </CardContainer>
           </div>
         )}
       </div>

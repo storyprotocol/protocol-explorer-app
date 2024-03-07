@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { ResponsiveLine } from '@nivo/line';
-import CardContainer from '../cards/CardContainer';
+import CardContainer from '../../cards/CardContainer';
 
 function extractFormattedData(obj: any) {
   if (obj && obj.points && obj.points.length > 0) {
