@@ -80,23 +80,20 @@ export default function Admin() {
             </div>
             <div className="flex flex-col xl:flex-row gap-4">
               <CardContainer>
-                <EChartBarByActionType data={txnData} />
+                <LicensesByPolicyId data={licenseData} />
               </CardContainer>
+
               <CardContainer>
                 <EChartTop10IpIdsPie data={txnData} />
               </CardContainer>
             </div>
             <div className="flex flex-col xl:flex-row gap-4">
-              <CardContainer>
-                <LicensesByPolicyId data={licenseData} />
-              </CardContainer>
-              <CardContainer>
-                <NivoBarChart data={txnData as any[]} />
+              <CardContainer className="relative h-96">
+                <h1 className="absolute top-4 left-9 text-lg">Total ActionType and Resource</h1>
+                <NivoStackedBarChart data={txnData as any[]} />
+                {/* <EChartBarByActionType data={txnData} /> */}
               </CardContainer>
             </div>
-            <CardContainer className="h-80">
-              <NivoStackedBarChart data={txnData as any[]} />
-            </CardContainer>
           </div>
         )}
       </div>

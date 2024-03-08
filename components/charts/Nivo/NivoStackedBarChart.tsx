@@ -17,7 +17,7 @@ const MyStackedBar: React.FC<{ data: any[] }> = ({ data }) => {
       layout="vertical"
       valueScale={{ type: 'linear' }}
       indexScale={{ type: 'band', round: true }}
-      colors={{ scheme: 'nivo' }}
+      colors={['#e91e63', '#03a9f4', '#ff9800', '#4caf50', '#2196f3', '#9c27b0', '#ffeb3b', '#795548', '#607d8b']}
       defs={[
         {
           id: 'dots',
@@ -48,20 +48,22 @@ const MyStackedBar: React.FC<{ data: any[] }> = ({ data }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: 'country',
+        legend: 'Action Type',
         legendPosition: 'middle',
         legendOffset: 32,
         truncateTickAt: 0,
       }}
       axisLeft={{
+        tickValues: 5,
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: 'food',
+        legend: 'Total',
         legendPosition: 'middle',
         legendOffset: -40,
         truncateTickAt: 0,
       }}
+      gridYValues={5}
       labelSkipWidth={12}
       labelSkipHeight={12}
       labelTextColor={{
