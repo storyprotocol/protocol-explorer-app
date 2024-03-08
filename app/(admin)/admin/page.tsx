@@ -4,12 +4,10 @@ import CardContainer from '@/components/cards/CardContainer';
 import { listResource } from '@/lib/server/sdk';
 import { RESOURCE_TYPE } from '@/lib/server/types';
 import { useQuery } from '@tanstack/react-query';
-import EChartBarByActionType from '@/components/charts/ECharts/transactions/TxnByActionType';
 import EChartLineTotalTxn from '@/components/charts/ECharts/transactions/TxnLineTotal';
 import EChartLineTxnByDay from '@/components/charts/ECharts/transactions/TxnLineByDay';
 import EChartTop10IpIdsPie from '@/components/charts/ECharts/transactions/TxnPieChartByTopIpId';
 import LicensesByPolicyId from '@/components/charts/ECharts/licenses/LicensesByPolicyId';
-import NivoBarChart from '@/components/charts/Nivo/NivoBarChart';
 import NivoStackedBarChart from '@/components/charts/Nivo/NivoStackedBarChart';
 import Login from '@/components/login/Login';
 
