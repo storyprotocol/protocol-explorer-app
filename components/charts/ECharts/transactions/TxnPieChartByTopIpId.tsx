@@ -19,6 +19,7 @@ const EChartTop10IpIdsPie: React.FC<{ data: any[] }> = ({ data }) => {
   // Prepare data for the pie chart
   const pieData = sortedIpIds.map(([ipId, count]) => ({
     name: `${ipId.slice(0, 3)}...${ipId.slice(-3)}`, // Custom label for each slice
+    ipId: ipId,
     value: count,
   }));
 
@@ -51,7 +52,16 @@ const EChartTop10IpIdsPie: React.FC<{ data: any[] }> = ({ data }) => {
     ],
   };
 
-  return <ReactECharts option={options} />;
+  const handleChartClick = (params: any) => {
+    window.open(`/ipa/${params.data.ipId}`, '_blank');
+  };
+
+  // Define event handlers
+  const onEvents = {
+    click: handleChartClick,
+  };
+
+  return <ReactECharts option={options} onEvents={onEvents} />;
 };
 
 export default EChartTop10IpIdsPie;
