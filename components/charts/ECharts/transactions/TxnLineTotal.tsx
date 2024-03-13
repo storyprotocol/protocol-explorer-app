@@ -13,25 +13,25 @@ interface EChartLineTotalTxnProps {
 }
 
 const EChartLineTotalTxn: React.FC<EChartLineTotalTxnProps> = ({ data }) => {
-  // Convert and aggregate data by hour
-  const transactionsPerHour = data.reduce<Record<string, number>>((acc, { createdAt }) => {
-    // Convert UNIX timestamp to a date-time string including the hour
+  // Convert and aggregate data by day
+  const transactionsPerDay = data.reduce<Record<string, number>>((acc, { createdAt }) => {
+    // Convert UNIX timestamp to a date string
     const date = new Date(parseInt(createdAt) * 1000);
-    const dateHour = date.toISOString().split(':00:00.')[0]; // Format: YYYY-MM-DDTHH
-    if (!acc[dateHour]) {
-      acc[dateHour] = 0;
+    const dateString = date.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+    if (!acc[dateString]) {
+      acc[dateString] = 0;
     }
-    acc[dateHour]++;
+    acc[dateString]++;
     return acc;
   }, {});
 
-  // Sort hours and calculate cumulative sum
-  const sortedHours = Object.keys(transactionsPerHour).sort();
-  const cumulativeCounts = sortedHours.reduce<number[]>((acc, hour, index) => {
+  // Sort days and calculate cumulative sum
+  const sortedDays = Object.keys(transactionsPerDay).sort();
+  const cumulativeCounts = sortedDays.reduce<number[]>((acc, day, index) => {
     if (index === 0) {
-      acc.push(transactionsPerHour[hour]);
+      acc.push(transactionsPerDay[day]);
     } else {
-      acc.push(acc[index - 1] + transactionsPerHour[hour]);
+      acc.push(acc[index - 1] + transactionsPerDay[day]);
     }
     return acc;
   }, []);
@@ -49,7 +49,7 @@ const EChartLineTotalTxn: React.FC<EChartLineTotalTxnProps> = ({ data }) => {
       trigger: 'axis',
     },
     xAxis: {
-      data: sortedHours,
+      data: sortedDays,
     },
     yAxis: {
       type: 'value',
