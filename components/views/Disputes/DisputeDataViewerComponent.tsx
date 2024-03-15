@@ -5,6 +5,7 @@ import Link from 'next/link';
 import AddressComponent from '@/components/address/AddressComponent';
 import { Dispute } from '@/lib/server/types';
 import moment from 'moment';
+import { Hex, hexToString } from 'viem';
 
 const columns: ColumnDef<Dispute>[] = [
   {
@@ -34,16 +35,16 @@ const columns: ColumnDef<Dispute>[] = [
     accessorKey: 'targetTag',
     header: 'targetTag',
     cell: ({ row }) => {
-      const targetTag: string = row.getValue('targetTag');
-      return <div className="capitalize font-mono text-xs">{targetTag}</div>;
+      const targetTag: Hex = row.getValue('targetTag');
+      return <div className="capitalize font-mono text-xs">{hexToString(targetTag, { size: 32 })}</div>;
     },
   },
   {
     accessorKey: 'currentTag',
     header: 'currentTag',
     cell: ({ row }) => {
-      const currentTag: string = row.getValue('currentTag');
-      return <div className="capitalize font-mono text-xs">{currentTag}</div>;
+      const currentTag: Hex = row.getValue('currentTag');
+      return <div className="capitalize font-mono text-xs">{hexToString(currentTag, { size: 32 })}</div>;
     },
   },
   {
@@ -58,8 +59,8 @@ const columns: ColumnDef<Dispute>[] = [
     accessorKey: 'evidenceLink',
     header: 'evidenceLink',
     cell: ({ row }) => {
-      const evidenceLink: string = row.getValue('evidenceLink');
-      return <div className="capitalize font-mono text-xs">{evidenceLink}</div>;
+      const evidenceLink: Hex = row.getValue('evidenceLink');
+      return <div className="capitalize font-mono text-xs">{hexToString(evidenceLink, { size: 32 })}</div>;
     },
   },
   {
