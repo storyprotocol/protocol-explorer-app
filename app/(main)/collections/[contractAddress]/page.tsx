@@ -30,9 +30,9 @@ export default async function CollectionDetailPage({
   return (
     <div className="w-full">
       <div className="relative w-full h-[24rem] bg-slate-500 mx-auto">
-        {collectionMetadata.banner_image_url && (
+        {collectionMetadata?.banner_image_url && (
           <img
-            src={collectionMetadata.banner_image_url}
+            src={collectionMetadata?.banner_image_url}
             alt="IP Org image"
             className="absolute w-full h-full object-cover"
           />

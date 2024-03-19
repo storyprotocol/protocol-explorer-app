@@ -21,7 +21,7 @@ const testnet = {
   testnet: true,
 } as const satisfies Chain;
 
-const isTestnet = process.env.NEXT_PUBLIC_CHAIN === 'l2-testnet';
+const isTestnet = process.env.NEXT_PUBLIC_CHAIN === 'renaissance';
 
 const config = getDefaultConfig({
   appName: 'My RainbowKit App',
