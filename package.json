@@ -3,6 +3,9 @@
   "version": "0.1.0-alpha-rc.0",
   "private": true,
   "scripts": {
+    "sepolia": "env-cmd -f .env.sepolia.beta next dev",
+    "mumbai": "env-cmd -f .env.mumbai next dev",
+    "ren": "env-cmd -f .env.testnet.example next dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -64,6 +67,7 @@
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "autoprefixer": "^10.4.16",
     "encoding": "^0.1.13",
+    "env-cmd": "^10.1.0",
     "eslint": "^8.56.0",
     "eslint-config-next": "13.5.4",
     "eslint-config-prettier": "^9.0.0",
