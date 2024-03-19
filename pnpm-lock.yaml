@@ -166,6 +166,9 @@ devDependencies:
   encoding:
     specifier: ^0.1.13
     version: 0.1.13
+  env-cmd:
+    specifier: ^10.1.0
+    version: 10.1.0
   eslint:
     specifier: ^8.56.0
     version: 8.56.0
@@ -7713,6 +7716,15 @@ packages:
     engines: {node: '>=0.12'}
     requiresBuild: true
     dev: false
+
+  /env-cmd@10.1.0:
+    resolution: {integrity: sha512-mMdWTT9XKN7yNth/6N6g2GuKuJTsKMDHlQFUDacb/heQRRWOTIZ42t1rMHnQu4jYxU1ajdTeJM+9eEETlqToMA==}
+    engines: {node: '>=8.0.0'}
+    hasBin: true
+    dependencies:
+      commander: 4.1.1
+      cross-spawn: 7.0.3
+    dev: true
 
   /envinfo@7.11.1:
     resolution: {integrity: sha512-8PiZgZNIB4q/Lw4AhOvAfB/ityHAd2bli3lESSWmWSzSsl5dKpy5N1d1Rfkd2teq/g9xN90lc6o98DOjMeYHpg==}

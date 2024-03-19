@@ -61,7 +61,7 @@ export default async function CollectionDetailCard({
   return (
     <CardWrapper>
       <div className="w-full p-4 pb-6">
-        <Row label="IP Collection Name">{collectionMetadata.name}</Row>
+        <Row label="IP Collection Name">{collectionMetadata?.name}</Row>
         <Row label="IP Collection Address">
           <span className="font-mono">{collectionId}</span>
         </Row>

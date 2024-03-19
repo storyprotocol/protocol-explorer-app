@@ -41,7 +41,7 @@ const CollectionCard = ({ data }: { data: Collection }) => {
               decoding="async"
               data-nimg="1"
               className="h-full w-full object-cover transition-all hover:scale-125"
-              src={collectionMetadata.image_url}
+              src={collectionMetadata?.image_url}
             />
           ) : (
             <div className="flex h-full justify-center items-center bg-gradient-to-br from-indigo-50 to-indigo-200 text-indigo-500 px-5 group">
