@@ -253,11 +253,10 @@ export type Royalty = {
 
 export type RoyaltyPolicy = {
   id: Address;
-  ancestorsVault: Address;
-  splitClone: Address;
+  ipRoyaltyVault: Address;
   royaltyStack: string;
-  targetAncestors: Address[];
-  targetRoyaltyAmount: string[];
+  targetAncestors?: Address[];
+  targetRoyaltyAmount?: string[];
   blockNumber: string;
   blockTimestamp: string;
 };

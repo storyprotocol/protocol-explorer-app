@@ -39,13 +39,13 @@ export function AncestorVault({ data }: { data: RoyaltyPolicy }) {
   return (
     <div className="p-6 rounded-xl bg-white">
       <div className="flex flex-row items-center gap-1 justify-start">
-        <h2 className="text-lg">Ancestors</h2>
+        <h2 className="text-lg">Royalty</h2>
         <TooltipWrapper content="Ancestor vault is the address where royalties are collected and distributed.">
           <InformationCircleIcon className="h-4 w-4 text-slate-400 hover:text-indigo-300 transition-all" />
         </TooltipWrapper>
       </div>
       <div className="mt-4 font-mono text-xs">
-        <div>Ancestor Vault Address: {data.ancestorsVault}</div>
+        <div>IP Royalty Vault Address: {data.ipRoyaltyVault}</div>
       </div>
       <div className="mt-4 font-mono text-xs">
         <AncestorRoyaltyTable data={data} />
@@ -72,7 +72,10 @@ export function RoyaltyPool({ data }: { data: RoyaltyPolicy }) {
 }
 
 export async function AncestorRoyaltyTable({ data }: { data: RoyaltyPolicy }) {
-  const tableData = combineArrays(data.targetAncestors, data.targetRoyaltyAmount);
+  const tableData =
+    data.targetAncestors && data.targetRoyaltyAmount
+      ? combineArrays(data.targetAncestors, data.targetRoyaltyAmount)
+      : [];
   return (
     <>
       {tableData.length ? (
@@ -180,9 +183,9 @@ export default async function RoyaltyPage({ ipId }: { ipId: Address }) {
   const royaltyPolicy = await getResource(RESOURCE_TYPE.ROYALTY_POLICY, ipId);
   const royaltyPolicyData = royaltyPolicy.data;
 
-  console.log({ royaltyPolicyData });
+  // console.log({ royaltyPolicyData });
 
-  if (!royaltyPolicy.data) {
+  if (!royaltyPolicy.data || !royaltyPolicy.data.id) {
     return <div className="w-full pt-8 text-center text-gray-500">No Royalty data found</div>;
   }
   return (
@@ -190,9 +193,7 @@ export default async function RoyaltyPage({ ipId }: { ipId: Address }) {
       <div className="flex flex-col gap-2 flex-1">
         <AncestorVault data={royaltyPolicyData} />
       </div>
-      <div className="flex-1">
-        <RoyaltyPool data={royaltyPolicyData} />
-      </div>
+      <div className="flex-1">{/* <RoyaltyPool data={royaltyPolicyData} /> */}</div>
     </div>
   );
 }

@@ -36,7 +36,6 @@ const columns: ColumnDef<LicenseTerm>[] = [
     cell: ({ row }) => {
       const json: string = row.getValue('json');
       const parsedJson = cleanAndParseJson(json);
-      console.log({ parsedJson });
       return (
         <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
           <JsonView value={parsedJson} />

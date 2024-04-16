@@ -26,8 +26,6 @@ export default async function PolicyDataViewerWrapper({ collectionId, ipId, ...p
     return ipLicenseTermData.some((ipLicenseTerm) => ipLicenseTerm.license_terms_id === licenseTerm.id);
   });
 
-  console.log({ intersection });
-
   if (!ipLicenseTermData.length) {
     return <div className="w-full pt-8 text-center text-gray-500">No Policies found</div>;
   }

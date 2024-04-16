@@ -41,7 +41,7 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
                 </Suspense>
               </TabsContent> */}
             <TabsContent value="derivatives">
-              {assetData.childIpIds && assetData.childIpIds.length === 0 ? (
+              {!assetData.childIpIds ? (
                 <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>
               ) : (
                 <AssetDataViewerComponent gridOnly data={assetData.childIpIds} />
