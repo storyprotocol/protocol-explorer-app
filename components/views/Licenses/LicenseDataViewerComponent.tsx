@@ -3,22 +3,9 @@
 import BaseDataViewer from '../BaseDataViewer';
 import { ColumnDef } from '@tanstack/react-table';
 import { shortenAddress } from '@/utils';
-import moment from 'moment';
 import LicenseCard from '@/components/cards/LicenseCard';
 import { LicenseToken } from '@/lib/server/types';
 import AddressComponent from '@/components/address/AddressComponent';
-
-// id: string;
-//     licensor_ip_id: Address;
-//     license_template: Address;
-//     license_terms_id: string;
-//     transferable: boolean;
-//     owner: Address;
-//     minted_at: string;
-//     expires_at: string;
-//     burnt_at: string;
-//     block_number: string;
-//     block_time: string;
 
 const columns: ColumnDef<LicenseToken>[] = [
   {
