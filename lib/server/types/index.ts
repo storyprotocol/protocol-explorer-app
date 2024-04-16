@@ -1,17 +1,23 @@
 import { Address, Hash } from 'viem';
 
 export enum RESOURCE_TYPE {
+  IPA_POLICY = 'ipapolicies', // only sepolia
+  LICENSE = 'licenses', // only sepolia
+  LICENSE_OWNER = 'licenses/owners', // only sepolia
+  POLICY = 'policies', // only sepolia
+  POLICY_FRAMEWORK = 'policies/frameworks', // only sepolia
+
+  LICENSE_TOKEN = 'licenses/tokens', // only story
+  LICENSE_TEMPLATES = 'licenses/templates', // only story
+  LICENSE_TERMS = 'licenses/terms', // only story
+  IP_LICENSE_TERMS = 'licenses/ip/terms', // only story
+
   ASSET = 'assets',
   COLLECTION = 'collections',
   DISPUTE = 'disputes',
-  IPA_POLICY = 'ipapolicies',
-  LICENSE = 'licenses',
   LICENSE_MINT_FEES = 'licenses/mintingfees',
-  LICENSE_OWNER = 'licenses/owners',
   MODULE = 'modules',
   PERMISSION = 'permissions',
-  POLICY = 'policies',
-  POLICY_FRAMEWORK = 'policies/frameworks',
   ROYALTY = 'royalties',
   ROYALTY_PAY = 'royalties/payments',
   ROYALTY_POLICY = 'royalties/policies',
@@ -25,6 +31,10 @@ export type ResourceType =
   | RESOURCE_TYPE.COLLECTION
   | RESOURCE_TYPE.TRANSACTION
   | RESOURCE_TYPE.LICENSE
+  | RESOURCE_TYPE.LICENSE_TOKEN
+  | RESOURCE_TYPE.LICENSE_TERMS
+  | RESOURCE_TYPE.LICENSE_TEMPLATES
+  | RESOURCE_TYPE.IP_LICENSE_TERMS
   | RESOURCE_TYPE.LICENSE_MINT_FEES
   | RESOURCE_TYPE.LICENSE_OWNER
   | RESOURCE_TYPE.MODULE
@@ -316,4 +326,42 @@ export type RoyaltySplit = {
 export type RoyaltyHolder = {
   id: Address;
   ownership: string;
+};
+
+export type LicenseToken = {
+  id: string;
+  licensor_ip_id: Address;
+  license_template: Address;
+  license_terms_id: string;
+  transferable: boolean;
+  owner: Address;
+  minted_at: string;
+  expires_at: string;
+  burnt_at: string;
+  block_number: string;
+  block_time: string;
+};
+
+export type IPLicenseTerm = {
+  id: string;
+  ip_id: Address;
+  license_template: Address;
+  license_terms_id: string;
+  block_number: string;
+  block_time: string;
+};
+
+export type LicenseTemplate = {
+  id: string;
+  name: string;
+  metadata_uri: string;
+  block_number: string;
+  block_time: string;
+};
+
+export type LicenseTerm = {
+  id: string;
+  json: string;
+  license_template: Address;
+  block_time: string;
 };

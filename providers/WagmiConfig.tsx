@@ -13,15 +13,15 @@ const testnet = {
   // iconBackground: '#fff',
   nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
   rpcUrls: {
-    default: { http: ['https://renaissance-testnet.rpc.caldera.xyz/http'] },
+    default: { http: [process.env.NEXT_PUBLIC_RPC_PROVIDER_URL as string] },
   },
   blockExplorers: {
-    default: { name: 'BlockScout', url: 'https://renaissance-testnet.explorer.caldera.xyz' },
+    default: { name: 'BlockScout', url: process.env.NEXT_PUBLIC_RPC_PROVIDER_URL as string },
   },
   testnet: true,
 } as const satisfies Chain;
 
-const isTestnet = process.env.NEXT_PUBLIC_CHAIN === 'renaissance';
+const isTestnet = process.env.NEXT_PUBLIC_CHAIN === 'story';
 
 const config = getDefaultConfig({
   appName: 'My RainbowKit App',

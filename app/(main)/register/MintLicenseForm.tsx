@@ -82,7 +82,11 @@ export function MintLicenseForm() {
           {isPendingInWallet ? 'Confirm in wallet' : 'Mint License'}
         </Button>
         {txHash && (
-          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" className="ml-4">
+          <Link
+            href={`${process.env.NEXT_PUBLIC_EXPLORER_BASE_URL || process.env.EXPLORER_BASE_URL}/tx/${txHash}`}
+            target="_blank"
+            className="ml-4"
+          >
             <Button variant={'etherscan'} type="button">
               View on Etherscan
             </Button>

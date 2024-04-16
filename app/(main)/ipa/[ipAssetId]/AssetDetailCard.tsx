@@ -71,7 +71,7 @@ export function AssetStatsComponent({ data }: { data: Asset }) {
           licensorIpdId: data.id,
         },
       };
-      const licenseData = await listResource(RESOURCE_TYPE.LICENSE, listReq);
+      const licenseData = await listResource(RESOURCE_TYPE.LICENSE_TOKEN, listReq);
       setLicenseCount(licenseData.data.length);
     };
     const fetchDisputeCount = async () => {
@@ -97,7 +97,7 @@ export function AssetStatsComponent({ data }: { data: Asset }) {
       <h2 className="text-lg">Statistics</h2>
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
         <div>
-          <p className="text-3xl">{data.childIpIds?.length}</p>
+          <p className="text-3xl">{data.childIpIds?.length || '0'}</p>
           <p className="text-sm text-gray-600">Derivative IPAs</p>
         </div>
         <div className="flex flex-col items-center">

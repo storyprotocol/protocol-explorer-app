@@ -1,11 +1,11 @@
 'use client';
 import { ColumnDef } from '@tanstack/react-table';
 import BaseDataViewer from '../BaseDataViewer';
-import { Policy } from '@/lib/server/types';
+import { LicenseTerm } from '@/lib/server/types';
 import moment from 'moment';
 import PolicyCard from '@/components/cards/PolicyCard';
 
-const columns: ColumnDef<Policy>[] = [
+const columns: ColumnDef<LicenseTerm>[] = [
   {
     accessorKey: 'id',
     header: 'id',
@@ -16,47 +16,43 @@ const columns: ColumnDef<Policy>[] = [
   },
 
   {
-    accessorKey: 'policyFrameworkManager',
-    header: 'policyFrameworkManager',
+    accessorKey: 'license_template',
+    header: 'license_template',
     cell: ({ row }) => {
-      const policyFrameworkManager: string = row.getValue('policyFrameworkManager');
+      const license_template: string = row.getValue('license_template');
       return (
         <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
-          {policyFrameworkManager}
+          {license_template}
         </div>
       );
     },
   },
 
   {
-    accessorKey: 'pil',
-    header: 'pil',
+    accessorKey: 'json',
+    header: 'json',
     cell: ({ row }) => {
-      const pil: string = row.getValue('pil');
-      return (
-        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
-          {JSON.stringify(pil)}
-        </div>
-      );
+      const json: string = row.getValue('json');
+      return <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{json}</div>;
     },
   },
 
   {
-    accessorKey: 'blockNumber',
-    header: 'blockNumber',
+    accessorKey: 'block_time',
+    header: 'block_time',
     cell: ({ row }) => {
-      const blockNumber = row.getValue('blockNumber');
-      return <>{blockNumber}</>;
+      const block_time = row.getValue('block_time');
+      return <>{block_time}</>;
     },
   },
   {
-    accessorKey: 'blockTimestamp',
-    header: 'blockTimestamp',
+    accessorKey: 'block_time',
+    header: 'block_time',
     cell: ({ row }) => {
-      const blockTimestamp = row.getValue('blockTimestamp');
+      const block_time = row.getValue('block_time');
       return (
         <div className="capitalize text-xs min-w-[100px] text-center">
-          {moment.unix(blockTimestamp as number).fromNow()}
+          {moment.unix(block_time as number).fromNow()}
         </div>
       );
     },

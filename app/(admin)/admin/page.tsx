@@ -25,38 +25,14 @@ export default function Admin() {
     queryFn: () => listResource(RESOURCE_TYPE.TRANSACTION, txnReqOptions),
   });
 
-  // const { data: collectionResponse } = useQuery({
-  //   queryKey: [RESOURCE_TYPE.COLLECTION, txnReqOptions],
-  //   queryFn: () => listResource(RESOURCE_TYPE.COLLECTION, txnReqOptions),
-  // });
-
   const { data: licenseResponse } = useQuery({
     queryKey: [RESOURCE_TYPE.LICENSE, txnReqOptions],
     queryFn: () => listResource(RESOURCE_TYPE.LICENSE, txnReqOptions),
   });
 
-  // const { data: licenseOwnerResponse } = useQuery({
-  //   queryKey: [RESOURCE_TYPE.LICENSE_OWNER, txnReqOptions],
-  //   queryFn: () => listResource(RESOURCE_TYPE.LICENSE_OWNER, txnReqOptions),
-  // });
-
-  // const { data: policyResponse } = useQuery({
-  //   queryKey: [RESOURCE_TYPE.POLICY, txnReqOptions],
-  //   queryFn: () => listResource(RESOURCE_TYPE.POLICY, txnReqOptions),
-  // });
-
-  // const { data: assetResponse } = useQuery({
-  //   queryKey: [RESOURCE_TYPE.ASSET, txnReqOptions],
-  //   queryFn: () => listResource(RESOURCE_TYPE.ASSET, txnReqOptions),
-  // });
-
   const txnData = txnResponse?.data;
   // TODO: add more charts
-  // const assetData = assetResponse?.data;
-  // const collectionData = collectionResponse?.data;
   const licenseData = licenseResponse?.data;
-  // const licenseOwnerData = licenseOwnerResponse?.data;
-  // const policyData = policyResponse?.data;
 
   if (!isAdmin) {
     return <Login setIsAdmin={setIsAdmin} />;
