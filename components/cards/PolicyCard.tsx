@@ -1,4 +1,5 @@
-import { Policy } from '@/lib/server/types';
+import { LicenseTerm } from '@/lib/server/types';
+import { cleanAndParseJson } from '@/utils';
 import JsonView from '@uiw/react-json-view';
 import { lightTheme } from '@uiw/react-json-view/light';
 import moment from 'moment';
@@ -15,33 +16,22 @@ const Row = ({ label, children }: { label: string; children: React.ReactNode }) 
   );
 };
 
-export default function PolicyCard({ data }: { data: Policy }) {
+export default function PolicyCard({ data }: { data: LicenseTerm }) {
   return (
     <div className="bg-white rounded-xl w-full p-6">
       <Row label="Policy ID">{data.id}</Row>
-      <Row label="Policy Framework Manager">{data.policyFrameworkManager}</Row>
-      <Row label="Blocknumber">{data.blockNumber}</Row>
+      <Row label="License Template">{data.license_template}</Row>
+      {/* <Row label="Blocknumber">{data.blockNumber}</Row> */}
       <Row label="Created At">
-        {moment.unix(parseInt(data.blockTimestamp)).fromNow()}
+        {moment.unix(parseInt(data.block_time)).fromNow()}
         <span className="font-light text-gray-500 ml-2">
-          ({moment.unix(parseInt(data.blockTimestamp)).format('Do MMMM YYYY, h:mm a')})
+          ({moment.unix(parseInt(data.block_time)).format('Do MMMM YYYY, h:mm a')})
         </span>
       </Row>
       <Row label="PIL data">
-        <JsonView value={data.pil} className="w-full" style={lightTheme} />
+        <></>
+        <JsonView value={cleanAndParseJson(data.json)} className="w-full" style={lightTheme} />
       </Row>
-
-      {/* <div className="flex flex-col">
-        <div className="flex flex-row justify-between">
-          <h1>PolicyID: {data.id}</h1>
-          <p>{moment.unix(parseInt(data.blockTimestamp)).fromNow()}</p>
-        </div>
-        <div>
-          <h1>policyFrameworkManager: {data.policyFrameworkManager}</h1>
-        </div>
-        <div className="mt-10">Additional data:</div>
-        <JsonView value={data.pil} className="w-full" />
-      </div> */}
     </div>
   );
 }

@@ -4,6 +4,8 @@ import BaseDataViewer from '../BaseDataViewer';
 import { LicenseTerm } from '@/lib/server/types';
 import moment from 'moment';
 import PolicyCard from '@/components/cards/PolicyCard';
+import JsonView from '@uiw/react-json-view';
+import { cleanAndParseJson } from '@/utils';
 
 const columns: ColumnDef<LicenseTerm>[] = [
   {
@@ -33,7 +35,13 @@ const columns: ColumnDef<LicenseTerm>[] = [
     header: 'json',
     cell: ({ row }) => {
       const json: string = row.getValue('json');
-      return <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">{json}</div>;
+      const parsedJson = cleanAndParseJson(json);
+      console.log({ parsedJson });
+      return (
+        <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
+          <JsonView value={parsedJson} />
+        </div>
+      );
     },
   },
 

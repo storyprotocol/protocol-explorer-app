@@ -135,3 +135,23 @@ export function calculateTotalDisputes(data: Collection) {
     parseInt(data.judgedDisputeCount)
   );
 }
+
+export function cleanAndParseJson(jsonString: string) {
+  // Trim whitespace and remove trailing comma
+  let cleanedString = jsonString.trim();
+  if (cleanedString.endsWith(',')) {
+    cleanedString = cleanedString.slice(0, -1);
+  }
+
+  // Wrap in square brackets to form a valid JSON array string
+  cleanedString = `[${cleanedString}]`;
+
+  // Attempt to parse the JSON and catch any errors
+  try {
+    const jsonObject = JSON.parse(cleanedString);
+    return jsonObject;
+  } catch (error) {
+    console.error('Failed to parse JSON:', error);
+    return null;
+  }
+}

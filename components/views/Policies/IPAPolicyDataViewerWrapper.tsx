@@ -10,7 +10,7 @@ export default async function PolicyDataViewerWrapper({ collectionId, ipId, ...p
       offset: 0,
     },
     where: {
-      ipId,
+      ipId: ipId,
     },
   };
 
