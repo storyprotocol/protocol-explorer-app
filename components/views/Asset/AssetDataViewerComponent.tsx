@@ -72,7 +72,7 @@ const columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: 'blockTimestamp',
-    header: 'blockTimestamp',
+    header: 'timestamp',
     cell: ({ row }) => {
       const blockTimestamp = row.getValue('blockTimestamp');
       return (

@@ -83,7 +83,7 @@ export function MintLicenseForm() {
         </Button>
         {txHash && (
           <Link
-            href={`${process.env.NEXT_PUBLIC_EXPLORER_BASE_URL || process.env.EXPLORER_BASE_URL}/tx/${txHash}`}
+            href={`${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/tx/${txHash}`}
             target="_blank"
             className="ml-4"
           >
