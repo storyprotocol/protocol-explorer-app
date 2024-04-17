@@ -22,9 +22,9 @@ export const defaultNavItems: NavItem[] = [
     href: '/ipa',
     icon: IPIcon,
   },
-  {
-    label: 'Register',
-    href: '/register',
-    icon: WrenchScrewdriverIcon,
-  },
+  // {
+  //   label: 'Register',
+  //   href: '/register',
+  //   icon: WrenchScrewdriverIcon,
+  // },
 ];
