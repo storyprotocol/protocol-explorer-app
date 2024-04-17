@@ -91,7 +91,7 @@ export const getNFTByTokenId = async (contractAddress: Address, tokenId: string)
   };
 
   const res = await fetch(
-    `https://api.simplehash.com/api/v0/nfts/ethereum-sepolia/${contractAddress}/${tokenId}`,
+    `https://api.simplehash.com/api/v0/nfts/${process.env.NEXT_PUBLIC_SIMPLE_HASH_CHAIN}/${contractAddress}/${tokenId}`,
     options,
   );
   const data = await res.json();
@@ -111,7 +111,7 @@ export const getCollectionByAddress = async (contractAddress: Address): Promise<
   };
 
   const res = await fetch(
-    `https://api.simplehash.com/api/v0/nfts/collections/ethereum-sepolia/${contractAddress}`,
+    `https://api.simplehash.com/api/v0/nfts/collections/${process.env.NEXT_PUBLIC_SIMPLE_HASH_CHAIN}/${contractAddress}`,
     options,
   );
   const data = await res.json();
