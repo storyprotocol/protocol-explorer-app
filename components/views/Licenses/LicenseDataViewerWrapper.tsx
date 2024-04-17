@@ -12,7 +12,7 @@ export default async function LicenseDataViewerWrapper({ collectionId, ipId, ...
       },
       where: {
         // tokenContract: collectionId as Address,
-        licensorIpdId: ipId,
+        licensorIpId: ipId,
       },
     };
 

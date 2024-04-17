@@ -68,7 +68,7 @@ export function AssetStatsComponent({ data }: { data: Asset }) {
         },
         where: {
           // tokenContract: collectionId as Address,
-          licensorIpdId: data.id,
+          licensorIpId: data.id,
         },
       };
       const licenseData = await listResource(RESOURCE_TYPE.LICENSE_TOKEN, listReq);

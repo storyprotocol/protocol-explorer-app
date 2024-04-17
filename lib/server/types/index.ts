@@ -104,7 +104,7 @@ export type ModuleFilterOptions = {
 };
 
 export type LicenseFilterOptions = {
-  licensorIpdId?: string;
+  licensorIpId?: string;
   policyId?: string;
 };
 
