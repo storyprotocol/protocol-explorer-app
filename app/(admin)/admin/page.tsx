@@ -1,9 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CardContainer from '@/components/cards/CardContainer';
 import { listResource } from '@/lib/server/sdk';
 import { RESOURCE_TYPE } from '@/lib/server/types';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import EChartLineTotalTxn from '@/components/charts/ECharts/transactions/TxnLineTotal';
 import EChartLineTxnByDay from '@/components/charts/ECharts/transactions/TxnLineByDay';
 import EChartTop10IpIdsPie from '@/components/charts/ECharts/transactions/TxnPieChartByTopIpId';
@@ -11,46 +11,58 @@ import LicensesByPolicyId from '@/components/charts/ECharts/licenses/LicensesByP
 import NivoStackedBarChart from '@/components/charts/Nivo/NivoStackedBarChart';
 import Login from '@/components/login/Login';
 
+async function recursiveFetchTxn(offset: number, accumulatedData = []) {
+  try {
+    const response = await listResource(RESOURCE_TYPE.TRANSACTION, {
+      pagination: {
+        limit: 1000,
+        offset: offset,
+      },
+    });
+    const data = response.data;
+    console.log({ data });
+
+    // Combine old data with new data
+    const newData = accumulatedData.concat(data);
+    console.log({ newData });
+
+    // Check if the accumulated data is enough
+    if (data.length < 1000) {
+      return newData; // If less than 1000 items, it's likely the last page
+    } else {
+      // Recursively fetch next page
+      return recursiveFetchTxn(offset + 1000, newData);
+    }
+  } catch (error) {
+    console.error('Failed to fetch data:', error);
+    throw error; // Rethrow or handle error as necessary
+  }
+}
+
 export default function Admin() {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const txnReqOptions = {
+  const [txnResponse, setTxnResponse] = useState<any>();
+
+  const licenseReqOptions = {
     pagination: {
       limit: 1000,
       offset: 0,
     },
   };
 
-  const { data: txnResponse } = useQuery({
-    queryKey: [RESOURCE_TYPE.TRANSACTION, txnReqOptions],
-    queryFn: () => listResource(RESOURCE_TYPE.TRANSACTION, txnReqOptions),
-  });
-
-  // const { data: collectionResponse } = useQuery({
-  //   queryKey: [RESOURCE_TYPE.COLLECTION, txnReqOptions],
-  //   queryFn: () => listResource(RESOURCE_TYPE.COLLECTION, txnReqOptions),
-  // });
+  useEffect(() => {
+    recursiveFetchTxn(0).then((data) => {
+      setTxnResponse(data);
+    });
+  }, []);
 
   const { data: licenseResponse } = useQuery({
-    queryKey: [RESOURCE_TYPE.LICENSE, txnReqOptions],
-    queryFn: () => listResource(RESOURCE_TYPE.LICENSE, txnReqOptions),
+    queryKey: [RESOURCE_TYPE.LICENSE, licenseReqOptions],
+    queryFn: () => listResource(RESOURCE_TYPE.LICENSE, licenseReqOptions),
+    placeholderData: keepPreviousData,
   });
 
-  // const { data: licenseOwnerResponse } = useQuery({
-  //   queryKey: [RESOURCE_TYPE.LICENSE_OWNER, txnReqOptions],
-  //   queryFn: () => listResource(RESOURCE_TYPE.LICENSE_OWNER, txnReqOptions),
-  // });
-
-  // const { data: policyResponse } = useQuery({
-  //   queryKey: [RESOURCE_TYPE.POLICY, txnReqOptions],
-  //   queryFn: () => listResource(RESOURCE_TYPE.POLICY, txnReqOptions),
-  // });
-
-  // const { data: assetResponse } = useQuery({
-  //   queryKey: [RESOURCE_TYPE.ASSET, txnReqOptions],
-  //   queryFn: () => listResource(RESOURCE_TYPE.ASSET, txnReqOptions),
-  // });
-
-  const txnData = txnResponse?.data;
+  const txnData = txnResponse;
   // TODO: add more charts
   // const assetData = assetResponse?.data;
   // const collectionData = collectionResponse?.data;
