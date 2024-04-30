@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import CardContainer from '@/components/cards/CardContainer';
 import { listResource } from '@/lib/server/sdk';
 import { RESOURCE_TYPE } from '@/lib/server/types';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import EChartLineTotalTxn from '@/components/charts/ECharts/transactions/TxnLineTotal';
 import EChartLineTxnByDay from '@/components/charts/ECharts/transactions/TxnLineByDay';
 import EChartTop10IpIdsPie from '@/components/charts/ECharts/transactions/TxnPieChartByTopIpId';
@@ -59,7 +59,6 @@ export default function Admin() {
   const { data: licenseResponse } = useQuery({
     queryKey: [RESOURCE_TYPE.LICENSE, licenseReqOptions],
     queryFn: () => listResource(RESOURCE_TYPE.LICENSE, licenseReqOptions),
-    placeholderData: keepPreviousData,
   });
 
   const txnData = txnResponse;
