@@ -20,11 +20,9 @@ async function recursiveFetchTxn(offset: number, accumulatedData = []) {
       },
     });
     const data = response.data;
-    console.log({ data });
 
     // Combine old data with new data
     const newData = accumulatedData.concat(data);
-    console.log({ newData });
 
     // Check if the accumulated data is enough
     if (data.length < 1000) {
