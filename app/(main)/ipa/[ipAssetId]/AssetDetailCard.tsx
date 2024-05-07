@@ -56,7 +56,8 @@ export const Fallback = () => (
 
 export function AssetStatsComponent({ data }: { data: Asset }) {
   const [licenseCount, setLicenseCount] = React.useState<number | null>(null);
-  const [disputeCount, setDisputeCount] = React.useState<number | null>(null);
+  // TODO: hardcode to 0
+  const [disputeCount] = React.useState<number | null>(0);
 
   console.log({ licenseCount, disputeCount });
   useEffect(() => {
@@ -74,22 +75,23 @@ export function AssetStatsComponent({ data }: { data: Asset }) {
       const licenseData = await listResource(RESOURCE_TYPE.LICENSE, listReq);
       setLicenseCount(licenseData.data.length);
     };
-    const fetchDisputeCount = async () => {
-      const listReq = {
-        pagination: {
-          limit: 1000,
-          offset: 0,
-        },
-        where: {
-          ipId: data.id,
-        },
-      };
-      const disputeData = await listResource(RESOURCE_TYPE.DISPUTE, listReq);
-      setDisputeCount(disputeData.data.length);
-    };
+    // TODO: fix this later
+    // const fetchDisputeCount = async () => {
+    //   const listReq = {
+    //     pagination: {
+    //       limit: 1000,
+    //       offset: 0,
+    //     },
+    //     where: {
+    //       ipId: data.id,
+    //     },
+    //   };
+    //   const disputeData = await listResource(RESOURCE_TYPE.DISPUTE, listReq);
+    //   setDisputeCount(disputeData.data.length);
+    // };
 
     fetchLicenseCount();
-    fetchDisputeCount();
+    // fetchDisputeCount();
   }, [data.id]);
 
   return (
