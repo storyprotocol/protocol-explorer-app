@@ -26,8 +26,8 @@ export default function Admin() {
   });
 
   const { data: licenseResponse } = useQuery({
-    queryKey: [RESOURCE_TYPE.LICENSE, txnReqOptions],
-    queryFn: () => listResource(RESOURCE_TYPE.LICENSE, txnReqOptions),
+    queryKey: [RESOURCE_TYPE.LICENSE_TOKEN, txnReqOptions],
+    queryFn: () => listResource(RESOURCE_TYPE.LICENSE_TOKEN, txnReqOptions),
   });
 
   const txnData = txnResponse?.data;
