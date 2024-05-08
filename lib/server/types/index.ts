@@ -8,7 +8,7 @@ export enum RESOURCE_TYPE {
   POLICY_FRAMEWORK = 'policies/frameworks', // deprecated
 
   LICENSE_TOKEN = 'licenses/tokens', // new version
-  LICENSE_TEMPLATES = 'licenses/templates', // new version
+  licenseTemplateS = 'licenses/templates', // new version
   LICENSE_TERMS = 'licenses/terms', // new version
   IP_LICENSE_TERMS = 'licenses/ip/terms', // new version
 
@@ -33,7 +33,7 @@ export type ResourceType =
   | RESOURCE_TYPE.LICENSE
   | RESOURCE_TYPE.LICENSE_TOKEN
   | RESOURCE_TYPE.LICENSE_TERMS
-  | RESOURCE_TYPE.LICENSE_TEMPLATES
+  | RESOURCE_TYPE.licenseTemplateS
   | RESOURCE_TYPE.IP_LICENSE_TERMS
   | RESOURCE_TYPE.LICENSE_MINT_FEES
   | RESOURCE_TYPE.LICENSE_OWNER
@@ -329,38 +329,39 @@ export type RoyaltyHolder = {
 
 export type LicenseToken = {
   id: string;
-  licensor_ip_id: Address;
-  license_template: Address;
-  license_terms_id: string;
+  licensorIpId: Address;
+  licenseTemplate: Address;
+  licenseTermsId: string;
   transferable: boolean;
   owner: Address;
-  minted_at: string;
-  expires_at: string;
-  burnt_at: string;
-  block_number: string;
-  block_time: string;
+  mintedAt: string;
+  expiresAt: string;
+  burntAt: string;
+  blockNumber: string;
+  blockTime: string;
 };
 
 export type IPLicenseTerm = {
   id: string;
-  ip_id: Address;
-  license_template: Address;
-  license_terms_id: string;
-  block_number: string;
-  block_time: string;
+  ipId: Address;
+  licenseTemplate: Address;
+  licenseTermsId: string;
+  blockNumber: string;
+  blockTime: string;
 };
 
 export type LicenseTemplate = {
   id: string;
   name: string;
-  metadata_uri: string;
-  block_number: string;
-  block_time: string;
+  metadataUri: string;
+  blockNumber: string;
+  blockTime: string;
 };
 
 export type LicenseTerm = {
   id: string;
-  json: string;
-  license_template: Address;
-  block_time: string;
+  licenseTerms: any[];
+  licenseTemplate: Address;
+  blockTime: string;
+  blockNumber: string;
 };

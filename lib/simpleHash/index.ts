@@ -59,7 +59,7 @@ export type NFTMetadata = {
     quantity: number;
     quantity_string: string;
     timestamp: string;
-    block_number: number;
+    blockNumber: number;
     transaction: string;
     transaction_initiator: string;
   };

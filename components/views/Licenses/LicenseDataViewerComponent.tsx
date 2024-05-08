@@ -15,19 +15,19 @@ const columns: ColumnDef<LicenseToken>[] = [
   },
 
   {
-    accessorKey: 'license_terms_id',
-    header: 'license_terms_id',
-    cell: ({ row }) => <span className="min-w-[150px]">{row.getValue('license_terms_id')}</span>,
+    accessorKey: 'licenseTermsId',
+    header: 'licenseTermsId',
+    cell: ({ row }) => <span className="min-w-[150px]">{row.getValue('licenseTermsId')}</span>,
   },
   {
-    accessorKey: 'licensor_ip_id',
-    header: 'licensor_ip_id',
-    cell: ({ row }) => <span className="min-w-[150px]">{row.getValue('licensor_ip_id')}</span>,
+    accessorKey: 'licensorIpId',
+    header: 'licensorIpId',
+    cell: ({ row }) => <span className="min-w-[150px]">{row.getValue('licensorIpId')}</span>,
   },
   {
-    accessorKey: 'license_template',
-    header: 'license_template',
-    cell: ({ row }) => <span className="min-w-[150px]">{row.getValue('license_template')}</span>,
+    accessorKey: 'licenseTemplate',
+    header: 'licenseTemplate',
+    cell: ({ row }) => <span className="min-w-[150px]">{row.getValue('licenseTemplate')}</span>,
   },
   {
     accessorKey: 'transferable',
@@ -42,46 +42,46 @@ const columns: ColumnDef<LicenseToken>[] = [
   },
 
   {
-    accessorKey: 'minted_at',
-    header: 'minted_at',
+    accessorKey: 'mintedAt',
+    header: 'mintedAt',
     cell: ({ row }) => {
-      const minted_at = row.getValue('minted_at');
-      return <div className="capitalize text-xs min-w-[100px] text-center">{minted_at as string}</div>;
+      const mintedAt = row.getValue('mintedAt');
+      return <div className="capitalize text-xs min-w-[100px] text-center">{mintedAt as string}</div>;
     },
   },
 
   {
-    accessorKey: 'expires_at',
-    header: 'expires_at',
+    accessorKey: 'expiresAt',
+    header: 'expiresAt',
     cell: ({ row }) => {
-      const expires_at = row.getValue('expires_at');
-      return <div className="capitalize text-xs min-w-[100px] text-center">{expires_at as string}</div>;
+      const expiresAt = row.getValue('expiresAt');
+      return <div className="capitalize text-xs min-w-[100px] text-center">{expiresAt as string}</div>;
     },
   },
 
   {
-    accessorKey: 'burnt_at',
-    header: 'burnt_at',
+    accessorKey: 'burntAt',
+    header: 'burntAt',
     cell: ({ row }) => {
-      const burnt_at = row.getValue('burnt_at');
-      return <div className="capitalize text-xs min-w-[100px] text-center">{burnt_at as string}</div>;
+      const burntAt = row.getValue('burntAt');
+      return <div className="capitalize text-xs min-w-[100px] text-center">{burntAt as string}</div>;
     },
   },
 
   {
-    accessorKey: 'block_number',
-    header: 'block_number',
+    accessorKey: 'blockNumber',
+    header: 'blockNumber',
     cell: ({ row }) => {
-      const block_number = row.getValue('block_number');
-      return <>{block_number}</>;
+      const blockNumber = row.getValue('blockNumber');
+      return <>{blockNumber}</>;
     },
   },
   {
-    accessorKey: 'block_time',
-    header: 'block_time',
+    accessorKey: 'blockTime',
+    header: 'blockTime',
     cell: ({ row }) => {
-      const block_time = row.getValue('block_time');
-      return <div className="capitalize text-xs min-w-[100px] text-center">{block_time as string}</div>;
+      const blockTime = row.getValue('blockTime');
+      return <div className="capitalize text-xs min-w-[100px] text-center">{blockTime as string}</div>;
     },
   },
 ];

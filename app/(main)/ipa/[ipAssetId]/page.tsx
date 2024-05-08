@@ -16,7 +16,7 @@ export const fetchCache = 'force-no-store';
 
 export default async function AssetDetailPage({ params: { ipAssetId } }: { params: { ipAssetId: Address } }) {
   const assetDetailRes = await getResource(RESOURCE_TYPE.ASSET, ipAssetId);
-  const assetData: Asset = assetDetailRes.data;
+  const assetData: Asset = assetDetailRes?.data;
 
   return (
     <div className="w-full p-4 md:p-8 max-w-[1600px] mx-auto">
@@ -33,10 +33,10 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
               {/* <TabsTrigger value="permissions">Permissions</TabsTrigger> */}
             </TabsList>
             <TabsContent value="derivatives">
-              {!assetData.childIpIds ? (
+              {!assetData?.childIpIds ? (
                 <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>
               ) : (
-                <AssetDataViewerComponent gridOnly data={assetData.childIpIds} />
+                <AssetDataViewerComponent gridOnly data={assetData?.childIpIds} />
               )}
             </TabsContent>
             <TabsContent value="policies">

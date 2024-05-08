@@ -3,7 +3,7 @@ import { listResource } from '@/lib/server/sdk';
 // import IPAPolicyDataViewerComponent from './IPAPolicyDataViewerComponent';
 import PolicyDataViewerComponent from './PolicyDataViewerComponent';
 
-export default async function PolicyDataViewerWrapper({ collectionId, ipId, ...params }: any) {
+export default async function PolicyDataViewerWrapper({ ipId, ...params }: any) {
   const listReq = {
     pagination: {
       limit: 1000,
@@ -23,10 +23,13 @@ export default async function PolicyDataViewerWrapper({ collectionId, ipId, ...p
   let ipLicenseTermData: IPLicenseTerm[] = ipLicenseTermListRes.data;
 
   const intersection = liceseTermData.filter((licenseTerm) => {
-    return ipLicenseTermData.some((ipLicenseTerm) => ipLicenseTerm.license_terms_id === licenseTerm.id);
+    return ipLicenseTermData.some((ipLicenseTerm) => ipLicenseTerm.licenseTermsId === licenseTerm.id);
   });
 
-  if (!ipLicenseTermData.length) {
+  console.log({ ipLicenseTermData, intersection });
+  console.log(intersection[0].licenseTerms);
+
+  if (ipLicenseTermData.length < 1) {
     return <div className="w-full pt-8 text-center text-gray-500">No Policies found</div>;
   }
 

@@ -4,8 +4,6 @@ import BaseDataViewer from '../BaseDataViewer';
 import { LicenseTerm } from '@/lib/server/types';
 import moment from 'moment';
 import PolicyCard from '@/components/cards/PolicyCard';
-import JsonView from '@uiw/react-json-view';
-import { cleanAndParseJson } from '@/utils';
 
 const columns: ColumnDef<LicenseTerm>[] = [
   {
@@ -18,49 +16,46 @@ const columns: ColumnDef<LicenseTerm>[] = [
   },
 
   {
-    accessorKey: 'license_template',
-    header: 'license_template',
+    accessorKey: 'licenseTemplate',
+    header: 'licenseTemplate',
     cell: ({ row }) => {
-      const license_template: string = row.getValue('license_template');
+      const licenseTemplate: string = row.getValue('licenseTemplate');
       return (
         <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
-          {license_template}
+          {licenseTemplate}
         </div>
       );
     },
   },
 
   {
-    accessorKey: 'json',
-    header: 'json',
+    accessorKey: 'licenseTermsId',
+    header: 'licenseTermsId',
     cell: ({ row }) => {
-      const json: string = row.getValue('json');
-      const parsedJson = cleanAndParseJson(json);
+      const licenseTermsId: string = row.getValue('licenseTermsId');
       return (
         <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
-          <JsonView value={parsedJson} />
+          {licenseTermsId}
         </div>
       );
     },
   },
 
   {
-    accessorKey: 'block_time',
-    header: 'block_time',
+    accessorKey: 'blockNumber',
+    header: 'blockNumber',
     cell: ({ row }) => {
-      const block_time = row.getValue('block_time');
-      return <>{block_time}</>;
+      const blockNumber = row.getValue('blockNumber');
+      return <>{blockNumber}</>;
     },
   },
   {
-    accessorKey: 'block_time',
-    header: 'block_time',
+    accessorKey: 'blockTime',
+    header: 'blockTime',
     cell: ({ row }) => {
-      const block_time = row.getValue('block_time');
+      const blockTime = row.getValue('blockTime');
       return (
-        <div className="capitalize text-xs min-w-[100px] text-center">
-          {moment.unix(block_time as number).fromNow()}
-        </div>
+        <div className="capitalize text-xs min-w-[100px] text-center">{moment.unix(blockTime as number).fromNow()}</div>
       );
     },
   },
