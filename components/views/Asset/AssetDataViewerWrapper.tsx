@@ -6,11 +6,11 @@ import { Address } from 'viem';
 
 export const fetchCache = 'force-no-store';
 
-export default async function AssetDataViewerWrapper({ collectionId, ipId, ...params }: any) {
+export default async function AssetDataViewerWrapper({ offset = 0, limit = 50, collectionId, ipId, ...params }: any) {
   const listReq = {
     pagination: {
-      limit: 50,
-      offset: 0,
+      limit,
+      offset,
     },
     where: {
       tokenContract: collectionId as Address,
