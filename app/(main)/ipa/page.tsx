@@ -7,9 +7,7 @@ export const fetchCache = 'force-no-store';
 
 export default function Assets({
   searchParams
-}: {
-  searchParams: any
-}) {
+}: any) {
   const page = Number(searchParams.page || 1);
   const pageSize = 50;
   return (
