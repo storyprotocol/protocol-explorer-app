@@ -17,7 +17,7 @@ function LinkToRootIp({ rootIpId }: { rootIpId: string }) {
   );
 }
 export default async function AssetDisplayComponent({ data }: { data: Asset }) {
-  const nftMetadata: NFTMetadata = await getNFTByTokenId(data.tokenContract, data.tokenId);
+  const nftMetadata: NFTMetadata = await getNFTByTokenId(data.nftMetadata.tokenContract, data.nftMetadata.tokenId);
 
   const rootIpId = data?.rootIpIds && data?.rootIpIds?.length > 0 ? data.rootIpIds[0].id : null;
 
@@ -28,7 +28,7 @@ export default async function AssetDisplayComponent({ data }: { data: Asset }) {
         <img
           width={'100%'}
           height={'100%'}
-          alt={data.metadata.name}
+          alt={data.nftMetadata.name}
           loading="lazy"
           decoding="async"
           data-nimg="1"
