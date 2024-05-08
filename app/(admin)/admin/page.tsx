@@ -11,8 +11,36 @@ import LicensesByPolicyId from '@/components/charts/ECharts/licenses/LicensesByP
 import NivoStackedBarChart from '@/components/charts/Nivo/NivoStackedBarChart';
 import Login from '@/components/login/Login';
 
+async function recursiveFetchTxn(offset: number, accumulatedData = []) {
+  try {
+    const response = await listResource(RESOURCE_TYPE.TRANSACTION, {
+      pagination: {
+        limit: 1000,
+        offset: offset,
+      },
+    });
+    const data = response.data;
+
+    // Combine old data with new data
+    const newData = accumulatedData.concat(data);
+
+    // Check if the accumulated data is enough
+    if (data.length < 1000) {
+      return newData; // If less than 1000 items, it's likely the last page
+    } else {
+      // Recursively fetch next page
+      return recursiveFetchTxn(offset + 1000, newData);
+    }
+  } catch (error) {
+    console.error('Failed to fetch data:', error);
+    throw error; // Rethrow or handle error as necessary
+  }
+}
+
 export default function Admin() {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  // const [txnResponse, setTxnResponse] = useState<any>();
+
   const txnReqOptions = {
     pagination: {
       limit: 1000,
@@ -31,6 +59,19 @@ export default function Admin() {
   });
 
   const txnData = txnResponse?.data;
+
+  // useEffect(() => {
+  //   recursiveFetchTxn(0).then((data) => {
+  //     setTxnResponse(data);
+  //   });
+  // }, []);
+
+  // const { data: licenseResponse } = useQuery({
+  //   queryKey: [RESOURCE_TYPE.LICENSE, licenseReqOptions],
+  //   queryFn: () => listResource(RESOURCE_TYPE.LICENSE, licenseReqOptions),
+  // });
+
+  // const txnData = txnResponse;
   // TODO: add more charts
   const licenseData = licenseResponse?.data;
 

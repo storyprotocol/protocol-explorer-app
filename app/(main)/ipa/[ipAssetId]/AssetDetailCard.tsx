@@ -58,7 +58,6 @@ export function AssetStatsComponent({ data }: { data: Asset }) {
   const [licenseCount, setLicenseCount] = React.useState<number | null>(null);
   const [disputeCount, setDisputeCount] = React.useState<number | null>(null);
 
-  console.log({ licenseCount, disputeCount });
   useEffect(() => {
     const fetchLicenseCount = async () => {
       const listReq = {

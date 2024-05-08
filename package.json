@@ -3,6 +3,7 @@
   "version": "0.1.0-alpha-rc.0",
   "private": true,
   "scripts": {
+    "sepolia-prod": "env-cmd -f .env.sepolia.prod next dev --turbo",
     "sepolia": "env-cmd -f .env.sepolia.beta next dev --turbo",
     "mumbai": "env-cmd -f .env.mumbai next dev --turbo",
     "ren": "env-cmd -f .env.testnet.example next dev --turbo",
