@@ -1,16 +1,16 @@
 import { Address, Hash } from 'viem';
 
 export enum RESOURCE_TYPE {
-  IPA_POLICY = 'ipapolicies', // only sepolia
-  LICENSE = 'licenses', // only sepolia
-  LICENSE_OWNER = 'licenses/owners', // only sepolia
-  POLICY = 'policies', // only sepolia
-  POLICY_FRAMEWORK = 'policies/frameworks', // only sepolia
+  IPA_POLICY = 'ipapolicies', // deprecated
+  LICENSE = 'licenses', // deprecated
+  LICENSE_OWNER = 'licenses/owners', // deprecated
+  POLICY = 'policies', // deprecated
+  POLICY_FRAMEWORK = 'policies/frameworks', // deprecated
 
-  LICENSE_TOKEN = 'licenses/tokens', // only story
-  LICENSE_TEMPLATES = 'licenses/templates', // only story
-  LICENSE_TERMS = 'licenses/terms', // only story
-  IP_LICENSE_TERMS = 'licenses/ip/terms', // only story
+  LICENSE_TOKEN = 'licenses/tokens', // new version
+  LICENSE_TEMPLATES = 'licenses/templates', // new version
+  LICENSE_TERMS = 'licenses/terms', // new version
+  IP_LICENSE_TERMS = 'licenses/ip/terms', // new version
 
   ASSET = 'assets',
   COLLECTION = 'collections',
