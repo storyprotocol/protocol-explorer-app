@@ -9,12 +9,10 @@ export const fetchCache = 'force-no-store';
 export default async function AssetDataViewerWrapper({ collectionId, ipId, ...params }: any) {
   const listReq = {
     pagination: {
-      limit: 1000,
+      limit: 50,
       offset: 0,
     },
     where: {
-      chainId: params.chainId,
-      metadataResolverAddress: params.metadataResolverAddress as Address,
       tokenContract: collectionId as Address,
       tokenId: params.tokenId,
     },

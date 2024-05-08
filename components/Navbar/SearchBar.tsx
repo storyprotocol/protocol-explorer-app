@@ -21,7 +21,7 @@ export default function SearchBar() {
 
   const hasResults = collections.length > 0 || transactions.length > 0 || ipAssets.length > 0;
 
-  console.log({ collections, ipAssets, transactions, hasResults, showAutocomplete });
+  // console.log({ collections, ipAssets, transactions, hasResults, showAutocomplete });
 
   useEffect(() => {
     if (query.includes('0x')) {

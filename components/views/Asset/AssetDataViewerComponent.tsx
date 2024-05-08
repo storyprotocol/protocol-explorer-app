@@ -3,9 +3,10 @@ import { ColumnDef } from '@tanstack/react-table';
 import BaseDataViewer from '../BaseDataViewer';
 import AssetCard from '@/components/cards/AssetCard';
 import Link from 'next/link';
-import AddressComponent from '@/components/address/AddressComponent';
+// import AddressComponent from '@/components/address/AddressComponent';
 import { Asset } from '@/lib/server/types';
 import moment from 'moment';
+import { shortenString } from '@/utils';
 
 const columns: ColumnDef<Asset>[] = [
   {
@@ -18,50 +19,51 @@ const columns: ColumnDef<Asset>[] = [
           href={`/ipa/${id}`}
           className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400"
         >
-          {id}
+          {shortenString(id, 20)}
         </Link>
       );
     },
   },
   {
-    accessorKey: 'metadata',
+    accessorKey: 'nftMetadata',
     header: 'Name',
     cell: ({ row }) => {
-      const metadata: any = row.getValue('metadata');
-      return <>{metadata.name}</>;
+      const nftMetadata: any = row.getValue('nftMetadata');
+      return <>{nftMetadata?.name}</>;
     },
   },
-  {
-    accessorKey: 'rootIpIds',
-    header: 'rootIpIds',
-    cell: ({ row }) => {
-      const rootIpIds: Asset[] = row.getValue('rootIpIds');
-      return (
-        <Link
-          href={`/ipa/${rootIpIds?.[0]?.id}`}
-          className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400"
-        >
-          {rootIpIds?.[0]?.id}
-        </Link>
-      );
-    },
-  },
-  {
-    accessorKey: 'tokenContract',
-    header: 'tokenContract',
-    cell: ({ row }) => {
-      const address = row.getValue('tokenContract');
-      return <AddressComponent address={address as string} size="sm" />;
-    },
-  },
-  {
-    accessorKey: 'tokenId',
-    header: 'tokenId',
-    cell: ({ row }) => {
-      const tokenId = row.getValue('tokenId');
-      return <>{tokenId}</>;
-    },
-  },
+  // {
+  //   accessorKey: 'rootIpIds',
+  //   header: 'rootIpIds',
+  //   cell: ({ row }) => {
+  //     const rootIpIds: Asset[] = row.getValue('rootIpIds');
+  //     return (
+  //       <Link
+  //         href={`/ipa/${rootIpIds?.[0]?.id}`}
+  //         className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400"
+  //       >
+  //         {rootIpIds?.[0]?.id}
+  //       </Link>
+  //     );
+  //   },
+  // },
+  // {
+  //   accessorKey: 'nftMetadata',
+  //   header: 'tokenAddress',
+  //   cell: ({ row }) => {
+  //     const nftMetadata = row.getValue('nftMetadata') as AssetNFTMetadata;
+  //     return <AddressComponent address={nftMetadata.tokenContract as string} size="sm" />;
+  //   },
+  // },
+  // {
+  //   accessorKey: 'nftMetadata',
+  //   header: 'tokenId',
+  //   cell: ({ row }) => {
+  //     const nftMetadata = row.getValue('nftMetadata') as AssetNFTMetadata;
+  //     const tokenId = nftMetadata.tokenId;
+  //     return <>{tokenId}</>;
+  //   },
+  // },
   {
     accessorKey: 'blockNumber',
     header: 'blockNumber',

@@ -153,22 +153,22 @@ export type Transaction = {
   resourceType: string;
 };
 
+
+export type AssetNFTMetadata = {
+  name: string;
+  chainId: string;
+  tokenContract: Address;
+  tokenId: string;
+  tokenUri: string;
+  imageUrl: string;
+};
+
 export type Asset = {
   id: Address;
-  chainId: string;
   childIpIds: Asset[] | null;
   parentIpIds: Asset[] | null;
   rootIpIds: Asset[] | null;
-  tokenContract: Address;
-  tokenId: string;
-  metadataResolverAddress: string;
-  metadata: {
-    name: string;
-    hash: string;
-    registrationDate: string;
-    registrant: string;
-    uri: string;
-  };
+  nftMetadata: AssetNFTMetadata;
   blockNumber: string;
   blockTimestamp: string;
 };

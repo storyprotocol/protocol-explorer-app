@@ -85,7 +85,8 @@ export function AssetStatsComponent({ data }: { data: Asset }) {
         },
       };
       const disputeData = await listResource(RESOURCE_TYPE.DISPUTE, listReq);
-      setDisputeCount(disputeData.data.length);
+      const filteredDisputeData = disputeData.data.filter((dispute: any) => dispute.targetIpId === data.id);
+      setDisputeCount(filteredDisputeData.length);
     };
 
     fetchLicenseCount();
@@ -123,7 +124,7 @@ export default function AssetDetailCard({ data }: { data: Asset }) {
       <div className="flex flex-col lg:w-3/5 gap-2">
         <div className={cn('relative rounded-xl px-6 py-2 bg-[#FFFFFF] dark:bg-[#2C2B35] w-full')}>
           <div className="flex items-center justify-start gap-2 py-4">
-            <h1 className="font-medium md:text-2xl">{data.metadata.name || 'Untitled'}</h1>
+            <h1 className="font-medium md:text-2xl">{data.nftMetadata.name || 'Untitled'}</h1>
             {(!data.rootIpIds || data.rootIpIds.length === 0) && (
               <Badge className="bg-indigo-500 hover:bg-indigo-500">Root</Badge>
             )}
@@ -149,7 +150,7 @@ export default function AssetDetailCard({ data }: { data: Asset }) {
             </Row>
 
             <Row label="Chain ID">
-              <p className="font-mono text-gray-500">{data.chainId}</p>
+              <p className="font-mono text-gray-500">{data.nftMetadata.chainId}</p>
             </Row>
 
             <Row label="Root IP IDs">
@@ -210,21 +211,19 @@ export default function AssetDetailCard({ data }: { data: Asset }) {
             </Row>
 
             <Row label="Collection">
-              <Link href={`/collections/${data.tokenContract}`}>
-                <span className="font-mono truncate text-indigo-400 hover:underline">{data.tokenContract}</span>
+              <Link href={`/collections/${data.nftMetadata.tokenContract}`}>
+                <span className="font-mono truncate text-indigo-400 hover:underline">
+                  {data.nftMetadata.tokenContract}
+                </span>
               </Link>
             </Row>
 
             <Row label="Token ID">
-              <span className="truncate font-mono text-gray-500">{data.tokenId}</span>
-            </Row>
-
-            <Row label="Metadata Resolver Address">
-              <p className="font-mono text-gray-500">{data.metadataResolverAddress}</p>
+              <span className="truncate font-mono text-gray-500">{data.nftMetadata.tokenId}</span>
             </Row>
 
             <Row label="Metadata">
-              <JsonView value={data.metadata} style={lightTheme} className="w-full" />
+              <JsonView value={data.nftMetadata} style={lightTheme} className="w-full" />
             </Row>
 
             <Row label="Status">
