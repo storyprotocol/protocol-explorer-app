@@ -13,7 +13,7 @@ export default async function PolicyDataViewerWrapper({ collectionId, ipId, ...p
     where: policyFilterOptions,
   };
 
-  const policyListRes = await listResource(RESOURCE_TYPE.POLICY, listReq);
+  const policyListRes = await listResource(RESOURCE_TYPE.LICENSE_TERMS, listReq);
 
   let policyData: Policy[] = policyListRes.data;
 

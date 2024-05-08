@@ -67,11 +67,13 @@ export default function CollectionsDataViewerComponent({
   tableOnly,
   gridOnly,
   pageSize,
+  showTablePagination
 }: {
   data: any;
   tableOnly?: boolean;
   gridOnly?: boolean;
   pageSize?: number;
+  showTablePagination?: boolean
 }) {
   return (
     <>
@@ -83,6 +85,7 @@ export default function CollectionsDataViewerComponent({
         gridOnly={gridOnly}
         pageSize={pageSize}
         cardComponent={CollectionCard}
+        showTablePagination={showTablePagination}
       />
     </>
   );
