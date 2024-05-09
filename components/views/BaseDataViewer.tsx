@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SortableTable from '@/components/tables/SortableTable';
 import Grid from '../Grid/Grid';
 import { cn } from '@/utils';
@@ -35,9 +35,11 @@ export default function BaseViewSwitcher({
   cardComponent?: React.ComponentType<CardComponentProps>;
 }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredData, setFilteredData] = useState(data);
+  const [filteredData, setFilteredData] = useState([]);
   const [isGrid, setIsGrid] = useState(true);
-
+  useEffect(() => {
+    setFilteredData(data)
+  }, [data]);
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Filter data based on the search term
     const value: string = e.target.value;
