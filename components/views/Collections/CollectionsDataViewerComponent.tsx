@@ -76,17 +76,15 @@ export default function CollectionsDataViewerComponent({
   showTablePagination?: boolean
 }) {
   return (
-    <>
-      <BaseDataViewer
-        hasSearch={false}
-        data={data}
-        columns={columns}
-        tableOnly={tableOnly}
-        gridOnly={gridOnly}
-        pageSize={pageSize}
-        cardComponent={CollectionCard}
-        showTablePagination={showTablePagination}
-      />
-    </>
+    <BaseDataViewer
+      hasSearch={false}
+      data={data}
+      columns={columns}
+      tableOnly={tableOnly}
+      gridOnly={gridOnly}
+      pageSize={pageSize}
+      cardComponent={CollectionCard}
+      showTablePagination={showTablePagination}
+    />
   );
 }
