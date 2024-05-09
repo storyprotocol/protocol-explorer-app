@@ -15,7 +15,7 @@ export const fetchCache = 'force-no-store';
 export default function CollectionsDataViewerWrapper({
   tableOnly,
   gridOnly,
-  limit = 24,
+  limit = 24, // this number is better for responsive layout display
 }: {
   limit?: number,
   offset?: number,
@@ -42,7 +42,7 @@ export default function CollectionsDataViewerWrapper({
   const collectionData = collectionRes?.data;
 
   if (isLoading) return <div className="flex flex-col">
-    <SkeletonGrid />
+    <SkeletonGrid number={12} />
   </div>
 
   if (!collectionData?.length) {
@@ -58,7 +58,11 @@ export default function CollectionsDataViewerWrapper({
         pageSize={limit}
         showTablePagination={false}
       />
-      <Pagination currentPage={page} path={pathname} disableNextBtn={collectionData.length < limit} />
+      <Pagination
+        currentPage={page}
+        path={pathname}
+        disableNextBtn={collectionData.length < limit}
+      />
     </>
   );
 }

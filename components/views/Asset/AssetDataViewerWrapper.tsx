@@ -10,7 +10,12 @@ import SkeletonGrid from '@/components/Skeletons/SkeletonGrid';
 import Pagination from '@/components/ui/pagination';
 import { useSearchParams, usePathname } from 'next/navigation';
 
-export default function AssetDataViewerWrapper({ limit = 50, collectionId, ipId, ...params }: any) {
+export default function AssetDataViewerWrapper({
+  limit = 48, // this number is better for responsive layout display
+  collectionId,
+  ipId,
+  ...params
+}: any) {
   const searchParams = useSearchParams()
   const pathname = usePathname();
   const routeParams = new URLSearchParams(searchParams.toString())
@@ -34,7 +39,7 @@ export default function AssetDataViewerWrapper({ limit = 50, collectionId, ipId,
   let ipAssets: Asset[] = assetListRes?.data;
 
   if (isLoading) return <div className="flex flex-col">
-    <SkeletonGrid />
+    <SkeletonGrid number={12} />
   </div>
 
   if (!ipAssets?.length) {
@@ -42,7 +47,14 @@ export default function AssetDataViewerWrapper({ limit = 50, collectionId, ipId,
   }
 
   return <>
-    <AssetDataViewerComponent data={ipAssets} {...params} />
-    <Pagination currentPage={page} path={pathname} disableNextBtn={ipAssets.length < limit} />
+    <AssetDataViewerComponent
+      data={ipAssets}
+      {...params}
+    />
+    <Pagination
+      currentPage={page}
+      path={pathname}
+      disableNextBtn={ipAssets.length < limit}
+    />
   </>;
 }
