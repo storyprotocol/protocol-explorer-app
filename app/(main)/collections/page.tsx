@@ -1,6 +1,7 @@
 'use client';
 
 import CollectionsDataViewer from '@/components/views/Collections';
+import { Suspense } from 'react';
 
 export default function CollectionsPage() {
   return (
@@ -10,7 +11,9 @@ export default function CollectionsPage() {
       </div>
 
       <div className="flex flex-col items-left gap-2 mt-3">
-        <CollectionsDataViewer />
+        <Suspense>
+          <CollectionsDataViewer />
+        </Suspense>
       </div>
     </div>
   );

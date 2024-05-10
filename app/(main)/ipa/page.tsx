@@ -1,4 +1,5 @@
 import AssetDataViewer from '@/components/views/Asset';
+import { Suspense } from 'react';
 export default function Assets() {
   return (
     <div className="w-full p-4 md:p-8 max-w-[1600px] mx-auto">
@@ -7,7 +8,9 @@ export default function Assets() {
       </div>
 
       <div className="flex flex-col items-left gap-2 mt-3">
-        <AssetDataViewer showTablePagination={false} />
+        <Suspense>
+          <AssetDataViewer showTablePagination={false} />
+        </Suspense>
       </div>
     </div>
   );
