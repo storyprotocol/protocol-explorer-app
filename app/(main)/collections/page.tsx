@@ -1,16 +1,9 @@
-import { Suspense } from 'react';
+'use client';
+
 import CollectionsDataViewer from '@/components/views/Collections';
-import SkeletonGrid from '@/components/Skeletons/SkeletonGrid';
-import Pagination from '@/components/ui/pagination';
+import { Suspense } from 'react';
 
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
-
-export default async function CollectionsPage({
-  searchParams
-}: any) {
-  const page = Number(searchParams.page || 1);
-  const pageSize = 50;
+export default function CollectionsPage() {
   return (
     <div className="w-full p-4 md:p-8 max-w-[1600px] mx-auto ">
       <div className="flex flex-col items-left pt-16 md:pt-10">
@@ -18,15 +11,8 @@ export default async function CollectionsPage({
       </div>
 
       <div className="flex flex-col items-left gap-2 mt-3">
-        <Suspense
-          fallback={
-            <div className="flex flex-col">
-              <SkeletonGrid />
-            </div>
-          }
-        >
-          <CollectionsDataViewer limit={pageSize} offset={page - 1} />
-          <Pagination currentPage={page} path='collections' />
+        <Suspense>
+          <CollectionsDataViewer />
         </Suspense>
       </div>
     </div>
