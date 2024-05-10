@@ -93,7 +93,11 @@ export function RegisterIpAssetForm() {
           {isPendingInWallet ? 'Confirm in wallet' : 'Register IP Asset'}
         </Button>
         {txHash && (
-          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" className="ml-4">
+          <Link
+            href={`${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/tx/${txHash}`}
+            target="_blank"
+            className="ml-4"
+          >
             <Button variant={'etherscan'} type="button">
               View on Etherscan
             </Button>

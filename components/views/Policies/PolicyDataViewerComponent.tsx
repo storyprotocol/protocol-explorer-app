@@ -1,11 +1,11 @@
 'use client';
 import { ColumnDef } from '@tanstack/react-table';
 import BaseDataViewer from '../BaseDataViewer';
-import { Policy } from '@/lib/server/types';
+import { LicenseTerm } from '@/lib/server/types';
 import moment from 'moment';
 import PolicyCard from '@/components/cards/PolicyCard';
 
-const columns: ColumnDef<Policy>[] = [
+const columns: ColumnDef<LicenseTerm>[] = [
   {
     accessorKey: 'id',
     header: 'id',
@@ -16,26 +16,26 @@ const columns: ColumnDef<Policy>[] = [
   },
 
   {
-    accessorKey: 'policyFrameworkManager',
-    header: 'policyFrameworkManager',
+    accessorKey: 'licenseTemplate',
+    header: 'licenseTemplate',
     cell: ({ row }) => {
-      const policyFrameworkManager: string = row.getValue('policyFrameworkManager');
+      const licenseTemplate: string = row.getValue('licenseTemplate');
       return (
         <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
-          {policyFrameworkManager}
+          {licenseTemplate}
         </div>
       );
     },
   },
 
   {
-    accessorKey: 'pil',
-    header: 'pil',
+    accessorKey: 'licenseTermsId',
+    header: 'licenseTermsId',
     cell: ({ row }) => {
-      const pil: string = row.getValue('pil');
+      const licenseTermsId: string = row.getValue('licenseTermsId');
       return (
         <div className="capitalize font-mono text-xs underline text-indigo-300 hover:text-indigo-400">
-          {JSON.stringify(pil)}
+          {licenseTermsId}
         </div>
       );
     },
@@ -50,14 +50,12 @@ const columns: ColumnDef<Policy>[] = [
     },
   },
   {
-    accessorKey: 'blockTimestamp',
-    header: 'blockTimestamp',
+    accessorKey: 'blockTime',
+    header: 'blockTime',
     cell: ({ row }) => {
-      const blockTimestamp = row.getValue('blockTimestamp');
+      const blockTime = row.getValue('blockTime');
       return (
-        <div className="capitalize text-xs min-w-[100px] text-center">
-          {moment.unix(blockTimestamp as number).fromNow()}
-        </div>
+        <div className="capitalize text-xs min-w-[100px] text-center">{moment.unix(blockTime as number).fromNow()}</div>
       );
     },
   },

@@ -41,12 +41,19 @@ export default function Admin() {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [txnResponse, setTxnResponse] = useState<any>();
 
-  const licenseReqOptions = {
+  const txnReqOptions = {
     pagination: {
       limit: 1000,
       offset: 0,
     },
   };
+
+  const { data: licenseResponse } = useQuery({
+    queryKey: [RESOURCE_TYPE.LICENSE_TOKEN, txnReqOptions],
+    queryFn: () => listResource(RESOURCE_TYPE.LICENSE_TOKEN, txnReqOptions),
+  });
+
+  const txnData = txnResponse;
 
   useEffect(() => {
     recursiveFetchTxn(0).then((data) => {
@@ -54,18 +61,10 @@ export default function Admin() {
     });
   }, []);
 
-  const { data: licenseResponse } = useQuery({
-    queryKey: [RESOURCE_TYPE.LICENSE, licenseReqOptions],
-    queryFn: () => listResource(RESOURCE_TYPE.LICENSE, licenseReqOptions),
-  });
+  // const txnData = txnResponse;
+  console.log({ licenseResponse, txnResponse });
 
-  const txnData = txnResponse;
-  // TODO: add more charts
-  // const assetData = assetResponse?.data;
-  // const collectionData = collectionResponse?.data;
   const licenseData = licenseResponse?.data;
-  // const licenseOwnerData = licenseOwnerResponse?.data;
-  // const policyData = policyResponse?.data;
 
   if (!isAdmin) {
     return <Login setIsAdmin={setIsAdmin} />;

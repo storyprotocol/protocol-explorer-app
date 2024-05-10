@@ -1,34 +1,32 @@
-import { IPAPolicy, Policy, RESOURCE_TYPE } from '@/lib/server/types';
+import { IPLicenseTerm, LicenseTerm, RESOURCE_TYPE } from '@/lib/server/types';
 import { listResource } from '@/lib/server/sdk';
 // import IPAPolicyDataViewerComponent from './IPAPolicyDataViewerComponent';
 import PolicyDataViewerComponent from './PolicyDataViewerComponent';
 
-export default async function PolicyDataViewerWrapper({ collectionId, ipId, ...params }: any) {
+export default async function PolicyDataViewerWrapper({ ipId, ...params }: any) {
   const listReq = {
     pagination: {
       limit: 1000,
       offset: 0,
     },
     where: {
-      ipId,
+      ipId: ipId,
     },
   };
 
-  const policyListRes = await listResource(RESOURCE_TYPE.POLICY, listReq);
+  const licenseTerm = await listResource(RESOURCE_TYPE.LICENSE_TERMS, listReq);
 
-  let policyListData: Policy[] = policyListRes.data;
+  let liceseTermData: LicenseTerm[] = licenseTerm.data;
 
-  const ipaPolicyListRes = await listResource(RESOURCE_TYPE.IPA_POLICY, listReq);
+  const ipLicenseTermListRes = await listResource(RESOURCE_TYPE.IP_LICENSE_TERMS, listReq);
 
-  let policyData: IPAPolicy[] = ipaPolicyListRes.data;
+  let ipLicenseTermData: IPLicenseTerm[] = ipLicenseTermListRes.data;
 
-  const intersection = policyListData.filter((policy) => {
-    return policyData.some((ipaPolicy) => ipaPolicy.policyId === policy.id);
+  const intersection = liceseTermData.filter((licenseTerm) => {
+    return ipLicenseTermData.some((ipLicenseTerm) => ipLicenseTerm.licenseTermsId === licenseTerm.id);
   });
 
-  console.log({ intersection });
-
-  if (!policyData.length) {
+  if (ipLicenseTermData.length < 1) {
     return <div className="w-full pt-8 text-center text-gray-500">No Policies found</div>;
   }
 

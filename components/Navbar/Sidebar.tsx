@@ -65,7 +65,9 @@ const Logo: React.FC<LogoProps> = ({ className = '', ...props }) => {
         </svg>
         <Badge className="bg-indigo-900 hover:bg-indigo-900 rounded-md px-2 text-xs">BETA</Badge>
       </div>
-      <span className="text-white uppercase text-xs font-bold pl-1">{process.env.NEXT_PUBLIC_CHAIN}</span>
+      <span className="text-white uppercase text-xs font-bold pl-1">
+        {process.env.NEXT_PUBLIC_CHAIN === 'story' ? 'Story Testnet' : process.env.NEXT_PUBLIC_CHAIN}
+      </span>
     </div>
   );
 };

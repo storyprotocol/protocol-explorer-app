@@ -106,7 +106,7 @@ export function RegisterDerivativeIpAssetForm() {
           {isPendingInWallet ? 'Confirm in wallet' : 'Register Derivative IP'}
         </Button>
         {txHash && (
-          <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank">
+          <Link href={`${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/tx/${txHash}`} target="_blank">
             <Button variant={'etherscan'} type="button">
               View on Etherscan
             </Button>

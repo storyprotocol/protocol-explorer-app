@@ -1,17 +1,23 @@
 import { Address, Hash } from 'viem';
 
 export enum RESOURCE_TYPE {
+  IPA_POLICY = 'ipapolicies', // deprecated
+  LICENSE = 'licenses', // deprecated
+  LICENSE_OWNER = 'licenses/owners', // deprecated
+  POLICY = 'policies', // deprecated
+  POLICY_FRAMEWORK = 'policies/frameworks', // deprecated
+
+  LICENSE_TOKEN = 'licenses/tokens', // new version
+  licenseTemplateS = 'licenses/templates', // new version
+  LICENSE_TERMS = 'licenses/terms', // new version
+  IP_LICENSE_TERMS = 'licenses/ip/terms', // new version
+
   ASSET = 'assets',
   COLLECTION = 'collections',
   DISPUTE = 'disputes',
-  IPA_POLICY = 'ipapolicies',
-  LICENSE = 'licenses',
   LICENSE_MINT_FEES = 'licenses/mintingfees',
-  LICENSE_OWNER = 'licenses/owners',
   MODULE = 'modules',
   PERMISSION = 'permissions',
-  POLICY = 'policies',
-  POLICY_FRAMEWORK = 'policies/frameworks',
   ROYALTY = 'royalties',
   ROYALTY_PAY = 'royalties/payments',
   ROYALTY_POLICY = 'royalties/policies',
@@ -25,6 +31,10 @@ export type ResourceType =
   | RESOURCE_TYPE.COLLECTION
   | RESOURCE_TYPE.TRANSACTION
   | RESOURCE_TYPE.LICENSE
+  | RESOURCE_TYPE.LICENSE_TOKEN
+  | RESOURCE_TYPE.LICENSE_TERMS
+  | RESOURCE_TYPE.licenseTemplateS
+  | RESOURCE_TYPE.IP_LICENSE_TERMS
   | RESOURCE_TYPE.LICENSE_MINT_FEES
   | RESOURCE_TYPE.LICENSE_OWNER
   | RESOURCE_TYPE.MODULE
@@ -94,7 +104,7 @@ export type ModuleFilterOptions = {
 };
 
 export type LicenseFilterOptions = {
-  licensorIpdId?: string;
+  licensorIpId?: string;
   policyId?: string;
 };
 
@@ -143,22 +153,22 @@ export type Transaction = {
   resourceType: string;
 };
 
+
+export type AssetNFTMetadata = {
+  name: string;
+  chainId: string;
+  tokenContract: Address;
+  tokenId: string;
+  tokenUri: string;
+  imageUrl: string;
+};
+
 export type Asset = {
   id: Address;
-  chainId: string;
   childIpIds: Asset[] | null;
   parentIpIds: Asset[] | null;
   rootIpIds: Asset[] | null;
-  tokenContract: Address;
-  tokenId: string;
-  metadataResolverAddress: string;
-  metadata: {
-    name: string;
-    hash: string;
-    registrationDate: string;
-    registrant: string;
-    uri: string;
-  };
+  nftMetadata: AssetNFTMetadata;
   blockNumber: string;
   blockTimestamp: string;
 };
@@ -243,11 +253,10 @@ export type Royalty = {
 
 export type RoyaltyPolicy = {
   id: Address;
-  ancestorsVault: Address;
-  splitClone: Address;
+  ipRoyaltyVault: Address;
   royaltyStack: string;
-  targetAncestors: Address[];
-  targetRoyaltyAmount: string[];
+  targetAncestors?: Address[];
+  targetRoyaltyAmount?: string[];
   blockNumber: string;
   blockTimestamp: string;
 };
@@ -316,4 +325,43 @@ export type RoyaltySplit = {
 export type RoyaltyHolder = {
   id: Address;
   ownership: string;
+};
+
+export type LicenseToken = {
+  id: string;
+  licensorIpId: Address;
+  licenseTemplate: Address;
+  licenseTermsId: string;
+  transferable: boolean;
+  owner: Address;
+  mintedAt: string;
+  expiresAt: string;
+  burntAt: string;
+  blockNumber: string;
+  blockTime: string;
+};
+
+export type IPLicenseTerm = {
+  id: string;
+  ipId: Address;
+  licenseTemplate: Address;
+  licenseTermsId: string;
+  blockNumber: string;
+  blockTime: string;
+};
+
+export type LicenseTemplate = {
+  id: string;
+  name: string;
+  metadataUri: string;
+  blockNumber: string;
+  blockTime: string;
+};
+
+export type LicenseTerm = {
+  id: string;
+  licenseTerms: any[];
+  licenseTemplate: Address;
+  blockTime: string;
+  blockNumber: string;
 };

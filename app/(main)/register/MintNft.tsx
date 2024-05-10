@@ -35,7 +35,7 @@ export default function MintNft({ text, buttonText }: { text?: string; buttonTex
       <p className="mb-2">
         The contract address for this mint is{' '}
         <Link
-          href="https://sepolia.etherscan.io/address/0x7ee32b8b515dee0ba2f25f612a04a731eec24f49"
+          href={`${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/address/0x7ee32b8b515dee0ba2f25f612a04a731eec24f49`}
           className=" text-blue-600 dark:text-blue-500 hover:underline"
           target="_blank"
         >
@@ -47,7 +47,11 @@ export default function MintNft({ text, buttonText }: { text?: string; buttonTex
         {isPendingInWallet ? 'Confirm in wallet' : buttonText ? buttonText : 'Mint an NFT'}
       </Button>
       {txHash && (
-        <Link href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" className="ml-4">
+        <Link
+          href={`${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/tx/${txHash}`}
+          target="_blank"
+          className="ml-4"
+        >
           <Button variant={'etherscan'} type="button">
             View on Etherscan
           </Button>

@@ -12,6 +12,7 @@ export default async function DisputeDataViewerWrapper({ collectionId, ipId, ...
     where: {
       tokenContract: collectionId as Address,
       ipId: ipId,
+      targetIpId: ipId,
     },
   };
 

@@ -1,10 +1,10 @@
 import React from 'react';
-import { RegisterIpAssetForm } from './RegisterIpAssetForm';
+// import { RegisterIpAssetForm } from './RegisterIpAssetForm';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { RegisterPilPolicyForm } from './RegisterPilPolicy';
-import { AddPolicyToIpAssetForm } from './AddPolicyToIpAssetForm';
-import { MintLicenseForm } from './MintLicenseForm';
-import { RegisterDerivativeIpAssetForm } from './RegisterDerivativeIpAssetForm';
+// import { RegisterPilPolicyForm } from './RegisterPilPolicy';
+// import { AddPolicyToIpAssetForm } from './AddPolicyToIpAssetForm';
+// import { MintLicenseForm } from './MintLicenseForm';
+// import { RegisterDerivativeIpAssetForm } from './RegisterDerivativeIpAssetForm';
 import MintNft from './MintNft';
 import { ReadIpIdForm } from './ReadIpIdForm';
 
@@ -30,7 +30,7 @@ export default function page() {
             <MintNft />
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem value="register-ipa" className="bg-white px-4 rounded-xl mt-4">
+        {/* <AccordionItem value="register-ipa" className="bg-white px-4 rounded-xl mt-4">
           <AccordionTrigger>Register IP Asset</AccordionTrigger>
           <AccordionContent className="px-2">
             <RegisterIpAssetForm />
@@ -59,7 +59,7 @@ export default function page() {
           <AccordionContent className="px-2">
             <RegisterDerivativeIpAssetForm />
           </AccordionContent>
-        </AccordionItem>
+        </AccordionItem> */}
       </Accordion>
       <div className="flex flex-col items-left pt-16 md:pt-10">
         <h1 className="text-xl md:text-2xl font-semibold leading-none mb-2">Read Contract Storage Variables</h1>

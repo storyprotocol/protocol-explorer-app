@@ -22,9 +22,11 @@ export default function BaseViewSwitcher({
   pageSize,
   hasSearch = true,
   cardComponent: CardComponent = () => <></>,
+  showTablePagination,
 }: {
   data: any;
   columns: any;
+  showTablePagination?: boolean;
   tableOnly?: boolean;
   gridOnly?: boolean;
   cardOnly?: boolean;
@@ -62,7 +64,7 @@ export default function BaseViewSwitcher({
   };
   const TableComp = () => (
     <div className="pt-5">
-      <SortableTable data={filteredData} columns={columns} pageSize={pageSize} />
+      <SortableTable data={filteredData} columns={columns} pageSize={pageSize} showTablePagination={showTablePagination} />
     </div>
   );
   const GridComp = () => (
