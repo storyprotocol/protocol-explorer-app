@@ -126,8 +126,12 @@ export default function Home() {
           </div> */}
               <div>
                 <h2 className="text-xl md:text-2xl font-semibold leading-none">IP Assets</h2>
-                <Suspense fallback={<SkeletonTable />}>
-                  <AssetDataViewerWrapper tableOnly pageSize={10} />
+                <Suspense>
+                  <AssetDataViewerWrapper
+                    tableOnly
+                    pageSize={10}
+                    showPagination={false}
+                  />
                 </Suspense>
               </div>
             </div>
