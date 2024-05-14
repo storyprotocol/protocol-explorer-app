@@ -9,11 +9,13 @@ import { useQuery } from '@tanstack/react-query';
 import SkeletonGrid from '@/components/Skeletons/SkeletonGrid';
 import Pagination from '@/components/ui/pagination';
 import { useSearchParams, usePathname } from 'next/navigation';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export default function AssetDataViewerWrapper({
   limit = 48, // this number is better for responsive layout display
   collectionId,
   ipId,
+  showPagination = true,
   ...params
 }: any) {
   const searchParams = useSearchParams()
@@ -38,9 +40,12 @@ export default function AssetDataViewerWrapper({
 
   let ipAssets: Asset[] = assetListRes?.data;
 
-  if (isLoading) return <div className="flex flex-col">
-    <SkeletonGrid number={12} />
-  </div>
+  if (isLoading) {
+    if (params.tableOnly) return <SkeletonTable />;
+    return <div className="flex flex-col">
+      <SkeletonGrid number={12} />
+    </div>
+  }
 
   if (!ipAssets?.length) {
     return <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>;
@@ -51,10 +56,12 @@ export default function AssetDataViewerWrapper({
       data={ipAssets}
       {...params}
     />
-    <Pagination
-      currentPage={page}
-      path={pathname}
-      disableNextBtn={ipAssets.length < limit}
-    />
+    {
+      showPagination && <Pagination
+        currentPage={page}
+        path={pathname}
+        disableNextBtn={ipAssets.length < limit}
+      />
+    }
   </>;
 }
