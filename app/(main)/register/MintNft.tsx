@@ -12,15 +12,34 @@ export default function MintNft({ text, buttonText }: { text?: string; buttonTex
 
   async function handleMintNft() {
     await writeContractAsync({
-      address: '0x7ee32b8b515dee0ba2f25f612a04a731eec24f49', // dummy ERC721 contract address to mint from
-      functionName: 'mint',
+      address: '0x0f00a58A741aD6C9DFb549e8B0aad1e9bC48D9f1', // dummy ERC721 contract address to mint from
+      functionName: 'mintAndRegister',
       args: [address],
       abi: [
         {
-          inputs: [{ internalType: 'address', name: 'to', type: 'address' }],
-          name: 'mint',
-          outputs: [{ internalType: 'uint256', name: 'tokenId', type: 'uint256' }],
+          inputs: [
+            {
+              internalType: 'address',
+              name: 'to',
+              type: 'address',
+            },
+          ],
+          name: 'mintAndRegister',
+          outputs: [],
           stateMutability: 'nonpayable',
+          type: 'function',
+        },
+        {
+          inputs: [],
+          name: 'name',
+          outputs: [
+            {
+              internalType: 'string',
+              name: '',
+              type: 'string',
+            },
+          ],
+          stateMutability: 'view',
           type: 'function',
         },
       ],
@@ -35,13 +54,13 @@ export default function MintNft({ text, buttonText }: { text?: string; buttonTex
       <p className="mb-2">
         The contract address for this mint is{' '}
         <Link
-          href={`${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/address/0x7ee32b8b515dee0ba2f25f612a04a731eec24f49`}
+          href={`${process.env.NEXT_PUBLIC_EXTERNAL_CHAIN_EXPLORER_URL}/address/0x0f00a58A741aD6C9DFb549e8B0aad1e9bC48D9f1`}
           className=" text-blue-600 dark:text-blue-500 hover:underline"
           target="_blank"
         >
-          0x7ee32b8b515dee0ba2f25f612a04a731eec24f49
+          0x0f00a58A741aD6C9DFb549e8B0aad1e9bC48D9f1
         </Link>{' '}
-        You can want to note the token ID that was minted, by viewing the transaction on Etherscan.
+        You will want to note the token ID that was minted, by viewing the transaction on Etherscan.
       </p>
       <Button onClick={() => handleMintNft()} variant={'register'}>
         {isPendingInWallet ? 'Confirm in wallet' : buttonText ? buttonText : 'Mint an NFT'}
