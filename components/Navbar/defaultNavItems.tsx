@@ -27,4 +27,9 @@ export const defaultNavItems: NavItem[] = [
     href: '/register',
     icon: WrenchScrewdriverIcon,
   },
+  {
+    label: 'Validators',
+    href: '/validators',
+    icon: RectangleStackIcon,
+  },
 ];

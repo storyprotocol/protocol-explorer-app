@@ -155,6 +155,20 @@ export type CollectionMetadata = {
   collection_royalties: CollectionRoyalties[];
 };
 
+export type ValidatorMetadata = {
+  validatorName: string;
+  validatorDescription: string;
+  validatorWebsiteUrl: string;
+  validatorTotalStaked: string;
+  validatorDelegated: string;
+  validatorMaxDelegation: string;
+  validatorCommission: string;
+  validatorMaxCommission: string;
+  validatorUptime: string;
+  validatorLifetimeRewards: string;
+  validatorExpectedReturn: string;
+};
+
 export type MarketplacePage = {
   marketplace_id: string;
   marketplace_name: string;

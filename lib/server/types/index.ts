@@ -153,6 +153,24 @@ export type Transaction = {
   resourceType: string;
 };
 
+export type Validator = {
+  validatorName: string,
+  validatorStatus: string,
+  votingPower: string,
+  commission: string,
+  validatorStake: string,
+  validatorUptime: string
+};
+
+export type ValidatorMetadata = {
+  validatorName: string,
+  validatorStatus: string,
+  votingPower: string,
+  commission: string,
+  maxCommission: string,
+  validatorStake: string,
+  validatorUptime: string
+};
 
 export type AssetNFTMetadata = {
   name: string;
