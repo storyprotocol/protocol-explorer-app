@@ -32,4 +32,9 @@ export const defaultNavItems: NavItem[] = [
     href: '/validators',
     icon: RectangleStackIcon,
   },
+  {
+    label: 'Stake',
+    href: '/stake',
+    icon: ArrowsRightLeftIcon,
+  },
 ];
