@@ -30,7 +30,6 @@ export default function StakeMenu() {
     };
 
     const maxButtonOnClick = () => {
-        console.log('30 button clicked')
         setinputAmount("5.832");
     };
 
