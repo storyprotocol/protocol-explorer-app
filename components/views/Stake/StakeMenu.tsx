@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
 import StakeButton from "./StakeButton"
+import { useBalance, useAccount } from 'wagmi';
 
 interface ValidatorOption {
     id: string;
@@ -22,17 +22,24 @@ export default function StakeMenu() {
     const [isOpen, setIsOpen] = useState(false);
     const [stakeButtonText, setStakeButtonText] = useState("Stake");
     const [selectedOption, setSelectedOption] = useState<ValidatorOption | null>(null);
-    const [walletBalance, setWalletBalance] = useState("5.832");
     const [inputAmount, setinputAmount] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-
+    const { address } = useAccount();
+    const balance = useBalance({
+        address: address,
+    })
+    const [walletBalance, setWalletBalance] = useState(balance);
     const handleSelect = (option: ValidatorOption) => {
         setSelectedOption(option);
         setIsOpen(false);
     };
 
+    useEffect(() => {
+        setWalletBalance(balance);
+    }, [balance]); 
+
     const maxButtonOnClick = () => {
-        setinputAmount("5.832");
+        setinputAmount(walletBalance);
     };
 
     const [yourValidators, setYourValidators] = useState([{name: 'Umbrella', status: 'okay', fee: '1', amount: '12'}]);
@@ -41,7 +48,7 @@ export default function StakeMenu() {
         const value = event.target.value;
         if (!value || value.match(/^\d*\.?\d*$/)) {
             setinputAmount(value);
-            if (parseFloat(value) > 5.832) {
+            if (parseFloat(value) > walletBalance) {
                 setStakeButtonText("Enter a valid amount");
                 console.log('setting error 44: Amount exceeds current balance',)
                 setErrorMessage('Amount exceeds current balance');

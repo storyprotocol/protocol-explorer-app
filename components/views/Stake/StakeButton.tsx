@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useReadContract, useWriteContract, useAccount, useWaitForTransactionReceipt } from 'wagmi';
+import { useReadContract, useWriteContract, useAccount, useBalance, useWaitForTransactionReceipt } from 'wagmi';
 import { Hex } from 'viem'
 
 const contractAddress = "0x7BaF78Fe68afE9F06cCEEcAc82A43Ec641B552f5";
@@ -120,14 +120,21 @@ const abi = [
 
 export default function StakeButton() {
     const { address } = useAccount();
-    const { writeContractAsync } = useWriteContract()
-
+    const balance = useBalance({
+        address: address,
+    })
+    const { writeContractAsync, isPending: isWaitingForWalletConfirmation } = useWriteContract()
+    const [walletBalance, setWalletBalance] = useState(balance);
     const [txHash, setTxHash] = useState('');
     const [statusMessage, setStatusMessage] = useState('');
 
     const { data: receipt, isError, isLoading, status } = useWaitForTransactionReceipt({
         hash: `${txHash}` as Hex,
     });
+
+    useEffect(() => {
+        setWalletBalance(balance);
+    }, [balance]); 
 
     useEffect(() => {
         if (isLoading) {
