@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import StakeButton from "./StakeButton"
 
 interface ValidatorOption {
     id: string;
@@ -19,6 +20,7 @@ export default function StakeMenu() {
     ];
 
     const [isOpen, setIsOpen] = useState(false);
+    const [stakeButtonText, setStakeButtonText] = useState("Stake");
     const [selectedOption, setSelectedOption] = useState<ValidatorOption | null>(null);
     const [walletBalance, setWalletBalance] = useState("5.832");
     const [inputAmount, setinputAmount] = useState("");
@@ -33,17 +35,18 @@ export default function StakeMenu() {
         setinputAmount("5.832");
     };
 
+    const [yourValidators, setYourValidators] = useState([{name: 'Umbrella', status: 'okay', fee: '1', amount: '12'}]);
+    
     const handleInputChange = (event: any) => {
         const value = event.target.value;
-        // Check if the value is a number (including decimal)
         if (!value || value.match(/^\d*\.?\d*$/)) {
             setinputAmount(value);
-            // Check if the entered number is greater than balance
-
             if (parseFloat(value) > 5.832) {
-                console.log('setting error 44: Amount exceeds current balance', )
+                setStakeButtonText("Enter a valid amount");
+                console.log('setting error 44: Amount exceeds current balance',)
                 setErrorMessage('Amount exceeds current balance');
             } else {
+                setStakeButtonText("Stake");
                 setErrorMessage('');
             }
         }
@@ -70,7 +73,7 @@ export default function StakeMenu() {
                             Max Amount
                         </button>
                     </div>
-                    <Input type="text" placeholder="Enter stake amount" className="w-full mb-2"value={inputAmount} onChange={handleInputChange} />
+                    <Input type="text" placeholder="Enter stake amount" className="w-full mb-2" value={inputAmount} onChange={handleInputChange} />
                     <div className="w-full flex justify-between items-center mb-8">
                         <div className="text-red-400">
                             {errorMessage}
@@ -80,7 +83,7 @@ export default function StakeMenu() {
                         </div>
                     </div>
                     <div className="w-full flex flex-col mb-2">
-                        <div className="text-lg font-bold mb-4">
+                        <div className="text-lg font-bold mb-2">
                             Validator
                         </div>
                         <div className="relative w-full mb-8">
@@ -102,15 +105,13 @@ export default function StakeMenu() {
                                                 <div>{option.name}</div>
                                                 <div className="text-sm	text-slate-500">{option.staked} staked • {option.commission} commission</div>
                                             </div>
-                                            
+
                                         </li>
                                     ))}
                                 </ul>
                             )}
                         </div>
-                        <button className="bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-opacity-50 text-white py-2 px-4 rounded-full transition duration-150 ease-in-out pt-4 pb-4 font-medium text-medium">
-                            Enter a valid amount
-                        </button>
+                        <StakeButton />
                     </div>
                 </div>
             </div>
