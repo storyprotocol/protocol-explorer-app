@@ -1,7 +1,133 @@
 import React, { useState, useEffect } from 'react';
 import { Input } from "@/components/ui/input"
 import StakeButton from "./StakeButton"
-import { useBalance, useAccount } from 'wagmi';
+import { useReadContract, useWriteContract, useAccount, useBalance, useWaitForTransactionReceipt } from 'wagmi';
+import { formatEther, parseEther } from 'viem'
+import { Hex } from 'viem'
+import { z } from 'zod'
+let decimalTruncatingRegex = /^-?\d+(?:\.\d{0,6})?/;
+let validStakeAmountRegex = /^\d*\.?\d*$/;
+let validDecimalRegex = /^[-]?(\d+\.?\d*|\.\d+)$/;
+const contractAddress = "0x7BaF78Fe68afE9F06cCEEcAc82A43Ec641B552f5";
+const abi = [
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "staker",
+                "type": "address"
+            }
+        ],
+        "name": "stake",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint64",
+                "name": "amountToUnstake",
+                "type": "uint64"
+            }
+        ],
+        "name": "unstake",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "addressFrom",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "addressTo",
+                "type": "address"
+            },
+            {
+                "internalType": "uint64",
+                "name": "amountToDelegate",
+                "type": "uint64"
+            }
+        ],
+        "name": "delegate",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "staker",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amountStaked",
+                "type": "uint256"
+            }
+        ],
+        "name": "Staked",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "unstaker",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amountUnstaked",
+                "type": "uint256"
+            }
+        ],
+        "name": "Unstaked",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "addressFrom",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "addressTo",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint64",
+                "name": "amountToDelegate",
+                "type": "uint64"
+            }
+        ],
+        "name": "Delegated",
+        "type": "event"
+    }
+]
+
+const createFormSchema = (walletBalance: number) => z.object({
+    inputAmount: z.number()
+        .max(walletBalance, `Input amount must be less than or equal to ${walletBalance}`),
+});
 
 interface ValidatorOption {
     id: string;
@@ -9,7 +135,11 @@ interface ValidatorOption {
     logoUrl: string;
 }
 
-export default function StakeMenu() {
+interface StakeMenuProps {
+    stakingMode: 'staking' | 'unstaking';
+}
+
+export default function StakeMenu({ stakingMode = 'staking' }: StakeMenuProps) {
     const validators = [
         { id: '1', name: 'Umbrella', staked: '1,498,593', commission: '5%', logoUrl: 'https://s3.amazonaws.com/keybase_processed_uploads/78228988871f1652c33f52f5cf5b3505_200_200.jpg' },
         { id: '2', name: 'Inu X', staked: '1,129,234', commission: '5%', logoUrl: 'https://s3.amazonaws.com/keybase_processed_uploads/8facb421c1599743ebc4185e180f5d05_200_200.jpeg' },
@@ -20,35 +150,99 @@ export default function StakeMenu() {
     ];
 
     const [isOpen, setIsOpen] = useState(false);
-    const [stakeButtonText, setStakeButtonText] = useState("Stake");
     const [selectedOption, setSelectedOption] = useState<ValidatorOption | null>(null);
+    const { writeContractAsync, isPending: isWaitingForWalletConfirmation } = useWriteContract()
     const [inputAmount, setinputAmount] = useState("");
+    const [stakeButtonText, setStakeButtonText] = useState("Stake");
+    const [stakeButtonStatusMessage, setStakeButtonStatusMessage] = useState("");
+    const [amountStaked, setAmountStaked] = useState(0);
+    const [txHash, setTxHash] = useState('');
     const [errorMessage, setErrorMessage] = useState("");
     const { address } = useAccount();
     const balance = useBalance({
         address: address,
     })
-    const [walletBalance, setWalletBalance] = useState(balance);
+    const account = useAccount()
+
+    const { data: receipt, isError, isLoading, status } = useWaitForTransactionReceipt({
+        hash: `${txHash}` as Hex,
+    });
+
+    useEffect(() => {
+        if (isLoading) {
+            console.log('Transaction is loading...');
+            setStakeButtonStatusMessage("Transaction is loading...");
+        } else {
+            console.log('Loading complete.');
+            setStakeButtonStatusMessage("Loading complete.");
+        }
+    }, [isLoading]);
+
+    useEffect(() => {
+        if (isError) {
+            console.error('An error occurred with the transaction.');
+            setStakeButtonStatusMessage("Error: " + status);
+        }
+    }, [isError]);
+
+    useEffect(() => {
+        console.log('Transaction status:', status);
+        setStakeButtonStatusMessage("Status: " + status);
+    }, [status]);
+
+    const { data: contractData } = useReadContract({
+        abi,
+        address: contractAddress,
+        args: [address],
+        functionName: 'amountStaked',
+    })
+
+    let formattedEther;
+
+    try {
+        if (balance.data?.value != undefined) {
+            formattedEther = formatEther(balance.data.value);
+            formattedEther = formattedEther.match(decimalTruncatingRegex)?.[0];
+        } else {
+            formattedEther = 0;
+        }
+    } catch (e) {
+        formattedEther = 0;
+    }
+
+    const [walletBalance, setWalletBalance] = useState(formattedEther);
+
     const handleSelect = (option: ValidatorOption) => {
         setSelectedOption(option);
         setIsOpen(false);
     };
 
     useEffect(() => {
-        setWalletBalance(balance);
-    }, [balance]); 
+        if (balance.data?.value != undefined) {
+            let formattedEther = formatEther(balance.data.value);
+            const truncatedString = formattedEther.match(decimalTruncatingRegex)?.[0] || "";
+            setWalletBalance(truncatedString);
+        }
+    }, [balance]);
+
+    useEffect(() => {
+        console.log('39 useEffect account: ', account.address);
+    }, [account]);
+
+    useEffect(() => {
+        console.log('39 useEffect contractData: ', contractData);
+        setAmountStaked(contractData !== undefined ? contractData : 0);
+    }, [contractData]);
 
     const maxButtonOnClick = () => {
-        setinputAmount(walletBalance);
+        setinputAmount(walletBalance?.toString() || "");
     };
 
-    const [yourValidators, setYourValidators] = useState([{name: 'Umbrella', status: 'okay', fee: '1', amount: '12'}]);
-    
     const handleInputChange = (event: any) => {
         const value = event.target.value;
-        if (!value || value.match(/^\d*\.?\d*$/)) {
+        if (!value || value.match(validStakeAmountRegex)) {
             setinputAmount(value);
-            if (parseFloat(value) > walletBalance) {
+            if (parseFloat(value) > parseFloat(walletBalance as string)) {
                 setStakeButtonText("Enter a valid amount");
                 console.log('setting error 44: Amount exceeds current balance',)
                 setErrorMessage('Amount exceeds current balance');
@@ -59,19 +253,85 @@ export default function StakeMenu() {
         }
     };
 
+    const stakeButtonOnClick = async () => {
+        if (stakingMode === 'staking') {
+            const formSchema = createFormSchema(walletBalance as number);
+            try {
+                // Validate the form data using the schema
+                formSchema.parse({
+                    inputAmount: inputAmount
+                });
+                console.log("Form is valid!");
+                const txhash = await writeContractAsync({
+                    address: contractAddress,
+                    abi,
+                    functionName: 'stake',
+                    value: BigInt(parseEther(inputAmount)),
+                    args: [address]
+                });
+                setTxHash(txhash);
+                console.log('168 - result: ', { txHash, receipt, isError, isLoading, status });
+            } catch (error) {
+                if (error instanceof z.ZodError) {
+                    console.error(error.flatten().fieldErrors);
+                    // Handle displaying errors in the UI
+                    setStakeButtonText("Enter a valid amount");
+                    setErrorMessage(error.flatten().fieldErrors as unknown as string);
+                }
+            }
+        } else {
+            if (validDecimalRegex.test(inputAmount)) {
+                const txhash = await writeContractAsync({
+                    address: contractAddress,
+                    abi,
+                    functionName: 'unstake',
+                    args: [BigInt(parseEther(inputAmount))]
+                });
+                setTxHash(txhash);
+                console.log('191 - result: ', { txHash, receipt, isError, isLoading, status });
+            } else {
+                setStakeButtonText("Enter a valid amount");
+                setErrorMessage('Invalid amount');
+            }
+
+            const formSchema = createFormSchema(walletBalance as number);
+            try {
+                formSchema.parse({
+                    inputAmount: inputAmount
+                });
+                console.log("Form is valid!");
+                const txhash = await writeContractAsync({
+                    address: contractAddress,
+                    abi,
+                    functionName: 'unstake',
+                    args: [BigInt(parseEther(inputAmount))]
+                });
+                setTxHash(txhash);
+                console.log('191 - result: ', { txHash, receipt, isError, isLoading, status });
+            } catch (error) {
+                if (error instanceof z.ZodError) {
+                    console.error(error.flatten().fieldErrors);
+                    // Handle displaying errors in the UI
+                    setStakeButtonText("Enter a valid amount");
+                    setErrorMessage(error.flatten().fieldErrors as unknown as string);
+                }
+            }
+        }
+    }
+
     return (
         <div className="w-full flex justify-center flex-col items-center">
             <div className="flex flex-col w-full max-w-screen-sm justify-center items-center">
-                <div className="w-full text-center mb-2 text-lg font-bold">
-                    Stake Amount
+                <div className="w-full text-center mb-2 text-xl font-bold">
+                    {stakingMode == "staking" ? "Stake Amount" : "Unstake Amount"}
                 </div>
                 <div className="w-full text-center text-slate-400 mb-8">
-                    Enter the amount you'd like to stake with your chosen validator
+                    Enter the amount you'd like to {stakingMode == "staking" ? "stake" : "unstake"} with your chosen validator
                 </div>
                 <div className="w-full flex flex-col items-center">
                     <div className="w-full flex justify-between items-center mb-2">
                         <div className="text-lg font-bold flex-1 mr-4">
-                            Stake Amount
+                            {stakingMode == "staking" ? "Stake Amount" : "Unstake Amount"}
                         </div>
                         <button
                             onClick={maxButtonOnClick}
@@ -86,7 +346,7 @@ export default function StakeMenu() {
                             {errorMessage}
                         </div>
                         <div className="text-slate-400">
-                            Available Balance: {walletBalance} IP
+                            {stakingMode === "staking" ? "Available to Stake: " : "Available to Unstake: "} {walletBalance} IP
                         </div>
                     </div>
                     <div className="w-full flex flex-col mb-2">
@@ -112,13 +372,12 @@ export default function StakeMenu() {
                                                 <div>{option.name}</div>
                                                 <div className="text-sm	text-slate-500">{option.staked} staked • {option.commission} commission</div>
                                             </div>
-
                                         </li>
                                     ))}
                                 </ul>
                             )}
                         </div>
-                        <StakeButton />
+                        <StakeButton stakeButtonText={stakeButtonText} stakeButtonStatusMessage={stakeButtonStatusMessage} buttonOnClick={stakeButtonOnClick} />
                     </div>
                 </div>
             </div>

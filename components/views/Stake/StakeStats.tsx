@@ -1,12 +1,129 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button"
 import { useRouter } from 'next/navigation'
+import { useReadContract, useWriteContract, useAccount, useBalance, useWaitForTransactionReceipt } from 'wagmi';
 
 interface ValidatorOption {
     id: string;
     name: string;
     logoUrl: string;
 }
+
+const contractAddress = "0x7BaF78Fe68afE9F06cCEEcAc82A43Ec641B552f5";
+const abi = [
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "staker",
+                "type": "address"
+            }
+        ],
+        "name": "stake",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint64",
+                "name": "amountToUnstake",
+                "type": "uint64"
+            }
+        ],
+        "name": "unstake",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "addressFrom",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "addressTo",
+                "type": "address"
+            },
+            {
+                "internalType": "uint64",
+                "name": "amountToDelegate",
+                "type": "uint64"
+            }
+        ],
+        "name": "delegate",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "staker",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amountStaked",
+                "type": "uint256"
+            }
+        ],
+        "name": "Staked",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "unstaker",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amountUnstaked",
+                "type": "uint256"
+            }
+        ],
+        "name": "Unstaked",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "addressFrom",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "addressTo",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint64",
+                "name": "amountToDelegate",
+                "type": "uint64"
+            }
+        ],
+        "name": "Delegated",
+        "type": "event"
+    }
+]
 
 export default function StakeMenu() {
     const router = useRouter()
@@ -17,11 +134,28 @@ export default function StakeMenu() {
     const [walletBalance, setWalletBalance] = useState("5.832");
     const [inputAmount, setinputAmount] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [amountStaked, setAmountStaked] = useState(0);
+    const { address } = useAccount();
+    const balance = useBalance({
+        address: address,
+    })
+
+    const { data: contractData } = useReadContract({
+        abi,
+        address: contractAddress,
+        args: [address],
+        functionName: 'amountStaked',
+    })
 
     const handleSelect = (option: ValidatorOption) => {
         setSelectedOption(option);
         setIsOpen(false);
     };
+
+    useEffect(() => {
+        console.log('39 useEffect contractData: ', contractData?);
+        setAmountStaked(contractData !== undefined ? contractData : 0);
+    }, [contractData]);
 
     const [yourValidators, setYourValidators] = useState([{name: 'Umbrella', status: 'okay', fee: '1', amount: '12'}]);
 
