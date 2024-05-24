@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button"
 import { useRouter } from 'next/navigation'
 import { useReadContract, useWriteContract, useAccount, useBalance, useWaitForTransactionReceipt } from 'wagmi';
+import { Abi, Address, formatEther } from 'viem';
+import { BigNumber } from 'ethers';
 
 interface ValidatorOption {
     id: string;
@@ -10,31 +12,112 @@ interface ValidatorOption {
 }
 
 const contractAddress = "0x7BaF78Fe68afE9F06cCEEcAc82A43Ec641B552f5";
-const abi = [
+const abi: Abi = [
     {
+        "inputs": [],
+        "name": "InvalidDelegateAmount",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "StakeAmountTooHigh",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "StakeAmountTooLow",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "UnstakeAmountTooHigh",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "UnstakeTransferFailed",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
         "inputs": [
             {
+                "indexed": false,
+                "internalType": "address",
+                "name": "addressFrom",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "addressTo",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint64",
+                "name": "amountToDelegate",
+                "type": "uint64"
+            }
+        ],
+        "name": "Delegated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
                 "internalType": "address",
                 "name": "staker",
                 "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amountStaked",
+                "type": "uint256"
             }
         ],
-        "name": "stake",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
+        "name": "Staked",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "unstaker",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amountUnstaked",
+                "type": "uint256"
+            }
+        ],
+        "name": "Unstaked",
+        "type": "event"
     },
     {
         "inputs": [
             {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "amountStaked",
+        "outputs": [
+            {
                 "internalType": "uint64",
-                "name": "amountToUnstake",
+                "name": "",
                 "type": "uint64"
             }
         ],
-        "name": "unstake",
-        "outputs": [],
-        "stateMutability": "nonpayable",
+        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -61,69 +144,36 @@ const abi = [
         "type": "function"
     },
     {
-        "anonymous": false,
         "inputs": [
             {
-                "indexed": true,
                 "internalType": "address",
                 "name": "staker",
                 "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amountStaked",
-                "type": "uint256"
             }
         ],
-        "name": "Staked",
-        "type": "event"
+        "name": "stake",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
     },
     {
-        "anonymous": false,
         "inputs": [
             {
-                "indexed": true,
-                "internalType": "address",
-                "name": "unstaker",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amountUnstaked",
-                "type": "uint256"
-            }
-        ],
-        "name": "Unstaked",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "addressFrom",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "addressTo",
-                "type": "address"
-            },
-            {
-                "indexed": false,
                 "internalType": "uint64",
-                "name": "amountToDelegate",
+                "name": "amountToUnstake",
                 "type": "uint64"
             }
         ],
-        "name": "Delegated",
-        "type": "event"
+        "name": "unstake",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     }
 ]
+
+interface ReadContractResult {
+    data?: bigint;
+}
 
 export default function StakeMenu() {
     const router = useRouter()
@@ -134,18 +184,18 @@ export default function StakeMenu() {
     const [walletBalance, setWalletBalance] = useState("5.832");
     const [inputAmount, setinputAmount] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [amountStaked, setAmountStaked] = useState(0);
+    const [amountStaked, setAmountStaked] = useState<bigint>(BigInt(0));
     const { address } = useAccount();
     const balance = useBalance({
         address: address,
     })
 
-    const { data: contractData } = useReadContract({
-        abi,
-        address: contractAddress,
+    const { data } = useReadContract({
+        abi: abi as Abi,
+        address: contractAddress as Address,
         args: [address],
         functionName: 'amountStaked',
-    })
+    }) as ReadContractResult;
 
     const handleSelect = (option: ValidatorOption) => {
         setSelectedOption(option);
@@ -153,9 +203,12 @@ export default function StakeMenu() {
     };
 
     useEffect(() => {
-        console.log('39 useEffect contractData: ', contractData?);
-        setAmountStaked(contractData !== undefined ? contractData : 0);
-    }, [contractData]);
+        console.log('39 useEffect contractData: ', data, typeof data);
+
+        if (data != undefined) {
+            setAmountStaked(data);
+        }
+    }, [data]);
 
     const [yourValidators, setYourValidators] = useState([{name: 'Umbrella', status: 'okay', fee: '1', amount: '12'}]);
 
@@ -179,11 +232,11 @@ export default function StakeMenu() {
                                     Total amount staked
                                 </div>
                                 <div className="w-full flex justify-between mb-2">
-                                    <div className="text-sm font-semibold">5.0 NEAR</div>
+                                    <div className="text-sm font-semibold">{formatEther(amountStaked)} IP</div>
                                     <div className="text-sm">STATUS</div>
                                 </div>
                                 <div className="w-full flex justify-between mb-2">
-                                    <div className="text-sm text-gray-400">$40.00</div>
+                                    <div className="text-sm text-gray-400">${Number(formatEther(amountStaked)) * 10.42}</div>
                                     <div className="text-sm text-gray-400">IP</div>
                                 </div>
                             </div>
@@ -192,7 +245,7 @@ export default function StakeMenu() {
                                     Pending Withdrawal
                                 </div>
                                 <div className="w-full flex justify-between mb-2">
-                                    <div className="text-sm font-semibold">0 NEAR</div>
+                                    <div className="text-sm font-semibold">0 IP</div>
                                     <div className="text-sm">STATUS</div>
                                 </div>
                                 <div className="w-full flex justify-between mb-2">
@@ -205,7 +258,7 @@ export default function StakeMenu() {
                                     Available for withdrawal
                                 </div>
                                 <div className="w-full flex justify-between mb-2">
-                                    <div className="text-sm font-semibold">2.5 NEAR</div>
+                                    <div className="text-sm font-semibold">2.5 IP</div>
                                     <div className="text-sm">STATUS</div>
                                 </div>
                                 <div className="w-full flex justify-between mb-2">

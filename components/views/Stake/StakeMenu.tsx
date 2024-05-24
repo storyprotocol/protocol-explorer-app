@@ -1,39 +1,119 @@
 import React, { useState, useEffect } from 'react';
 import { Input } from "@/components/ui/input"
 import StakeButton from "./StakeButton"
-import { useReadContract, useWriteContract, useAccount, useBalance, useWaitForTransactionReceipt } from 'wagmi';
-import { formatEther, parseEther } from 'viem'
-import { Hex } from 'viem'
+import { useReadContract, useWriteContract, useAccount, useBalance, useWaitForTransactionReceipt, useWatchContractEvent } from 'wagmi';
+import { formatEther, parseEther, Hex, Abi } from 'viem';
 import { z } from 'zod'
+
 let decimalTruncatingRegex = /^-?\d+(?:\.\d{0,6})?/;
 let validStakeAmountRegex = /^\d*\.?\d*$/;
 let validDecimalRegex = /^[-]?(\d+\.?\d*|\.\d+)$/;
-const contractAddress = "0x7BaF78Fe68afE9F06cCEEcAc82A43Ec641B552f5";
-const abi = [
+const abi: Abi = [
     {
+        "inputs": [],
+        "name": "InvalidDelegateAmount",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "StakeAmountTooHigh",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "StakeAmountTooLow",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "UnstakeAmountTooHigh",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "UnstakeTransferFailed",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
         "inputs": [
             {
+                "indexed": false,
+                "internalType": "address",
+                "name": "addressFrom",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "addressTo",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint64",
+                "name": "amountToDelegate",
+                "type": "uint64"
+            }
+        ],
+        "name": "Delegated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
                 "internalType": "address",
                 "name": "staker",
                 "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amountStaked",
+                "type": "uint256"
             }
         ],
-        "name": "stake",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
+        "name": "Staked",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "unstaker",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amountUnstaked",
+                "type": "uint256"
+            }
+        ],
+        "name": "Unstaked",
+        "type": "event"
     },
     {
         "inputs": [
             {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "amountStaked",
+        "outputs": [
+            {
                 "internalType": "uint64",
-                "name": "amountToUnstake",
+                "name": "",
                 "type": "uint64"
             }
         ],
-        "name": "unstake",
-        "outputs": [],
-        "stateMutability": "nonpayable",
+        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -60,67 +140,30 @@ const abi = [
         "type": "function"
     },
     {
-        "anonymous": false,
         "inputs": [
             {
-                "indexed": true,
                 "internalType": "address",
                 "name": "staker",
                 "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amountStaked",
-                "type": "uint256"
             }
         ],
-        "name": "Staked",
-        "type": "event"
+        "name": "stake",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
     },
     {
-        "anonymous": false,
         "inputs": [
             {
-                "indexed": true,
-                "internalType": "address",
-                "name": "unstaker",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amountUnstaked",
-                "type": "uint256"
-            }
-        ],
-        "name": "Unstaked",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "addressFrom",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "addressTo",
-                "type": "address"
-            },
-            {
-                "indexed": false,
                 "internalType": "uint64",
-                "name": "amountToDelegate",
+                "name": "amountToUnstake",
                 "type": "uint64"
             }
         ],
-        "name": "Delegated",
-        "type": "event"
+        "name": "unstake",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     }
 ]
 
@@ -132,32 +175,36 @@ const createFormSchema = (walletBalance: number) => z.object({
 interface ValidatorOption {
     id: string;
     name: string;
+    staked: string;
+    commission: string;
     logoUrl: string;
+    contractAddress: string;
 }
 
-interface StakeMenuProps {
-    stakingMode: 'staking' | 'unstaking';
+interface ReadContractResult {
+    data: bigint | undefined;
 }
 
-export default function StakeMenu({ stakingMode = 'staking' }: StakeMenuProps) {
-    const validators = [
-        { id: '1', name: 'Umbrella', staked: '1,498,593', commission: '5%', logoUrl: 'https://s3.amazonaws.com/keybase_processed_uploads/78228988871f1652c33f52f5cf5b3505_200_200.jpg' },
-        { id: '2', name: 'Inu X', staked: '1,129,234', commission: '5%', logoUrl: 'https://s3.amazonaws.com/keybase_processed_uploads/8facb421c1599743ebc4185e180f5d05_200_200.jpeg' },
-        { id: '3', name: 'Stargaze', staked: '1,023,429', commission: '5%', logoUrl: 'https://s3.amazonaws.com/keybase_processed_uploads/41793337d1699aeac5d93e2272583205_200_200.jpg' },
-        { id: '4', name: 'Amplifier', staked: '982,593', commission: '7.5%', logoUrl: 'https://raw.githubusercontent.com/cosmostation/chainlist/main/chain/cosmos/moniker/cosmosvaloper1et77usu8q2hargvyusl4qzryev8x8t9wwqkxfs.png' },
-        { id: '5', name: 'Swiss Staking', staked: '874,294', commission: '7.5%', logoUrl: 'https://assets.leapwallet.io/dashboard/images/misc/validator.svg' },
-        { id: '6', name: 'Kek', staked: '745,492', commission: '10%', logoUrl: 'https://raw.githubusercontent.com/cosmostation/chainlist/main/chain/cosmos/moniker/cosmosvaloper1y0us8xvsvfvqkk9c6nt5cfyu5au5tww2ztve7q.png' },
+// export default function StakeMenu({ stakingMode = 'staking' }: StakeMenuProps) {
+export default function StakeMenu() {
+    let initialValidators = [
+        { id: '1', name: 'Umbrella', staked: '1,498,593', commission: '5%', logoUrl: 'https://s3.amazonaws.com/keybase_processed_uploads/78228988871f1652c33f52f5cf5b3505_200_200.jpg', contractAddress: "7BaF78Fe68afE9F06cCEEcAc82A43Ec641B552f5" },
+        { id: '2', name: 'Inu X', staked: '1,129,234', commission: '5%', logoUrl: 'https://s3.amazonaws.com/keybase_processed_uploads/8facb421c1599743ebc4185e180f5d05_200_200.jpeg', contractAddress: "F33E8283279FCA6e92011B1c376Fd2d0aAf005f2" },
+        { id: '3', name: 'Stargaze', staked: '1,023,429', commission: '5%', logoUrl: 'https://s3.amazonaws.com/keybase_processed_uploads/41793337d1699aeac5d93e2272583205_200_200.jpg', contractAddress: "cE82C6831C10425E9aECEA77E66cB29a0bC1B182" }
     ];
 
+    const [stakingMode, setStakingMode] = useState('staking');
+    const [validators, setValidators] = useState(initialValidators);
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState<ValidatorOption | null>(null);
+    const [selectedOption, setSelectedOption] = useState<ValidatorOption>(validators[0]);
     const { writeContractAsync, isPending: isWaitingForWalletConfirmation } = useWriteContract()
-    const [inputAmount, setinputAmount] = useState("");
+    const [inputAmount, setInputAmount] = useState("");
     const [stakeButtonText, setStakeButtonText] = useState("Stake");
     const [stakeButtonStatusMessage, setStakeButtonStatusMessage] = useState("");
-    const [amountStaked, setAmountStaked] = useState(0);
+    const [stakeButtonDisabled, setStakeButtonDisabled] = useState(false);
     const [txHash, setTxHash] = useState('');
     const [errorMessage, setErrorMessage] = useState("");
+    const [isSuccess, setIsSuccess] = useState(false);
     const { address } = useAccount();
     const balance = useBalance({
         address: address,
@@ -167,6 +214,26 @@ export default function StakeMenu({ stakingMode = 'staking' }: StakeMenuProps) {
     const { data: receipt, isError, isLoading, status } = useWaitForTransactionReceipt({
         hash: `${txHash}` as Hex,
     });
+
+    useWatchContractEvent({
+        address: '0x7BaF78Fe68afE9F06cCEEcAc82A43Ec641B552f5',
+        abi,
+        eventName: 'Stake',
+        onLogs(logs) {
+            console.log('223 stake: ', logs)
+          refetchReadStaked();
+        },
+    })
+
+    useWatchContractEvent({
+        address: '0x7BaF78Fe68afE9F06cCEEcAc82A43Ec641B552f5',
+        abi,
+        eventName: 'Unstake',
+        onLogs(logs) {
+            console.log('233 unstake: ', logs)
+          refetchReadStaked();
+        },
+    })
 
     useEffect(() => {
         if (isLoading) {
@@ -190,13 +257,14 @@ export default function StakeMenu({ stakingMode = 'staking' }: StakeMenuProps) {
         setStakeButtonStatusMessage("Status: " + status);
     }, [status]);
 
-    const { data: contractData } = useReadContract({
+    const { data, refetch: refetchReadStaked } = useReadContract({
         abi,
-        address: contractAddress,
+        address: `0x${validators[0].contractAddress}`,
         args: [address],
         functionName: 'amountStaked',
-    })
+    });
 
+    console.log('200 validator data: ', data);
     let formattedEther;
 
     try {
@@ -224,99 +292,132 @@ export default function StakeMenu({ stakingMode = 'staking' }: StakeMenuProps) {
             setWalletBalance(truncatedString);
         }
     }, [balance]);
-
-    useEffect(() => {
-        console.log('39 useEffect account: ', account.address);
-    }, [account]);
-
-    useEffect(() => {
-        console.log('39 useEffect contractData: ', contractData);
-        setAmountStaked(contractData !== undefined ? contractData : 0);
-    }, [contractData]);
+    
+    console.log('39 useEffect account: ', account.address);
 
     const maxButtonOnClick = () => {
-        setinputAmount(walletBalance?.toString() || "");
+        setStakeButtonDisabled(false);
+        if (stakingMode === 'staking') {
+            setInputAmount(walletBalance?.toString() || "");
+        } else {
+            setInputAmount(formatEther(data as bigint));
+        }
     };
 
     const handleInputChange = (event: any) => {
         const value = event.target.value;
+        setIsSuccess(false);
         if (!value || value.match(validStakeAmountRegex)) {
-            setinputAmount(value);
-            if (parseFloat(value) > parseFloat(walletBalance as string)) {
-                setStakeButtonText("Enter a valid amount");
-                console.log('setting error 44: Amount exceeds current balance',)
-                setErrorMessage('Amount exceeds current balance');
+            setInputAmount(value);
+            if (stakingMode == "staking") {
+                if (parseFloat(value) > parseFloat(walletBalance as string)) {
+                    setStakeButtonText("Enter a valid amount");
+                    console.log('setting error 44: Amount exceeds current balance',)
+                    setErrorMessage('Amount exceeds current balance');
+                    setStakeButtonDisabled(true);
+                } else {
+                    setStakeButtonText("Stake");
+                    setErrorMessage('');
+                    setStakeButtonDisabled(false);
+                }
             } else {
-                setStakeButtonText("Stake");
-                setErrorMessage('');
+                if (parseFloat(value) > parseFloat(formatEther(data as bigint) as string)) {
+                    setStakeButtonText("Enter a valid amount");
+                    console.log('setting error 52: Amount exceeds current balance',)
+                    setErrorMessage('Amount exceeds current balance');
+                    setStakeButtonDisabled(true);
+                } else {
+                    setStakeButtonText("Unstake");
+                    setErrorMessage('');
+                    setStakeButtonDisabled(false);
+                }
+
             }
         }
-    };
+    }
 
     const stakeButtonOnClick = async () => {
         if (stakingMode === 'staking') {
             const formSchema = createFormSchema(walletBalance as number);
             try {
-                // Validate the form data using the schema
                 formSchema.parse({
-                    inputAmount: inputAmount
+                    inputAmount: Number(inputAmount)
                 });
                 console.log("Form is valid!");
-                const txhash = await writeContractAsync({
-                    address: contractAddress,
-                    abi,
-                    functionName: 'stake',
-                    value: BigInt(parseEther(inputAmount)),
-                    args: [address]
-                });
-                setTxHash(txhash);
+                if (selectedOption) {
+                    const txhash = await writeContractAsync({
+                        address: `0x${selectedOption.contractAddress}`,
+                        abi,
+                        functionName: 'stake',
+                        value: BigInt(parseEther(inputAmount)),
+                        args: [address]
+                    });
+                    setTxHash(txhash);
+                    setIsSuccess(true);
+                    refetchReadStaked();
+                    console.log('338 refetchStakeCalled');
+                }
                 console.log('168 - result: ', { txHash, receipt, isError, isLoading, status });
             } catch (error) {
                 if (error instanceof z.ZodError) {
-                    console.error(error.flatten().fieldErrors);
-                    // Handle displaying errors in the UI
+                    console.log(error.flatten().fieldErrors);
+                    const errorDetails = JSON.stringify(error.flatten().fieldErrors);
                     setStakeButtonText("Enter a valid amount");
-                    setErrorMessage(error.flatten().fieldErrors as unknown as string);
+                    setStakeButtonDisabled(true);
+                    setErrorMessage(errorDetails);
+                    setIsSuccess(false);
                 }
             }
         } else {
-            if (validDecimalRegex.test(inputAmount)) {
-                const txhash = await writeContractAsync({
-                    address: contractAddress,
-                    abi,
-                    functionName: 'unstake',
-                    args: [BigInt(parseEther(inputAmount))]
-                });
-                setTxHash(txhash);
-                console.log('191 - result: ', { txHash, receipt, isError, isLoading, status });
-            } else {
-                setStakeButtonText("Enter a valid amount");
-                setErrorMessage('Invalid amount');
-            }
-
             const formSchema = createFormSchema(walletBalance as number);
             try {
                 formSchema.parse({
-                    inputAmount: inputAmount
+                    inputAmount: Number(inputAmount)
                 });
                 console.log("Form is valid!");
-                const txhash = await writeContractAsync({
-                    address: contractAddress,
-                    abi,
-                    functionName: 'unstake',
-                    args: [BigInt(parseEther(inputAmount))]
-                });
-                setTxHash(txhash);
-                console.log('191 - result: ', { txHash, receipt, isError, isLoading, status });
+                if (validDecimalRegex.test(inputAmount)) {
+                    if (selectedOption) {
+                        const txhash = await writeContractAsync({
+                            address: `0x${selectedOption.contractAddress}`,
+                            abi,
+                            functionName: 'unstake',
+                            args: [BigInt(parseEther(inputAmount))]
+                        });
+                        setTxHash(txhash);
+                        setIsSuccess(true);
+                        refetchReadStaked();
+                        console.log('369 refetchStakeCalled');
+                    }
+                    console.log('191 - result: ', { txHash, receipt, isError, isLoading, status });
+                } else {
+                    setStakeButtonText("Enter a valid amount");
+                    setErrorMessage('Invalid amount');
+                    setIsSuccess(false);
+                }
             } catch (error) {
+                console.log('368: ', error);
                 if (error instanceof z.ZodError) {
                     console.error(error.flatten().fieldErrors);
-                    // Handle displaying errors in the UI
                     setStakeButtonText("Enter a valid amount");
                     setErrorMessage(error.flatten().fieldErrors as unknown as string);
+                    setIsSuccess(false);
                 }
             }
         }
+    }
+
+    const stakeOptionButtonOnClick = async (option: ValidatorOption) => {
+        setStakingMode('staking');
+        setStakeButtonText('Stake');
+        setSelectedOption(option);
+        setIsSuccess(false);
+    }
+
+    const unstakeOptionButtonOnClick = async (option: ValidatorOption) => {
+        setStakingMode('unstaking');
+        setStakeButtonText('Unstake');
+        setSelectedOption(option);
+        setIsSuccess(false);
     }
 
     return (
@@ -328,7 +429,7 @@ export default function StakeMenu({ stakingMode = 'staking' }: StakeMenuProps) {
                 <div className="w-full text-center text-slate-400 mb-8">
                     Enter the amount you'd like to {stakingMode == "staking" ? "stake" : "unstake"} with your chosen validator
                 </div>
-                <div className="w-full flex flex-col items-center">
+                <div className="w-full flex flex-col items-center mb-4 p-5 bg-white rounded-lg border bg-card text-card-foreground shadow-sm ">
                     <div className="w-full flex justify-between items-center mb-2">
                         <div className="text-lg font-bold flex-1 mr-4">
                             {stakingMode == "staking" ? "Stake Amount" : "Unstake Amount"}
@@ -346,7 +447,7 @@ export default function StakeMenu({ stakingMode = 'staking' }: StakeMenuProps) {
                             {errorMessage}
                         </div>
                         <div className="text-slate-400">
-                            {stakingMode === "staking" ? "Available to Stake: " : "Available to Unstake: "} {walletBalance} IP
+                            {data && stakingMode === "staking" ? `Available to Stake: ${walletBalance}` : `Available to Unstake: ${(data != undefined ? formatEther(data as bigint) : "0.0")}`} IP
                         </div>
                     </div>
                     <div className="w-full flex flex-col mb-2">
@@ -370,15 +471,41 @@ export default function StakeMenu({ stakingMode = 'staking' }: StakeMenuProps) {
                                             <img src={option.logoUrl} alt={option.name} className="w-8 h-8 mr-2 rounded-full" />
                                             <div className="flex flex-col">
                                                 <div>{option.name}</div>
-                                                <div className="text-sm	text-slate-500">{option.staked} staked • {option.commission} commission</div>
+                                                <div className="text-sm	text-slate-500">{(data != undefined ? formatEther(data as bigint) : "0.0")} IP staked</div>
                                             </div>
                                         </li>
                                     ))}
                                 </ul>
                             )}
                         </div>
-                        <StakeButton stakeButtonText={stakeButtonText} stakeButtonStatusMessage={stakeButtonStatusMessage} buttonOnClick={stakeButtonOnClick} />
+                        <StakeButton stakeButtonDisabled={stakeButtonDisabled} isError={isError} isLoading={isLoading} isSuccess={isSuccess} stakeButtonText={stakeButtonText} stakeButtonStatusMessage={stakeButtonStatusMessage} buttonOnClick={stakeButtonOnClick} />
                     </div>
+                </div>
+                <div className="w-full flex justify-center flex-col items-center mb-8 p-5 bg-white rounded-lg border bg-card text-card-foreground shadow-sm ">
+                    <div className="w-full text-center mb-4 text-xl font-bold">
+                        Your Staked Tokens
+                    </div>
+                    <ul className="w-full flex justify-center flex-col items-center">
+                        {validators.map(option => (
+                            <li key={option.id} className="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-gray-100 w-full">
+                                <div className="flex justify-center items-center">
+                                    <img src={option.logoUrl} alt={option.name} className="w-8 h-8 mr-2 rounded-full" />
+                                    <div className="flex flex-col">
+                                        <div>{option.name}</div>
+                                        <div className="text-sm	text-slate-500">{(data != undefined ? formatEther(data as bigint) : "0.0")} IP staked</div>
+                                    </div>
+                                </div>
+                                <div className="flex">
+                                    <div onClick={() => stakeOptionButtonOnClick(option)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+                                        Stake
+                                    </div>
+                                    <div onClick={() => unstakeOptionButtonOnClick(option)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                        Unstake
+                                    </div>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </div>
         </div>

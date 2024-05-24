@@ -1,208 +1,75 @@
-import React, { useState, useEffect } from 'react';
-import { useReadContract, useWriteContract, useAccount, useBalance, useWaitForTransactionReceipt } from 'wagmi';
-import { Hex } from 'viem'
-
-const contractAddress = "0x7BaF78Fe68afE9F06cCEEcAc82A43Ec641B552f5";
-const abi = [
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "staker",
-                "type": "address"
-            }
-        ],
-        "name": "stake",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint64",
-                "name": "amountToUnstake",
-                "type": "uint64"
-            }
-        ],
-        "name": "unstake",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "addressFrom",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "addressTo",
-                "type": "address"
-            },
-            {
-                "internalType": "uint64",
-                "name": "amountToDelegate",
-                "type": "uint64"
-            }
-        ],
-        "name": "delegate",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "staker",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amountStaked",
-                "type": "uint256"
-            }
-        ],
-        "name": "Staked",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "unstaker",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amountUnstaked",
-                "type": "uint256"
-            }
-        ],
-        "name": "Unstaked",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "addressFrom",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "addressTo",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint64",
-                "name": "amountToDelegate",
-                "type": "uint64"
-            }
-        ],
-        "name": "Delegated",
-        "type": "event"
-    }
-]
+import React from 'react';
 
 interface StakeMenuProps {
-    stakeButtonText: string;
+    stakeButtonDisabled: boolean;
+    isError: boolean;
+    isLoading: boolean;
+    isSuccess: boolean;
+    stakeButtonText?: string; // Made optional with default value in destructure
     stakeButtonStatusMessage: string;
     buttonOnClick: () => void;
 }
 
-export default function StakeMenu({ stakeButtonText = "Stake", stakeButtonStatusMessage = "", buttonOnClick }: StakeMenuProps) {
-    // const { address } = useAccount();
-    // const { writeContractAsync, isPending: isWaitingForWalletConfirmation } = useWriteContract()
-    // const [txHash, setTxHash] = useState('');
-    // const [statusMessage, setStatusMessage] = useState('');
+const LoadingSpinner = ({ className }: { className?: string }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={className} // Correctly passed the className prop to the svg element
+    >
+        <circle cx="12" cy="12" r="10" stroke="none" />
+        <path d="M22 12A10 10 0 0 0 2 12" />
+        <path d="M12 2a10 10 0 0 1 0 20" />
+    </svg>
+);
 
-    // const { data: receipt, isError, isLoading, status } = useWaitForTransactionReceipt({
-    //     hash: `${txHash}` as Hex,
-    // });
+const SuccessIndicator = ({ className }: { className?: string }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={className} // className prop is passed to the svg element
+    >
+        <circle cx="12" cy="12" r="10" /> {/* Circle outline */}
+        <path d="M8 12l2 2 4-4"/> {/* Checkmark */}
+    </svg>
+);
 
-    // useEffect(() => {
-    //     if (isLoading) {
-    //         console.log('Transaction is loading...');
-    //         setStatusMessage("Transaction is loading...");
-    //     } else {
-    //         console.log('Loading complete.');
-    //         setStatusMessage("Loading complete.");
-    //     }
-    // }, [isLoading]);
-
-    // useEffect(() => {
-    //     if (isError) {
-    //         console.error('An error occurred with the transaction.');
-    //         setStatusMessage("Error: " + status);
-    //     }
-    // }, [isError]);
-
-    // useEffect(() => {
-    //     console.log('Transaction status:', status);
-    //     setStatusMessage("Status: " + status);
-    // }, [status]);
-
-    // const { data } = useReadContract({
-    //     abi,
-    //     address: contractAddress,
-    //     args: [address],
-    //     functionName: 'amountStaked',
-    // })
-
-    // const handleOnClick = async () => {
-    //     if (stakingMode === 'staking') {
-    //         console.log('205: Stake button clicked, staked balance:', address);
-    //         const txhash = await writeContractAsync({
-    //             address: contractAddress,
-    //             abi,
-    //             functionName: 'stake',
-    //             value: BigInt(20000000000000000),
-    //             args: [address]
-    //         });
-    //         setTxHash(txhash);
-    //         console.log('168 - result: ', { txHash, receipt, isError, isLoading, status });
-    //     } else {
-    //         const stakedBalance = data;
-    //         console.log('205: Unstake button clicked, staked balance:', address);
-    //         //For args array index 0, it's the pubkey not the amount/value
-    //         //Value is how much you want to stake, in wei
-    //         const txhash = await writeContractAsync({
-    //             address: contractAddress,
-    //             abi,
-    //             functionName: 'unstake',
-    //             args: [BigInt(20000000000000000)]
-    //         });
-    //         setTxHash(txhash);
-    //         console.log('191 - result: ', { txHash, receipt, isError, isLoading, status });
-    //     }
-    // };
-
+export default function StakeMenu({
+    stakeButtonDisabled = false,
+    isError = false,
+    isLoading = false,
+    isSuccess = false,
+    stakeButtonText = "Stake", // Default value set here
+    stakeButtonStatusMessage = "",
+    buttonOnClick
+}: StakeMenuProps) {
     return (
         <>
             <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className={`flex justify-center items-center w-full font-bold py-2 px-4 rounded text-white ${isError ? 'bg-red-500 hover:bg-red-700' : 'bg-blue-500 hover:bg-blue-700'
+                    }`}
                 onClick={buttonOnClick}
+                disabled={isError || isLoading || stakeButtonDisabled}
             >
-                {stakeButtonText}
+                {isLoading ? <LoadingSpinner className="animate-spin" /> : isError ? 'Error' : isSuccess ? <SuccessIndicator className="" /> : stakeButtonText}
             </button>
-            <div className="">
-                {stakeButtonStatusMessage}
+
+            <div className="text-red-500">
+                {(isError ? stakeButtonStatusMessage : "")}
             </div>
         </>
-
     );
 }
