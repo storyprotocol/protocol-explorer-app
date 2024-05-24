@@ -265,7 +265,6 @@ export default function StakeMenu() {
         functionName: 'amountStaked',
     });
 
-    console.log('200 validator data: ', data);
     let formattedEther;
 
     try {
@@ -293,8 +292,6 @@ export default function StakeMenu() {
             setWalletBalance(truncatedString);
         }
     }, [balance]);
-
-    console.log('39 useEffect account: ', account.address);
 
     const maxButtonOnClick = () => {
         setStakeButtonDisabled(false);
@@ -441,7 +438,7 @@ export default function StakeMenu() {
                         </div>
                         <button
                             onClick={maxButtonOnClick}
-                            className="bg-blue-200 hover:bg-blue-300 text-blue-700 font-medium py-1 px-2 rounded-full transition duration-150 ease-in-out"
+                            className="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-medium py-1 px-2 rounded-full transition duration-150 ease-in-out"
                         >
                             Max Amount
                         </button>
@@ -501,10 +498,10 @@ export default function StakeMenu() {
                                     </div>
                                 </div>
                                 <div className="flex">
-                                    <div onClick={() => stakeOptionButtonOnClick(option)} className="flex justify-center text-center items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 w-24">
+                                    <div onClick={() => stakeOptionButtonOnClick(option)} className="flex justify-center text-center items-center bg-sp-purple hover:bg-sp-purple-dark text-white font-bold py-2 px-4 rounded mr-2 w-24">
                                         Stake
                                     </div>
-                                    <div onClick={() => unstakeOptionButtonOnClick(option)} className="flex justify-center text-center items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-24">
+                                    <div onClick={() => unstakeOptionButtonOnClick(option)} className="flex justify-center text-center items-center bg-slate-400 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded w-24">
                                         Unstake
                                     </div>
                                 </div>

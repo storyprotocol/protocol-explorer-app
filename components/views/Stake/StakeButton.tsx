@@ -59,7 +59,7 @@ export default function StakeMenu({
     return (
         <>
             <button
-                className={`flex justify-center items-center w-full font-bold py-2 px-4 rounded text-white ${isError ? 'bg-red-500 hover:bg-red-700' : 'bg-blue-500 hover:bg-blue-700'
+                className={`flex justify-center items-center w-full font-bold py-2 px-4 rounded text-white ${isError ? 'bg-red-500 hover:bg-red-700' : 'bg-sp-purple hover:bg-sp-purple-dark'
                     }`}
                 onClick={buttonOnClick}
                 disabled={isError || isLoading || stakeButtonDisabled}
