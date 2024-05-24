@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Input } from "@/components/ui/input"
 import StakeButton from "./StakeButton"
-import { useReadContract, useWriteContract, useAccount, useBalance, useWaitForTransactionReceipt, useWatchContractEvent } from 'wagmi';
+import { useReadContract, useWriteContract, useAccount, useBalance, useBlockNumber, useWaitForTransactionReceipt, useWatchContractEvent } from 'wagmi';
+import { type WriteContractErrorType } from '@wagmi/core'
 import { formatEther, parseEther, Hex, Abi } from 'viem';
 import { z } from 'zod'
+import { useQueryClient } from '@tanstack/react-query';
 
 let decimalTruncatingRegex = /^-?\d+(?:\.\d{0,6})?/;
 let validStakeAmountRegex = /^\d*\.?\d*$/;
@@ -181,7 +183,6 @@ interface ValidatorOption {
     contractAddress: string;
 }
 
-// export default function StakeMenu({ stakingMode = 'staking' }: StakeMenuProps) {
 export default function StakeMenu() {
     let initialValidators = [
         { id: '1', name: 'Umbrella', staked: '1,498,593', commission: '5%', logoUrl: 'https://s3.amazonaws.com/keybase_processed_uploads/78228988871f1652c33f52f5cf5b3505_200_200.jpg', contractAddress: "7BaF78Fe68afE9F06cCEEcAc82A43Ec641B552f5" },
@@ -202,7 +203,9 @@ export default function StakeMenu() {
     const [errorMessage, setErrorMessage] = useState("");
     const [isSuccess, setIsSuccess] = useState(false);
     const { address } = useAccount();
-    const balance = useBalance({
+    const queryClient = useQueryClient()
+    const { data: blockNumber } = useBlockNumber({ watch: true })
+    const { data: balance, queryKey } = useBalance({
         address: address,
     })
     const account = useAccount()
@@ -211,13 +214,16 @@ export default function StakeMenu() {
         hash: `${txHash}` as Hex,
     });
 
+    useEffect(() => {
+        queryClient.invalidateQueries({ queryKey })
+    }, [blockNumber])
+
     useWatchContractEvent({
         address: '0x7BaF78Fe68afE9F06cCEEcAc82A43Ec641B552f5',
         abi,
         eventName: 'Staked',
         onLogs(logs) {
-            console.log('223 stake: ', logs)
-          refetchReadStaked();
+            refetchReadStaked();
         },
     })
 
@@ -226,8 +232,7 @@ export default function StakeMenu() {
         abi,
         eventName: 'Unstaked',
         onLogs(logs) {
-            console.log('233 unstake: ', logs)
-          refetchReadStaked();
+            refetchReadStaked();
         },
     })
 
@@ -264,8 +269,8 @@ export default function StakeMenu() {
     let formattedEther;
 
     try {
-        if (balance.data?.value != undefined) {
-            formattedEther = formatEther(balance.data.value);
+        if (balance?.value != undefined) {
+            formattedEther = formatEther(balance.value);
             formattedEther = formattedEther.match(decimalTruncatingRegex)?.[0];
         } else {
             formattedEther = 0;
@@ -282,13 +287,13 @@ export default function StakeMenu() {
     };
 
     useEffect(() => {
-        if (balance.data?.value != undefined) {
-            let formattedEther = formatEther(balance.data.value);
+        if (balance?.value != undefined) {
+            let formattedEther = formatEther(balance?.value);
             const truncatedString = formattedEther.match(decimalTruncatingRegex)?.[0] || "";
             setWalletBalance(truncatedString);
         }
     }, [balance]);
-    
+
     console.log('39 useEffect account: ', account.address);
 
     const maxButtonOnClick = () => {
@@ -308,7 +313,6 @@ export default function StakeMenu() {
             if (stakingMode == "staking") {
                 if (parseFloat(value) > parseFloat(walletBalance as string)) {
                     setStakeButtonText("Enter a valid amount");
-                    console.log('setting error 44: Amount exceeds current balance',)
                     setErrorMessage('Amount exceeds current balance');
                     setStakeButtonDisabled(true);
                 } else {
@@ -319,7 +323,6 @@ export default function StakeMenu() {
             } else {
                 if (parseFloat(value) > parseFloat(formatEther(data as bigint) as string)) {
                     setStakeButtonText("Enter a valid amount");
-                    console.log('setting error 52: Amount exceeds current balance',)
                     setErrorMessage('Amount exceeds current balance');
                     setStakeButtonDisabled(true);
                 } else {
@@ -332,6 +335,21 @@ export default function StakeMenu() {
         }
     }
 
+    const onSuccess = () => {
+
+    }
+
+    const onSettled = () => {
+
+    }
+
+    const onError = (error: WriteContractErrorType) => {
+        setStakeButtonText("Error");
+        setStakeButtonDisabled(true);
+        setErrorMessage(error.shortMessage);
+        setIsSuccess(false);
+    }
+
     const stakeButtonOnClick = async () => {
         if (stakingMode === 'staking') {
             const formSchema = createFormSchema(walletBalance as number);
@@ -339,7 +357,6 @@ export default function StakeMenu() {
                 formSchema.parse({
                     inputAmount: Number(inputAmount)
                 });
-                console.log("Form is valid!");
                 if (selectedOption) {
                     const txhash = await writeContractAsync({
                         address: `0x${selectedOption.contractAddress}`,
@@ -347,16 +364,13 @@ export default function StakeMenu() {
                         functionName: 'stake',
                         value: BigInt(parseEther(inputAmount)),
                         args: [address]
-                    });
+                    }, { onSuccess, onSettled, onError });
                     setTxHash(txhash);
                     setIsSuccess(true);
                     refetchReadStaked();
-                    console.log('338 refetchStakeCalled');
                 }
-                console.log('168 - result: ', { txHash, receipt, isError, isLoading, status });
             } catch (error) {
                 if (error instanceof z.ZodError) {
-                    console.log(error.flatten().fieldErrors);
                     const errorDetails = JSON.stringify(error.flatten().fieldErrors);
                     setStakeButtonText("Enter a valid amount");
                     setStakeButtonDisabled(true);
@@ -370,7 +384,6 @@ export default function StakeMenu() {
                 formSchema.parse({
                     inputAmount: Number(inputAmount)
                 });
-                console.log("Form is valid!");
                 if (validDecimalRegex.test(inputAmount)) {
                     if (selectedOption) {
                         const txhash = await writeContractAsync({
@@ -378,22 +391,18 @@ export default function StakeMenu() {
                             abi,
                             functionName: 'unstake',
                             args: [BigInt(parseEther(inputAmount))]
-                        });
+                        }, { onSuccess, onSettled, onError });
                         setTxHash(txhash);
                         setIsSuccess(true);
                         refetchReadStaked();
-                        console.log('369 refetchStakeCalled');
                     }
-                    console.log('191 - result: ', { txHash, receipt, isError, isLoading, status });
                 } else {
                     setStakeButtonText("Enter a valid amount");
                     setErrorMessage('Invalid amount');
                     setIsSuccess(false);
                 }
             } catch (error) {
-                console.log('368: ', error);
                 if (error instanceof z.ZodError) {
-                    console.error(error.flatten().fieldErrors);
                     setStakeButtonText("Enter a valid amount");
                     setErrorMessage(error.flatten().fieldErrors as unknown as string);
                     setIsSuccess(false);
@@ -492,10 +501,10 @@ export default function StakeMenu() {
                                     </div>
                                 </div>
                                 <div className="flex">
-                                    <div onClick={() => stakeOptionButtonOnClick(option)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+                                    <div onClick={() => stakeOptionButtonOnClick(option)} className="flex justify-center text-center items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 w-24">
                                         Stake
                                     </div>
-                                    <div onClick={() => unstakeOptionButtonOnClick(option)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    <div onClick={() => unstakeOptionButtonOnClick(option)} className="flex justify-center text-center items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-24">
                                         Unstake
                                     </div>
                                 </div>
