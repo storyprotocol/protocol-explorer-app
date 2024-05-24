@@ -181,10 +181,6 @@ interface ValidatorOption {
     contractAddress: string;
 }
 
-interface ReadContractResult {
-    data: bigint | undefined;
-}
-
 // export default function StakeMenu({ stakingMode = 'staking' }: StakeMenuProps) {
 export default function StakeMenu() {
     let initialValidators = [
@@ -218,7 +214,7 @@ export default function StakeMenu() {
     useWatchContractEvent({
         address: '0x7BaF78Fe68afE9F06cCEEcAc82A43Ec641B552f5',
         abi,
-        eventName: 'Stake',
+        eventName: 'Staked',
         onLogs(logs) {
             console.log('223 stake: ', logs)
           refetchReadStaked();
@@ -228,7 +224,7 @@ export default function StakeMenu() {
     useWatchContractEvent({
         address: '0x7BaF78Fe68afE9F06cCEEcAc82A43Ec641B552f5',
         abi,
-        eventName: 'Unstake',
+        eventName: 'Unstaked',
         onLogs(logs) {
             console.log('233 unstake: ', logs)
           refetchReadStaked();
@@ -447,7 +443,7 @@ export default function StakeMenu() {
                             {errorMessage}
                         </div>
                         <div className="text-slate-400">
-                            {data && stakingMode === "staking" ? `Available to Stake: ${walletBalance}` : `Available to Unstake: ${(data != undefined ? formatEther(data as bigint) : "0.0")}`} IP
+                            {data && (stakingMode === "staking") ? `Available to Stake: ${walletBalance}` : `Available to Unstake: ${(data != undefined ? formatEther(data as bigint) : "0.0")}`} IP
                         </div>
                     </div>
                     <div className="w-full flex flex-col mb-2">
