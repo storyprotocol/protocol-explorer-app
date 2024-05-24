@@ -13,7 +13,6 @@ export default async function ValidatorTableWrapper({
   collectionId?: Address;
   ipId?: Address;
 }) {
-  // try {
   const req = {
     pagination: {
       limit: 1000,
@@ -26,9 +25,6 @@ export default async function ValidatorTableWrapper({
 
   const txnListRes = await listResource(RESOURCE_TYPE.TRANSACTION, req);
 
-//   const filteredData = txnListRes.data.filter((tx: Transaction) => {
-//     return true;
-//   });
 const filteredData = [
     {
       validatorName: 'Validator One',

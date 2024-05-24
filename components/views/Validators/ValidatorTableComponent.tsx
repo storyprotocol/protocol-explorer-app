@@ -1,16 +1,11 @@
 'use client';
 
 import SuccessBadge from '@/components/badges/SuccessBadge';
-// import { shortenString } from '@/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
 import React from 'react';
-// import moment from 'moment';
 import BaseDataViewer from '../BaseDataViewer';
-// import AddressComponent from '@/components/address/AddressComponent';
 import { Validator } from '@/lib/server/types';
-
-//Name, status, expected return, voting power, stake, commission, uptime
 
 const columns: ColumnDef<Validator>[] = [
   {
@@ -19,7 +14,7 @@ const columns: ColumnDef<Validator>[] = [
     cell: ({ row }) => {
         const name: String = row.getValue('validatorName');
         return (
-        <Link href={`/validators/${row.original.validatorName}`} className="capitalize text-xs font-mono underline">
+        <Link href={`/stake`} className="capitalize text-xs font-mono underline">
             {name}
         </Link>
         );
@@ -33,14 +28,7 @@ const columns: ColumnDef<Validator>[] = [
         return <>{status}</>;
     },
   },
-//   {
-//     accessorKey: 'actionType',
-//     header: 'Action',
-//     cell: ({ row }) => {
-//       const type: Transaction = row.getValue('actionType');
-//       return <>{type}</>;
-//     },
-//   },
+
 {
     accessorKey: 'votingPower',
     header: 'Voting Power',
