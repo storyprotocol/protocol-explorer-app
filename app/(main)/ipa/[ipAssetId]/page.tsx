@@ -33,10 +33,10 @@ export default async function AssetDetailPage({ params: { ipAssetId } }: { param
               {/* <TabsTrigger value="permissions">Permissions</TabsTrigger> */}
             </TabsList>
             <TabsContent value="derivatives">
-              {!assetData?.childIpIds ? (
+              {!assetData?.childIps ? (
                 <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>
               ) : (
-                <AssetDataViewerComponent gridOnly data={assetData?.childIpIds} />
+                <AssetDataViewerComponent gridOnly data={assetData?.childIps} />
               )}
             </TabsContent>
             <TabsContent value="policies">

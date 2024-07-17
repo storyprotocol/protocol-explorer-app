@@ -138,6 +138,12 @@ export type FilterOptions =
   | IPAPolicyFilterOptions
   | TransactionFilterOptions;
 
+export type QueryHeaders = {
+  'x-api-key': string;
+  'x-chain': string;
+  'x-extend-asset'?: string;
+} | {};
+
 export type QueryOptions = {
   pagination: PaginationOptions;
   where?: FilterOptions;
@@ -165,9 +171,12 @@ export type AssetNFTMetadata = {
 
 export type Asset = {
   id: Address;
-  childIpIds: Asset[] | null;
-  parentIpIds: Asset[] | null;
-  rootIpIds: Asset[] | null;
+  childIps: Asset[] | null;
+  parentIps: Asset[] | null;
+  rootIps: Asset[] | null;
+  childIpIds: Address[] | null;
+  parentIpIds: Address[] | null;
+  rootIpIds: Address[] | null;
   nftMetadata: AssetNFTMetadata;
   blockNumber: string;
   blockTimestamp: string;

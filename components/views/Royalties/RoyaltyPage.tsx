@@ -181,11 +181,11 @@ export async function AncestorRoyaltyTable({ data }: { data: RoyaltyPolicy }) {
 
 export default async function RoyaltyPage({ ipId }: { ipId: Address }) {
   const royaltyPolicy = await getResource(RESOURCE_TYPE.ROYALTY_POLICY, ipId);
-  const royaltyPolicyData = royaltyPolicy.data;
+  const royaltyPolicyData = royaltyPolicy?.data;
 
   // console.log({ royaltyPolicyData });
 
-  if (!royaltyPolicy.data || !royaltyPolicy.data.id) {
+  if (!royaltyPolicy?.data || !royaltyPolicy?.data?.id) {
     return <div className="w-full pt-8 text-center text-gray-500">No Royalty data found</div>;
   }
   return (

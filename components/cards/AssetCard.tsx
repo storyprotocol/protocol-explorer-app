@@ -10,7 +10,6 @@ import { NFTMetadata, getNFTByTokenId } from '@/lib/simpleHash';
 const AssetCard = ({ data }: { data: Asset }) => {
   const [nftMetadata, setNFTMetadata] = useState<NFTMetadata | null>(null);
 
-  console.log({ nftMetadata });
   useEffect(() => {
     const fetchMetadata = async () => {
       const metadata = await getNFTByTokenId(data.nftMetadata.tokenContract, data.nftMetadata.tokenId);
@@ -18,7 +17,7 @@ const AssetCard = ({ data }: { data: Asset }) => {
     };
 
     fetchMetadata();
-  }, [data.nftMetadata.tokenContract, data.nftMetadata.tokenId]);
+  }, [data.nftMetadata?.tokenContract, data?.nftMetadata?.tokenId]);
 
   return (
     <div className="w-full bg-white rounded-2xl overflow-hidden border-2 border-slate-100 hover:border-indigo-500 hover:shadow-md">
@@ -28,7 +27,7 @@ const AssetCard = ({ data }: { data: Asset }) => {
             <img
               width={'100%'}
               height={'100%'}
-              alt={data.nftMetadata.name}
+              alt={data?.nftMetadata?.name}
               className="h-full w-full object-cover transition-all hover:scale-125"
               src={`${nftMetadata.image_url}?date=${getRoundedTime(15)}`}
             />
@@ -43,7 +42,7 @@ const AssetCard = ({ data }: { data: Asset }) => {
       <div className="text-xs p-4">
         <div className="flex flex-col items-start justify-between w-full">
           <div className="flex flex-row text-xs justify-between items-center w-full">
-            <h3 className="truncate">{data.nftMetadata.name || 'Untitled'}</h3>
+            <h3 className="truncate">{data?.nftMetadata?.name || 'Untitled'}</h3>
 
             <div className="flex flex-row gap-1 font-mono">
               {data.parentIpIds && data.parentIpIds?.length > 0 ? (

@@ -26,6 +26,8 @@ export default async function TransactionTableWrapper({
 
   const txnListRes = await listResource(RESOURCE_TYPE.TRANSACTION, req);
 
+  console.log({ txnListRes });
+
   const filteredData = txnListRes.data.filter((tx: Transaction) => {
     return true;
   });

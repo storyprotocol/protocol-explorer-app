@@ -154,8 +154,8 @@ export default function AssetDetailCard({ data }: { data: Asset }) {
 
             <Row label="Root IP IDs">
               <div className="flex flex-col">
-                {data.rootIpIds && data.rootIpIds.length > 0 ? (
-                  <AddressStack data={data.rootIpIds} />
+                {data.rootIps && data.rootIps.length > 0 ? (
+                  <AddressStack data={data.rootIps} />
                 ) : (
                   // data.rootIpIds.map((rootIpId) => (
                   //     <Link
@@ -173,8 +173,8 @@ export default function AssetDetailCard({ data }: { data: Asset }) {
 
             <Row label="Parent IP IDs">
               <div className="flex flex-col">
-                {data?.parentIpIds && data?.parentIpIds?.length > 0 ? (
-                  <AddressStack data={data.parentIpIds} />
+                {data?.parentIps && data?.parentIps?.length > 0 ? (
+                  <AddressStack data={data.parentIps} />
                 ) : (
                   // data.parentIpIds.map((parentIpId) => (
                   //     <Link
@@ -192,8 +192,8 @@ export default function AssetDetailCard({ data }: { data: Asset }) {
 
             <Row label="Children IP IDs">
               <div className="flex flex-col">
-                {data.childIpIds && data.childIpIds.length > 0 ? (
-                  <AddressStack data={data.childIpIds} />
+                {data.childIps && data.childIps.length > 0 ? (
+                  <AddressStack data={data.childIps} />
                 ) : (
                   //  data.childIpIds.map((childIpId) => (
                   //     <Link
