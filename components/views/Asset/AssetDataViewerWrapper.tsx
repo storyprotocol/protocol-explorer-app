@@ -41,7 +41,12 @@ export default function AssetDataViewerWrapper({
   let ipAssets: Asset[] = assetListRes?.data;
 
   if (isLoading) {
-    if (params.tableOnly) return <SkeletonTable />;
+    if (params.tableOnly)
+      return (
+        <div className="pt-5">
+          <SkeletonTable />
+        </div>
+      );
     return (
       <div className="flex flex-col">
         <SkeletonGrid number={12} />

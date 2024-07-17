@@ -113,7 +113,13 @@ export default function Home() {
           <div className="flex flex-col md:flex-row gap-3 w-full">
             <div className="flex flex-col w-full md:w-1/2">
               <h2 className="text-xl md:text-2xl font-semibold leading-none">Transactions</h2>
-              <Suspense fallback={<SkeletonTable />}>
+              <Suspense
+                fallback={
+                  <div className="pt-5">
+                    <SkeletonTable />
+                  </div>
+                }
+              >
                 <TransactionTableWrapper pageSize={10} />
               </Suspense>
             </div>
@@ -127,11 +133,7 @@ export default function Home() {
               <div>
                 <h2 className="text-xl md:text-2xl font-semibold leading-none">IP Assets</h2>
                 <Suspense>
-                  <AssetDataViewerWrapper
-                    tableOnly
-                    pageSize={10}
-                    showPagination={false}
-                  />
+                  <AssetDataViewerWrapper tableOnly pageSize={10} showPagination={false} />
                 </Suspense>
               </div>
             </div>
