@@ -1,12 +1,11 @@
 import React from 'react';
 import TransactionTableComponent from './TransactionTableComponent';
 import { listResource } from '@/lib/server/sdk';
-import { RESOURCE_TYPE, Transaction } from '@/lib/server/types';
+import { RESOURCE_TYPE } from '@/lib/server/types';
 import { Address } from 'viem';
 
 export default async function TransactionTableWrapper({
   pageSize = 100,
-  collectionId,
   ipId,
 }: {
   pageSize?: number;
@@ -26,14 +25,9 @@ export default async function TransactionTableWrapper({
 
   const txnListRes = await listResource(RESOURCE_TYPE.TRANSACTION, req);
 
-  console.log({ txnListRes });
-
-  const filteredData = txnListRes.data.filter((tx: Transaction) => {
-    return true;
-  });
   return (
     <>
-      <TransactionTableComponent data={filteredData} pageSize={pageSize} />
+      <TransactionTableComponent data={txnListRes.data} pageSize={pageSize} />
     </>
   );
 }
