@@ -14,13 +14,12 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 export default function AssetDataViewerWrapper({
   limit = 48, // this number is better for responsive layout display
   collectionId,
-  ipId,
   showPagination = true,
   ...params
 }: any) {
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams();
   const pathname = usePathname();
-  const routeParams = new URLSearchParams(searchParams.toString())
+  const routeParams = new URLSearchParams(searchParams.toString());
   const page = Number(routeParams.get('page')) || 1;
   const listReq = {
     pagination: {
@@ -36,32 +35,33 @@ export default function AssetDataViewerWrapper({
   const { data: assetListRes, isLoading } = useQuery({
     queryKey: [RESOURCE_TYPE.ASSET, listReq],
     queryFn: () => listResource(RESOURCE_TYPE.ASSET, listReq),
-  })
+  });
 
+  console.log('asset', { assetListRes });
   let ipAssets: Asset[] = assetListRes?.data;
 
   if (isLoading) {
-    if (params.tableOnly) return <SkeletonTable />;
-    return <div className="flex flex-col">
-      <SkeletonGrid number={12} />
-    </div>
+    if (params.tableOnly)
+      return (
+        <div className="pt-5">
+          <SkeletonTable />
+        </div>
+      );
+    return (
+      <div className="flex flex-col">
+        <SkeletonGrid number={12} />
+      </div>
+    );
   }
 
   if (!ipAssets?.length) {
     return <div className="w-full pt-8 text-center text-gray-500">No IPAs found</div>;
   }
 
-  return <>
-    <AssetDataViewerComponent
-      data={ipAssets}
-      {...params}
-    />
-    {
-      showPagination && <Pagination
-        currentPage={page}
-        path={pathname}
-        disableNextBtn={ipAssets.length < limit}
-      />
-    }
-  </>;
+  return (
+    <>
+      <AssetDataViewerComponent data={ipAssets} {...params} />
+      {showPagination && <Pagination currentPage={page} path={pathname} disableNextBtn={ipAssets.length < limit} />}
+    </>
+  );
 }

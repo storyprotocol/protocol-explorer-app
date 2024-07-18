@@ -19,7 +19,7 @@ function LinkToRootIp({ rootIpId }: { rootIpId: string }) {
 export default async function AssetDisplayComponent({ data }: { data: Asset }) {
   const nftMetadata: NFTMetadata = await getNFTByTokenId(data.nftMetadata.tokenContract, data.nftMetadata.tokenId);
 
-  const rootIpId = data?.rootIpIds && data?.rootIpIds?.length > 0 ? data.rootIpIds[0].id : null;
+  const rootIpId = data?.rootIps && data?.rootIps?.length > 0 ? data.rootIps[0].id : null;
 
   return (
     <div className="relative transition-all flex rounded-xl aspect-square bg-indigo-100 overflow-hidden justify-center items-center">
