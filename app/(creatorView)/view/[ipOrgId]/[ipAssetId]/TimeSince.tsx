@@ -3,7 +3,7 @@ import { getBlockTimestampFromTransaction } from '@/lib/server/transaction';
 import { Skeleton } from '@/components/ui/skeleton';
 import Icons from '@/components/ui/icons';
 
-export const Fallback = () => <Skeleton className=" w-48 h-6" />;
+export const Fallback = () => <Skeleton className="w-48 h-6" />;
 
 export default async function TimeSince({ txHash }: { txHash: string }) {
   const timestamp = await getBlockTimestampFromTransaction(txHash);
